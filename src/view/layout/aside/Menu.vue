@@ -21,29 +21,6 @@
     </router-link>
 
     <router-link
-      to="/builder"
-      v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-        aria-haspopup="true"
-        data-menu-toggle="hover"
-        class="menu-item"
-        :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon flaticon2-expand"></i>
-          <span class="menu-text">Layout Builder</span>
-        </a>
-      </li>
-    </router-link>
-    <li class="menu-section">
-      <h4 class="menu-text">Components</h4>
-      <i class="menu-icon flaticon-more-v2"></i>
-    </li>
-    <router-link
       :to="{ name: 'Permintaan' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
@@ -57,7 +34,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-            <i class="menu-icon fas fa-address-card"></i>
+          <i class="menu-icon fas fa-address-card"></i>
           <span class="menu-text">Permintaan</span>
         </a>
       </li>
@@ -120,7 +97,7 @@
         </a>
       </li>
     </router-link>
-     <router-link
+    <router-link
       :to="{ name: 'KategoriHewan' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
@@ -155,6 +132,25 @@
         <a :href="href" class="menu-link" @click="navigate">
           <i class="menu-icon fab fa-yarn"></i>
           <span class="menu-text">Spesies Hewan</span>
+        </a>
+      </li>
+    </router-link>
+    <router-link
+      to="/builder"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <i class="menu-icon flaticon2-expand"></i>
+          <span class="menu-text">Layout Builder</span>
         </a>
       </li>
     </router-link>

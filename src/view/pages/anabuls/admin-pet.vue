@@ -34,7 +34,7 @@
             <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Kelas-->
             <!--              Hewan</b-button-->
             <!--            >-->
-            <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+            <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
                   label="Nama Admin"
@@ -81,6 +81,20 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
+                  label="Role"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="addForm.role"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
                   label="Alamat"
                   label-for="name-input"
                   invalid-feedback="species is required"
@@ -97,6 +111,151 @@
                     required
                   ></b-form-textarea>
                 </b-form-group>
+                <b-form-group
+                  label="Tanggal Kelahiran"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <date-picker
+                    id="name-input"
+                    :state="nameState"
+                    v-model="addForm.birth_date"
+                    value-type="format"
+                    :disabled="isDetail"
+                    class="w-100"
+                    required
+                  ></date-picker>
+                </b-form-group>
+                <b-form-group label="Gender" v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    v-model="addForm.gender"
+                    :options="options"
+                    :disabled="isDetail"
+                    :aria-describedby="ariaDescribedby"
+                    name="radios-stacked"
+                    stacked
+                  ></b-form-radio-group>
+                </b-form-group>
+                <b-form-group
+                  label="NIK"
+                  label-for="name-input"
+                  invalid-feedback="NIK harus di isi"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    type="number"
+                    id="name-input"
+                    v-model="addForm.nik"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="KTP "
+                  label-for="name-input"
+                  invalid-feedback="KTP Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` + addForm.ktp
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        id="ktpimage"
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            addForm.ktp
+                        "
+                        alt="KTP"
+                      />
+                    </div>
+                  </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="ktp"
+                    v-on:change="handleKtp()"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="Selfie "
+                  label-for="name-input"
+                  invalid-feedback="Selfie Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` + addForm.selfie
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        id="selfieimage"
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            addForm.selfie
+                        "
+                        alt="Selfie"
+                      />
+                    </div>
+                  </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="selfie"
+                    v-on:change="handleSelfie()"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="Gambar Admin "
+                  label-for="name-input"
+                  invalid-feedback="Gambar Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/user/profile/` + addForm.image
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        id="image"
+                        :src="
+                          `http://localhost:8080/user/profile/` + addForm.image
+                        "
+                        alt="Admin Pet"
+                      />
+                    </div>
+                  </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="image"
+                    v-on:change="handleImage()"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="Hotel"
+                  label-for="name-input"
+                  invalid-feedback="Hotel is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    v-model="addForm.hotel_id"
+                    :label-field="hotel.name"
+                    value-field="id_hotel"
+                    text-field="name"
+                    :options="hotel"
+                  ></b-form-select>
+                </b-form-group>
+
                 <!--                {{ ktghewan }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Kategori Hewan"-->
@@ -112,7 +271,12 @@
                 <!--                    :options="ktghewan"-->
                 <!--                  ></b-form-select>-->
                 <!--                </b-form-group>-->
-                <b-button class="mt-3" type="submit" variant="primary" v-if="!isDetail" block
+                <b-button
+                  class="mt-3"
+                  type="submit"
+                  variant="primary"
+                  v-if="!isDetail"
+                  block
                   >Submit</b-button
                 >
               </b-form>
@@ -157,7 +321,6 @@
                   ></b-th>
                   <b-th>Email</b-th>
                   <b-th>Alamat</b-th>
-                  <b-th>Role</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -182,7 +345,7 @@
                   >
                   <b-td>{{ item.email }} </b-td>
                   <b-td>{{ item.address }}</b-td>
-                  <b-td>{{ item.role }} </b-td>
+                  <!--                  <b-td>{{ item.role }} </b-td>-->
                   <b-td class="action-cols">
                     <span class="action-button">
                       <img
@@ -280,12 +443,15 @@
 </template>
 
 <script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 export default {
   components: {
-    KTCard
+    KTCard,
+    DatePicker
   },
   data() {
     return {
@@ -294,17 +460,23 @@ export default {
       orderBy: "desc",
       page: 1,
       title: "",
-      modalVisible: false,
       perPage: 10,
       totalData: 0,
       totalPage: 0,
       nameState: null,
       isEdit: null,
       isDetail: null,
+      modalTitle: "",
       submittedNames: [],
+      hotel: [],
       // Note 'isActive' is left out and will not appear in the rendered table
       adminPet: [],
+      options: [
+        { text: "Laki - laki ", value: "Laki-laki" },
+        { text: "Perempuan", value: "Perempuan" }
+      ],
       addForm: {
+        id: "",
         name: "",
         email: "",
         nik: "",
@@ -333,6 +505,55 @@ export default {
     },
     hideModal() {
       this.$refs["my-modal"].hide();
+    },
+    handleKtp() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      var output = document.getElementById("ktpimage");
+      const file = this.$refs.ktp.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.ktp = this.$refs.ktp.files[0];
+      }
+      // this.addForm.ktp = this.$refs.ktp.files[0];
+    },
+    handleSelfie() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      var output = document.getElementById("selfieimage");
+      const file = this.$refs.selfie.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.selfie = this.$refs.selfie.files[0];
+      }
+    },
+    handleImage() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      var output = document.getElementById("image");
+      const file = this.$refs.image.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.image = this.$refs.image.files[0];
+      }
+    },
+    fetchHotel() {
+      this.$api
+        .get(`hotel/all`)
+        .then(res => {
+          this.hotel = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.klshewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
     },
     fetchRequest(page = 1) {
       this.$api
@@ -363,6 +584,7 @@ export default {
     onDetail(data) {
       this.showModal();
       this.isDetail = true;
+      this.modalTitle = `${data.name} Details`;
       this.isEdit = false;
       this.addForm = Object.assign({}, data);
     },
@@ -371,6 +593,8 @@ export default {
       this.isEdit = true;
       this.isDetail = false;
       this.addForm = Object.assign({}, data);
+      this.modalTitle = `Edit ${data.name}`;
+      console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -414,6 +638,28 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
+      this.addForm.phone = parseInt(this.addForm.phone);
+      this.addForm.nik = parseInt(this.addForm.nik);
+      const config = {
+        headers: { "content-type": "multipart/form-data" }
+      };
+
+      let formData = new FormData();
+
+      formData.append("id", this.addForm.id);
+      formData.append("name", this.addForm.name);
+      formData.append("email", this.addForm.email);
+      formData.append("birth_date", this.addForm.birth_date);
+      formData.append("gender", this.addForm.gender);
+      if (this.$refs.ktp.files[0] !== undefined)
+        formData.append("ktp", this.$refs.ktp.files[0]);
+      if (this.$refs.selfie.files[0] !== undefined)
+        formData.append("selfie", this.$refs.selfie.files[0]);
+      formData.append("address", this.addForm.address);
+      if (this.$refs.image.files[0] !== undefined)
+        formData.append("image", this.$refs.image.files[0]);
+      formData.append("role", this.addForm.role);
+      formData.append("hotel_id", this.addForm.hotel_id);
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
@@ -424,7 +670,7 @@ export default {
       // }
       if (this.isEdit) {
         this.$api
-          .put("admin/update", this.addForm)
+          .put("admin/update", formData, config)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
@@ -502,6 +748,7 @@ export default {
   },
   mounted() {
     this.fetchRequest();
+    this.fetchHotel();
   }
 };
 </script>
@@ -511,10 +758,9 @@ export default {
   border-radius: 8px;
   max-height: 5rem;
 }
-
-.table-img-1 {
-  max-height: 3em;
-  border-radius: 6px;
+.table-img1 img {
+  border-radius: 25px;
+  max-height: 18rem;
 }
 .pointer {
   cursor: pointer;

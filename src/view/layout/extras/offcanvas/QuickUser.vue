@@ -12,12 +12,16 @@
       <span
         class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"
       >
-        Sean
+        {{ name }}
       </span>
       <span class="symbol symbol-35 symbol-light-success">
-        <img v-if="false" alt="Pic" :src="picture" />
-        <span v-if="true" class="symbol-label font-size-h5 font-weight-bold">
-          S
+        <img
+          v-if="image"
+          alt="Pic"
+          :src="`http://localhost:8080/user/profile/` + image"
+        />
+        <span v-else class="symbol-label font-size-h5 font-weight-bold">
+          {{ name.charAt(0) }}
         </span>
       </span>
     </div>
@@ -33,7 +37,7 @@
       >
         <h3 class="font-weight-bold m-0">
           User Profile
-          <small class="text-muted font-size-sm ml-2">12 messages</small>
+          <!--          <small class="text-muted font-size-sm ml-2">12 messages</small>-->
         </h3>
         <a
           href="#"
@@ -61,9 +65,16 @@
               href="#"
               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
             >
-              James Jones
+              {{ name }}
             </a>
-            <div class="text-muted mt-1">Application Developer</div>
+            <div class="text-muted mt-1">
+              <b-badge variant="success" v-if="this.role === 'Super Admin'"
+                >Super Admin
+              </b-badge>
+              <b-badge variant="success" v-if="this.role === 'Admin'"
+                >Admin
+              </b-badge>
+            </div>
             <div class="navi mt-2">
               <a href="#" class="navi-item">
                 <span class="navi-link p-0 pb-2">
@@ -77,7 +88,7 @@
                     </span>
                   </span>
                   <span class="navi-text text-muted text-hover-primary">
-                    jm@softplus.com
+                    {{ email }}
                   </span>
                 </span>
               </a>
@@ -125,125 +136,125 @@
           </router-link>
           <!--end:Item-->
           <!--begin::Item-->
-<!--          <router-link-->
-<!--            to="/builder"-->
-<!--            @click.native="closeOffcanvas"-->
-<!--            href="#"-->
-<!--            class="navi-item"-->
-<!--          >-->
-<!--            <div class="navi-link">-->
-<!--              <div class="symbol symbol-40 bg-light mr-3">-->
-<!--                <div class="symbol-label">-->
-<!--                  <span class="svg-icon svg-icon-md svg-icon-warning">-->
-<!--                    &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
-<!--                    <inline-svg src="media/svg/icons/Shopping/Chart-bar1.svg" />-->
-<!--                    &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
-<!--                  </span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="navi-text">-->
-<!--                <div class="font-weight-bold">My Messages</div>-->
-<!--                <div class="text-muted">Inbox and tasks</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </router-link>-->
+          <!--          <router-link-->
+          <!--            to="/builder"-->
+          <!--            @click.native="closeOffcanvas"-->
+          <!--            href="#"-->
+          <!--            class="navi-item"-->
+          <!--          >-->
+          <!--            <div class="navi-link">-->
+          <!--              <div class="symbol symbol-40 bg-light mr-3">-->
+          <!--                <div class="symbol-label">-->
+          <!--                  <span class="svg-icon svg-icon-md svg-icon-warning">-->
+          <!--                    &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
+          <!--                    <inline-svg src="media/svg/icons/Shopping/Chart-bar1.svg" />-->
+          <!--                    &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
+          <!--                  </span>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="navi-text">-->
+          <!--                <div class="font-weight-bold">My Messages</div>-->
+          <!--                <div class="text-muted">Inbox and tasks</div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </router-link>-->
           <!--end:Item-->
           <!--begin::Item-->
-<!--          <router-link-->
-<!--            to="/builder"-->
-<!--            @click.native="closeOffcanvas"-->
-<!--            href="#"-->
-<!--            class="navi-item"-->
-<!--          >-->
-<!--            <div class="navi-link">-->
-<!--              <div class="symbol symbol-40 bg-light mr-3">-->
-<!--                <div class="symbol-label">-->
-<!--                  <span class="svg-icon svg-icon-md svg-icon-danger">-->
-<!--                    &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
-<!--                    <inline-svg src="media/svg/icons/Files/Selected-file.svg" />-->
-<!--                    &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
-<!--                  </span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="navi-text">-->
-<!--                <div class="font-weight-bold">My Activities</div>-->
-<!--                <div class="text-muted">Logs and notifications</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </router-link>-->
+          <!--          <router-link-->
+          <!--            to="/builder"-->
+          <!--            @click.native="closeOffcanvas"-->
+          <!--            href="#"-->
+          <!--            class="navi-item"-->
+          <!--          >-->
+          <!--            <div class="navi-link">-->
+          <!--              <div class="symbol symbol-40 bg-light mr-3">-->
+          <!--                <div class="symbol-label">-->
+          <!--                  <span class="svg-icon svg-icon-md svg-icon-danger">-->
+          <!--                    &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
+          <!--                    <inline-svg src="media/svg/icons/Files/Selected-file.svg" />-->
+          <!--                    &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
+          <!--                  </span>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="navi-text">-->
+          <!--                <div class="font-weight-bold">My Activities</div>-->
+          <!--                <div class="text-muted">Logs and notifications</div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </router-link>-->
           <!--end:Item-->
           <!--begin::Item-->
-<!--          <router-link-->
-<!--            to="/builder"-->
-<!--            @click.native="closeOffcanvas"-->
-<!--            href="#"-->
-<!--            class="navi-item"-->
-<!--          >-->
-<!--            <div class="navi-link">-->
-<!--              <div class="symbol symbol-40 bg-light mr-3">-->
-<!--                <div class="symbol-label">-->
-<!--                  <span class="svg-icon svg-icon-md svg-icon-primary">-->
-<!--                    &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
-<!--                    <inline-svg-->
-<!--                      src="media/svg/icons/Communication/Mail-opened.svg"-->
-<!--                    />-->
-<!--                    &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
-<!--                  </span>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="navi-text">-->
-<!--                <div class="font-weight-bold">My Tasks</div>-->
-<!--                <div class="text-muted">latest tasks and projects</div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </router-link>-->
+          <!--          <router-link-->
+          <!--            to="/builder"-->
+          <!--            @click.native="closeOffcanvas"-->
+          <!--            href="#"-->
+          <!--            class="navi-item"-->
+          <!--          >-->
+          <!--            <div class="navi-link">-->
+          <!--              <div class="symbol symbol-40 bg-light mr-3">-->
+          <!--                <div class="symbol-label">-->
+          <!--                  <span class="svg-icon svg-icon-md svg-icon-primary">-->
+          <!--                    &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
+          <!--                    <inline-svg-->
+          <!--                      src="media/svg/icons/Communication/Mail-opened.svg"-->
+          <!--                    />-->
+          <!--                    &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
+          <!--                  </span>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--              <div class="navi-text">-->
+          <!--                <div class="font-weight-bold">My Tasks</div>-->
+          <!--                <div class="text-muted">latest tasks and projects</div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </router-link>-->
           <!--end:Item-->
         </div>
         <!--end::Nav-->
-<!--        <div class="separator separator-dashed my-7"></div>-->
+        <!--        <div class="separator separator-dashed my-7"></div>-->
         <!--begin::Notifications-->
-<!--        <div>-->
-<!--          &lt;!&ndash;begin:Heading&ndash;&gt;-->
-<!--          <h5 class="mb-5">Recent Notifications</h5>-->
-<!--          &lt;!&ndash;end:Heading&ndash;&gt;-->
-<!--          <template v-for="(item, i) in list">-->
-<!--            &lt;!&ndash;begin::Item &ndash;&gt;-->
-<!--            <div-->
-<!--              class="d-flex align-items-center rounded p-5 gutter-b"-->
-<!--              v-bind:class="`bg-light-${item.type}`"-->
-<!--              v-bind:key="i"-->
-<!--            >-->
-<!--              <span-->
-<!--                class="svg-icon mr-5"-->
-<!--                v-bind:class="`svg-icon-${item.type}`"-->
-<!--              >-->
-<!--                <span class="svg-icon svg-icon-lg">-->
-<!--                  &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
-<!--                  <inline-svg :src="item.svg" />-->
-<!--                  &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
-<!--                </span>-->
-<!--              </span>-->
-<!--              <div class="d-flex flex-column flex-grow-1 mr-2">-->
-<!--                <a-->
-<!--                  href="#"-->
-<!--                  class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"-->
-<!--                >-->
-<!--                  {{ item.title }}-->
-<!--                </a>-->
-<!--                <span class="text-muted font-size-sm">-->
-<!--                  {{ item.desc }}-->
-<!--                </span>-->
-<!--              </div>-->
-<!--              <span-->
-<!--                class="font-weight-bolder py-1 font-size-lg"-->
-<!--                v-bind:class="`text-${item.type}`"-->
-<!--              >-->
-<!--                {{ item.alt }}-->
-<!--              </span>-->
-<!--            </div>-->
-<!--            &lt;!&ndash;end::Item &ndash;&gt;-->
-<!--          </template>-->
-<!--        </div>-->
+        <!--        <div>-->
+        <!--          &lt;!&ndash;begin:Heading&ndash;&gt;-->
+        <!--          <h5 class="mb-5">Recent Notifications</h5>-->
+        <!--          &lt;!&ndash;end:Heading&ndash;&gt;-->
+        <!--          <template v-for="(item, i) in list">-->
+        <!--            &lt;!&ndash;begin::Item &ndash;&gt;-->
+        <!--            <div-->
+        <!--              class="d-flex align-items-center rounded p-5 gutter-b"-->
+        <!--              v-bind:class="`bg-light-${item.type}`"-->
+        <!--              v-bind:key="i"-->
+        <!--            >-->
+        <!--              <span-->
+        <!--                class="svg-icon mr-5"-->
+        <!--                v-bind:class="`svg-icon-${item.type}`"-->
+        <!--              >-->
+        <!--                <span class="svg-icon svg-icon-lg">-->
+        <!--                  &lt;!&ndash;begin::Svg Icon&ndash;&gt;-->
+        <!--                  <inline-svg :src="item.svg" />-->
+        <!--                  &lt;!&ndash;end::Svg Icon&ndash;&gt;-->
+        <!--                </span>-->
+        <!--              </span>-->
+        <!--              <div class="d-flex flex-column flex-grow-1 mr-2">-->
+        <!--                <a-->
+        <!--                  href="#"-->
+        <!--                  class="font-weight-normal text-dark-75 text-hover-primary font-size-lg mb-1"-->
+        <!--                >-->
+        <!--                  {{ item.title }}-->
+        <!--                </a>-->
+        <!--                <span class="text-muted font-size-sm">-->
+        <!--                  {{ item.desc }}-->
+        <!--                </span>-->
+        <!--              </div>-->
+        <!--              <span-->
+        <!--                class="font-weight-bolder py-1 font-size-lg"-->
+        <!--                v-bind:class="`text-${item.type}`"-->
+        <!--              >-->
+        <!--                {{ item.alt }}-->
+        <!--              </span>-->
+        <!--            </div>-->
+        <!--            &lt;!&ndash;end::Item &ndash;&gt;-->
+        <!--          </template>-->
+        <!--        </div>-->
         <!--end::Notifications-->
       </perfect-scrollbar>
       <!--end::Content-->
@@ -261,46 +272,26 @@
 // import { LOGOUT } from "@/core/services/store/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
 import KTOffcanvas from "@/assets/js/components/offcanvas.js";
+import { getName, getImage, getRole, getEmail } from "@/service/jwt.service";
 
 export default {
   name: "KTQuickUser",
   data() {
     return {
-      list: [
-        {
-          title: "Another purpose persuade",
-          desc: "Due in 2 Days",
-          alt: "+28%",
-          svg: "media/svg/icons/Home/Library.svg",
-          type: "warning"
-        },
-        {
-          title: "Would be to people",
-          desc: "Due in 2 Days",
-          alt: "+50%",
-          svg: "media/svg/icons/Communication/Write.svg",
-          type: "success"
-        },
-        {
-          title: "Purpose would be to persuade",
-          desc: "Due in 2 Days",
-          alt: "-27%",
-          svg: "media/svg/icons/Communication/Group-chat.svg",
-          type: "danger"
-        },
-        {
-          title: "The best product",
-          desc: "Due in 2 Days",
-          alt: "+8%",
-          svg: "media/svg/icons/General/Attachment2.svg",
-          type: "info"
-        }
-      ]
+      name: "",
+      image: "",
+      role: "",
+      email: ""
     };
   },
   mounted() {
     // Init Quick User Panel
     KTLayoutQuickUser.init(this.$refs["kt_quick_user"]);
+    this.name = getName();
+    this.image = getImage();
+    this.role = getRole();
+    this.email = getEmail();
+    console.log(this.image);
   },
   methods: {
     onLogout() {
@@ -316,7 +307,7 @@ export default {
   },
   computed: {
     picture() {
-      return process.env.BASE_URL + "media/users/300_21.jpg";
+      return `http://localhost:8080/user/profile/` + this.image;
     }
   }
 };

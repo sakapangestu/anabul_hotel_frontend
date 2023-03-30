@@ -34,7 +34,7 @@
             <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Kelas-->
             <!--              Hewan</b-button-->
             <!--            >-->
-            <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+            <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
                   label="Name Hotel"
@@ -81,6 +81,51 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
+                  label="Provinsi Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.province_id"
+                    :label-field="provinces.name"
+                    value-field="id_province"
+                    text-field="province_name"
+                    :options="provinces"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kota Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.city_id"
+                    :label-field="cities.name"
+                    value-field="id_city"
+                    text-field="name"
+                    :options="cities"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kecematan Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.district_id"
+                    :label-field="districts.name"
+                    value-field="id_district"
+                    text-field="name"
+                    :options="districts"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
                   label="Alamat"
                   label-for="name-input"
                   invalid-feedback="species is required"
@@ -96,6 +141,166 @@
                     :disabled="isDetail"
                     required
                   ></b-form-textarea>
+                </b-form-group>
+                <b-form-group
+                  label="Waktu Buka"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <date-picker
+                    class="w-100"
+                    :disabled="isDetail"
+                    id="name-input"
+                    v-model="addForm.open_time"
+                    format="HH:mm"
+                    value-type="format"
+                    type="time"
+                  ></date-picker>
+                </b-form-group>
+                <b-form-group
+                  label="Waktu Tutup"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <date-picker
+                    class="w-100"
+                    :disabled="isDetail"
+                    id="name-input"
+                    v-model="addForm.close_time"
+                    format="HH:mm"
+                    value-type="format"
+                    type="time"
+                  ></date-picker>
+                </b-form-group>
+                <b-form-group
+                  label="Diskripsi Hotel"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="addForm.description"
+                    placeholder="Enter something..."
+                    :state="nameState"
+                    rows="3"
+                    max-rows="6"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-textarea>
+                </b-form-group>
+                <b-form-group
+                  label="Syarat Penitipan"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="addForm.requirement"
+                    placeholder="Enter something..."
+                    :state="nameState"
+                    rows="3"
+                    max-rows="6"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-textarea>
+                </b-form-group>
+                <b-form-group
+                  label="Peraturan"
+                  label-for="name-input"
+                  invalid-feedback="species is required"
+                  :state="nameState"
+                >
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="addForm.regulation"
+                    placeholder="Enter something..."
+                    :state="nameState"
+                    rows="3"
+                    max-rows="6"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-textarea>
+                </b-form-group>
+                <b-form-group
+                  label="Gambar Hotel "
+                  label-for="name-input"
+                  invalid-feedback="Gambar Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` + addForm.image
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        id="image"
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            addForm.image
+                        "
+                        alt="Admin Pet"
+                      />
+                    </div>
+                  </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="image"
+                    v-on:change="handleImage()"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="NPWP"
+                  label-for="name-input"
+                  invalid-feedback="NPWP Harus di isi"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    type="number"
+                    id="name-input"
+                    v-model="addForm.npwp"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="SIUP/AKTA/NIB"
+                  type="file"
+                  label-for="name-input"
+                  invalid-feedback="SIUP/AKTA/NIB Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` +
+                        addForm.document
+                    "
+                    :state="nameState"
+                    required
+                  ></b-link>
+                  {{
+                    addForm.documentName
+                      ? addForm.documentName
+                      : addForm.document
+                  }}
+                  <!--                  <span v-if="addForm.documentName">-->
+                  <!--                    {{  }}-->
+                  <!--                  </span>-->
+                  <br />
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="docs"
+                    v-on:change="handleDocument()"
+                  />
                 </b-form-group>
                 <b-button
                   class="mt-3"
@@ -162,7 +367,7 @@
                     <div class="table-img">
                       <img
                         :src="
-                          `http://localhost:8080/user/profile/` + item.image
+                          `http://localhost:8080/hotel/profile/` + item.image
                         "
                         alt="pet hotel"
                       />
@@ -173,9 +378,14 @@
                     {{ item.no_hp }}</b-td
                   >
                   <b-td>{{ item.email }}</b-td>
-                  <b-td>{{ item.province.province_name }}</b-td>
-                  <b-td>{{ item.city.name }}</b-td>
-                  <b-td>{{ item.district.name }} </b-td>
+                  <b-td v-if="item.province">{{
+                    item.province.province_name
+                  }}</b-td>
+                  <b-td v-else>-</b-td>
+                  <b-td v-if="item.city">{{ item.city.name }}</b-td>
+                  <b-td v-else>-</b-td>
+                  <b-td v-if="item.district">{{ item.district.name }} </b-td>
+                  <b-td v-else>-</b-td>
                   <b-td class="action-cols">
                     <span class="action-button">
                       <img
@@ -272,12 +482,15 @@
   </div>
 </template>
 <script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 export default {
   components: {
-    KTCard
+    KTCard,
+    DatePicker
   },
   data() {
     return {
@@ -286,7 +499,6 @@ export default {
       orderBy: "desc",
       page: 1,
       title: "",
-      modalVisible: false,
       perPage: 10,
       totalData: 0,
       totalPage: 0,
@@ -294,9 +506,14 @@ export default {
       isEdit: null,
       isDetail: null,
       submittedNames: [],
+      modalTitle: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       petHotel: [],
+      provinces: [],
+      cities: [],
+      districts: [],
       addForm: {
+        id_hotel: "",
         name: "",
         email: "",
         province_id: "",
@@ -309,8 +526,11 @@ export default {
         npwp: null,
         latitude: "",
         longitude: "",
+        open_time: "",
+        close_time: "",
         map_link: "",
         requirement: "",
+        description: "",
         regulation: ""
       }
       // validations: {
@@ -321,6 +541,60 @@ export default {
     };
   },
   methods: {
+    handleDocument() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      this.addForm.document = this.$refs.docs.files[0];
+      this.addForm.documentName = this.$refs.docs.files[0].name;
+    },
+    handleImage() {
+      // console.log("SELFIE");
+      // console.log(this.$refs);
+      var output = document.getElementById("image");
+      const file = this.$refs.image.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.image = this.$refs.image.files[0];
+      }
+    },
+    fetchProvinces() {
+      this.$api
+        .get(`province/all`)
+        .then(res => {
+          this.provinces = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchCity() {
+      this.$api
+        .get(`city/all`)
+        .then(res => {
+          this.cities = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchDistrict() {
+      this.$api
+        .get(`district/all`)
+        .then(res => {
+          this.districts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
     showModal() {
       this.$refs["my-modal"].show();
       this.isEdit = false;
@@ -359,13 +633,16 @@ export default {
       this.showModal();
       this.isDetail = true;
       this.isEdit = false;
+      this.modalTitle = `${data.name} Details`;
       this.addForm = Object.assign({}, data);
     },
     onEdit(data) {
       this.showModal();
       this.isDetail = false;
       this.isEdit = true;
+      this.modalTitle = `Edit ${data.name}`;
       this.addForm = Object.assign({}, data);
+      console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -409,6 +686,35 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
+      this.addForm.no_hp = parseInt(this.addForm.no_hp);
+      this.addForm.npwp = parseInt(this.addForm.npwp);
+      // this.$v.addForm.$touch();
+      // if (this.$v.addForm.$anyError) {
+      //   return;
+      // }
+      const config = {
+        headers: { "content-type": "multipart/form-data" }
+      };
+
+      let formData = new FormData();
+
+      formData.append("id_hotel", this.addForm.id_hotel);
+      formData.append("name", this.addForm.name);
+      formData.append("email", this.addForm.email);
+      formData.append("province_id", this.addForm.province_id);
+      formData.append("city_id", this.addForm.city_id);
+      formData.append("district_id", this.addForm.district_id);
+      if (this.$refs.image.files[0] !== undefined)
+        formData.append("image", this.$refs.image.files[0]);
+      formData.append("address", this.addForm.address);
+      if (this.$refs.docs.files[0] !== undefined)
+        formData.append("document", this.$refs.docs.files[0]);
+      formData.append("npwp", this.addForm.npwp);
+      formData.append("requirement", this.addForm.requirement);
+      formData.append("description", this.addForm.description);
+      formData.append("regulation", this.addForm.regulation);
+      formData.append("open_time", this.addForm.open_time);
+      formData.append("close_time", this.addForm.close_time);
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
@@ -419,7 +725,7 @@ export default {
       // }
       if (this.isEdit) {
         this.$api
-          .put("hotel/update", this.addForm)
+          .put("hotel/update", formData, config)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
@@ -497,6 +803,9 @@ export default {
   },
   mounted() {
     this.fetchRequest();
+    this.fetchProvinces();
+    this.fetchCity();
+    this.fetchDistrict();
   }
 };
 </script>
@@ -506,10 +815,9 @@ export default {
   border-radius: 8px;
   max-height: 5rem;
 }
-
-.table-img-1 {
-  max-height: 3em;
-  border-radius: 6px;
+.table-img1 img {
+  border-radius: 25px;
+  max-height: 18rem;
 }
 .pointer {
   cursor: pointer;

@@ -34,7 +34,7 @@
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
               Spesies Hewan</b-button
             >
-            <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+            <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
                   label="Spesies Hewan"
@@ -217,6 +217,7 @@ export default {
       isEdit: null,
       isDetail: null,
       submittedNames: [],
+      modalTitle: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       spshewan: [],
       ktghewan: [],
@@ -233,6 +234,7 @@ export default {
   },
   methods: {
     showModal() {
+      this.modalTitle = "Tambah Spesies Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -277,6 +279,7 @@ export default {
     onEdit(data) {
       this.showModal();
       this.isEdit = true;
+      this.modalTitle = `Edit ${data.name}`;
       this.addForm = Object.assign({}, data);
     },
     onDelete(id) {

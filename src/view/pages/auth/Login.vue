@@ -128,7 +128,7 @@ import { LOGOUT } from "@/core/services/store/auth.module";
 import { validationMixin } from "vuelidate";
 import { email, minLength, required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import { saveToken } from "@/service/jwt.service";
+import {saveImage, saveName, saveToken, saveRole, saveEmail} from "@/service/jwt.service";
 
 export default {
   mixins: [validationMixin],
@@ -199,6 +199,10 @@ export default {
               this.isError = false;
               this.loading = false;
               saveToken(res.data.data.token);
+              saveImage(res.data.data.image);
+              saveName(res.data.data.name);
+              saveRole(res.data.data.role);
+              saveEmail(res.data.data.email);
               localStorage.setItem("isAuthenticated", true);
               if (res.data.data.role === "Super Admin") {
                 this.$router.push({ name: "dashboard" });

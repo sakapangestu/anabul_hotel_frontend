@@ -1,42 +1,6 @@
 <template>
   <div>
     <!--begin::Notice-->
-    <div
-      class="alert alert-custom alert-white alert-shadow gutter-b"
-      role="alert"
-    >
-      <div class="alert-icon alert-icon-top">
-        <span class="svg-icon svg-icon-3x svg-icon-primary mt-4">
-          <!--begin::Svg Icon-->
-          <inline-svg src="media/svg/icons/Tools/Tools.svg" />
-          <!--end::Svg Icon-->
-        </span>
-      </div>
-      <div class="alert-text">
-        <p>
-          The layout builder helps to configure the layout with preferred
-          options and preview it in real time. The configured layout options
-          will be saved until you change or reset them. To use the layout
-          builder choose the layout options and click the
-          <code>Preview</code> button to preview the changes.
-        </p>
-        <p>
-          <span
-            class="label label-inline label-pill label-info label-rounded mr-2"
-          >
-            INFO:
-          </span>
-          Some pages from the <code>html</code> version might not exist in the
-          <code>vue</code>. But the CSS styles from <code>html</code> version
-          already integrated into the <code>vue</code>. All the components from
-          the <code>html</code> version are static and non-working components.
-          You can copy the component HTML from the <code>html</code> version,
-          and paste it in the <code>vue</code> component to get the same style.
-          The actual functionality and implementation need to be done by the
-          customer because every application has its own business requirements.
-        </p>
-      </div>
-    </div>
     <!--end::Notice-->
 
     <div class="card card-custom gutter-b">
@@ -55,7 +19,7 @@
               href="#"
               role="tab"
             >
-              Page
+              Profile
             </a>
           </li>
           <li class="nav-item">
@@ -67,55 +31,7 @@
               href="#"
               role="tab"
             >
-              Header
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              v-on:click="setActiveTab"
-              data-tab="2"
-              data-toggle="tab"
-              href="#"
-              role="tab"
-            >
-              Subheader
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              v-on:click="setActiveTab"
-              data-tab="3"
-              data-toggle="tab"
-              href="#"
-              role="tab"
-            >
-              Content
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              v-on:click="setActiveTab"
-              data-tab="4"
-              data-toggle="tab"
-              href="#"
-              role="tab"
-            >
-              Aside
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              v-on:click="setActiveTab"
-              data-tab="5"
-              data-toggle="tab"
-              href="#"
-              role="tab"
-            >
-              Footer
+              Change Password
             </a>
           </li>
         </ul>
@@ -126,21 +42,183 @@
         <div class="card-body">
           <b-tabs class="hide-tabs" v-model="tabIndex">
             <b-tab active>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">
-                  Page Loader:
-                </label>
-                <div class="col-lg-9 col-xl-4">
-                  <select class="form-control" v-model="config.loader.type">
-                    <option value="false">
-                      Disabled
-                    </option>
-                    <option value="spinner-logo" selected="selected">
-                      Spinner &amp; Logo
-                    </option>
-                  </select>
-                  <div class="form-text text-muted">
-                    Select page loading indicator.
+              <div class="container rounded bg-white mt-5 mb-5">
+                <div class="row">
+                  <div class="col-md-3 border-right">
+                    <div
+                      class="d-flex flex-column align-items-center text-center p-3 py-5"
+                    >
+                      <img
+                        class="rounded-circle mt-5"
+                        width="150px"
+                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                      /><span class="font-weight-bold">Edogaru</span
+                      ><span class="text-black-50">edogaru@mail.com.my</span
+                      ><span> </span>
+                    </div>
+                  </div>
+                  <div class="col-md-5 border-right">
+                    <div class="p-3 py-5">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-3"
+                      >
+                        <h4 class="text-right">Profile Settings</h4>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col-md-6">
+                          <label class="labels">Name</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="first name"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-6">
+                          <label class="labels">Surname</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            value=""
+                            placeholder="surname"
+                          />
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-md-12">
+                          <label class="labels">Mobile Number</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter phone number"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">Address Line 1</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter address line 1"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">Address Line 2</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter address line 2"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">Postcode</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter address line 2"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">State</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter address line 2"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">Area</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter address line 2"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">Email ID</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="enter email id"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-12">
+                          <label class="labels">Education</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="education"
+                            value=""
+                          />
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-md-6">
+                          <label class="labels">Country</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            placeholder="country"
+                            value=""
+                          />
+                        </div>
+                        <div class="col-md-6">
+                          <label class="labels">State/Region</label
+                          ><input
+                            type="text"
+                            class="form-control"
+                            value=""
+                            placeholder="state"
+                          />
+                        </div>
+                      </div>
+                      <div class="mt-5 text-center">
+                        <button
+                          class="btn btn-primary profile-button"
+                          type="button"
+                        >
+                          Save Profile
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="p-3 py-5">
+                      <div
+                        class="d-flex justify-content-between align-items-center experience"
+                      >
+                        <span>Edit Experience</span
+                        ><span class="border px-3 p-1 add-experience"
+                          ><i class="fa fa-plus"></i>&nbsp;Experience</span
+                        >
+                      </div>
+                      <br />
+                      <div class="col-md-12">
+                        <label class="labels">Experience in Designing</label
+                        ><input
+                          type="text"
+                          class="form-control"
+                          placeholder="experience"
+                          value=""
+                        />
+                      </div>
+                      <br />
+                      <div class="col-md-12">
+                        <label class="labels">Additional Details</label
+                        ><input
+                          type="text"
+                          class="form-control"
+                          placeholder="additional details"
+                          value=""
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -251,269 +329,10 @@
                 </div>
               </div>
             </b-tab>
-
-            <b-tab>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">
-                  Display Subheader:
-                </label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.subheader.display"
-                        value="true"
-                        checked=""
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">Display subheader</div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">
-                  Fixed Subheader:
-                </label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.subheader.fixed"
-                        value="true"
-                        checked=""
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">
-                    Enable fixed(sticky) subheader. Requires
-                    <code>Solid</code> subheader style.
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Width:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <select class="form-control" v-model="config.subheader.width">
-                    <option value="fluid" selected="">Fluid</option>
-                    <option value="fixed">Fixed</option>
-                  </select>
-                  <div class="form-text text-muted">
-                    Select layout width type.
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Subheader Style:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <select class="form-control" v-model="config.subheader.style">
-                    <option value="transparent">Transparent</option>
-                    <option value="solid" selected="">Solid</option>
-                  </select>
-                  <div class="form-text text-muted">
-                    Select subheader style
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Subheader Layout:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <select
-                    class="form-control"
-                    v-model="config.subheader.layout"
-                  >
-                    <option value="subheader-v1" selected="">
-                      Subheader v1
-                    </option>
-                  </select>
-                  <div class="form-text text-muted">
-                    Select subheader layout
-                  </div>
-                </div>
-              </div>
-            </b-tab>
-
-            <b-tab>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Width:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <select class="form-control" v-model="config.content.width">
-                    <option value="fluid">Fluid</option>
-                    <option value="fixed" selected="">Fixed</option>
-                  </select>
-                  <div class="form-text text-muted">
-                    Select layout width type.
-                  </div>
-                </div>
-              </div>
-            </b-tab>
-
-            <b-tab>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Display:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.aside.self.display"
-                        value="true"
-                        checked=""
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">Display aside</div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Fixed:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.aside.self.fixed"
-                        value="true"
-                        checked=""
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">
-                    Set fixed aside layout
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Minimize:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.aside.self.minimize.toggle"
-                        value="true"
-                        checked=""
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">
-                    Allow aside minimizing
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">
-                  Default Minimize:
-                </label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.aside.self.minimize.default"
-                        value="true"
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">
-                    Set aside minimized by default
-                  </div>
-                </div>
-              </div>
-            </b-tab>
-
-            <b-tab>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Fixed Footer:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <span class="switch switch-icon">
-                    <label>
-                      <input
-                        type="checkbox"
-                        v-model="config.footer.fixed"
-                        value="true"
-                      />
-                      <span></span>
-                    </label>
-                  </span>
-                  <div class="form-text text-muted">Set fixed footer</div>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-lg-3 col-form-label">Width:</label>
-                <div class="col-lg-9 col-xl-4">
-                  <select class="form-control" v-model="config.footer.width">
-                    <option value="fluid" selected="">Fluid</option>
-                    <option value="fixed">Fixed</option>
-                  </select>
-                  <div class="form-text text-muted">
-                    Select layout width type.
-                  </div>
-                </div>
-              </div>
-            </b-tab>
           </b-tabs>
-        </div>
-
-        <div class="card-footer">
-          <div class="row">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-9">
-              <button type="submit" class="btn btn-primary font-weight-bold">
-                <i class="la la-eye"></i>
-                Preview
-              </button>
-              &nbsp;
-              <button
-                v-on:click="reset($event)"
-                class="btn btn-clean font-weight-bold"
-              >
-                <i class="la la-recycle"></i>
-                Reset
-              </button>
-            </div>
-          </div>
         </div>
       </form>
       <!--end::Form-->
-    </div>
-
-    <div class="card card-custom gutter-b">
-      <div class="card-header">
-        <div class="card-title">
-          <h3 class="card-label">Generated Config</h3>
-        </div>
-      </div>
-      <div class="card-body">
-        <!--begin::Example-->
-        <div class="example mb-10">
-          <p>
-            Use for layout config in
-            <code>/src/core/config/layout.config.json</code>
-          </p>
-          <div class="example-code">
-            <div class="example-code">
-              <span
-                class="example-copy"
-                v-b-tooltip.hover.top="'Copy code'"
-              ></span>
-              <div class="example-highlight">
-                <highlight-code lang="json" class="language-json">
-                  {{ config }}
-                </highlight-code>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--end::Example-->
-      </div>
     </div>
   </div>
 </template>

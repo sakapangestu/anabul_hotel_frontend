@@ -34,12 +34,12 @@
             <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Kelas-->
             <!--              Hewan</b-button-->
             <!--            >-->
-            <b-modal ref="my-modal" hide-footer title="Using Component Methods">
+            <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
                   label="Hotel Name"
                   label-for="name-input"
-                  invalid-feedback="Name is required"
+                  invalid-feedback="Nama Harus di Isi"
                   :state="nameState"
                 >
                   <b-form-input
@@ -53,10 +53,11 @@
                 <b-form-group
                   label="Email Hotel"
                   label-for="name-input"
-                  invalid-feedback="Name is required"
+                  invalid-feedback="Email Harus di isi"
                   :state="nameState"
                 >
                   <b-form-input
+                    type="email"
                     id="name-input"
                     v-model="addForm.hotel_email"
                     :state="nameState"
@@ -67,16 +68,198 @@
                 <b-form-group
                   label="No Hp Hotel"
                   label-for="name-input"
-                  invalid-feedback="Name is required"
+                  invalid-feedback="No Hp Harus di is"
                   :state="nameState"
                 >
                   <b-form-input
+                    type="number"
                     id="name-input"
                     v-model="addForm.hotel_phone"
                     :state="nameState"
                     :disabled="isDetail"
                     required
                   ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Dokumen SIB/SIUB/AKTA"
+                  label-for="name-input"
+                  invalid-feedback="Dokumen Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` +
+                        addForm.document
+                    "
+                    :state="nameState"
+                    required
+                    >SIB/SIUP/AKTA</b-link
+                  >
+                </b-form-group>
+                <b-form-group
+                  label="Alamat"
+                  label-for="name-input"
+                  invalid-feedback="Alamat Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="addForm.hotel_address"
+                    placeholder="Enter something..."
+                    :state="nameState"
+                    rows="3"
+                    max-rows="6"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-textarea>
+                </b-form-group>
+                <b-form-group
+                  label="Gambar Hotel "
+                  label-for="name-input"
+                  invalid-feedback="Alamat Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` +
+                        addForm.hotel_image
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            addForm.hotel_image
+                        "
+                        alt="Admin Pet"
+                      />
+                    </div>
+                  </b-link>
+                </b-form-group>
+                <b-form-group
+                  label="NPWP"
+                  label-for="name-input"
+                  invalid-feedback="NPWP Harus di isi"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    type="number"
+                    id="name-input"
+                    v-model="addForm.npwp"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Nama Admin"
+                  label-for="name-input"
+                  invalid-feedback="Nama Admin harus di isi"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="addForm.admin_name"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
+                  label="No Hp Admin"
+                  label-for="name-input"
+                  invalid-feedback="No Hp Admin harus di isi"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    id="name-input"
+                    type="number"
+                    v-model="addForm.admin_phone"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="NIK"
+                  label-for="name-input"
+                  invalid-feedback="NIK harus di isi"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    id="name-input"
+                    type="number"
+                    v-model="addForm.nik"
+                    :state="nameState"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="KTP "
+                  label-for="name-input"
+                  invalid-feedback="KTP Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` + addForm.ktp
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            addForm.ktp
+                        "
+                        alt="KTP"
+                      />
+                    </div>
+                  </b-link>
+                </b-form-group>
+                <b-form-group
+                  label="Selfie "
+                  label-for="name-input"
+                  invalid-feedback="Selfie Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/request/document/` + addForm.selfie
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            addForm.selfie
+                        "
+                        alt="Selfie"
+                      />
+                    </div>
+                  </b-link>
+                </b-form-group>
+                <b-form-group
+                  label="Kategori Hewan"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :state="nameState"
+                    id="name-input"
+                    v-model="addForm.status"
+                    :options="['Proses', 'Terima', 'Tolak']"
+                    class="per-page"
+                    @change="changeStatus(addForm)"
+                    required
+                  >
+                  </b-form-select>
                 </b-form-group>
                 <b-button
                   class="mt-3"
@@ -88,30 +271,6 @@
                 >
               </b-form>
             </b-modal>
-            <!--            <b-modal-->
-            <!--              id="modal-prevent-closing"-->
-            <!--              ref="modal"-->
-            <!--              title="Submit Your Name"-->
-            <!--              @show="resetModal"-->
-            <!--              @hidden="resetModal"-->
-            <!--              @ok="handleOk"-->
-            <!--            >-->
-            <!--              <form ref="form" @submit.stop.prevent="handleSubmit">-->
-            <!--                <b-form-group-->
-            <!--                  label="Name"-->
-            <!--                  label-for="name-input"-->
-            <!--                  invalid-feedback="Name is required"-->
-            <!--                  :state="nameState"-->
-            <!--                >-->
-            <!--                  <b-form-input-->
-            <!--                    id="name-input"-->
-            <!--                    v-model="addForm.name"-->
-            <!--                    :state="nameState"-->
-            <!--                    required-->
-            <!--                  ></b-form-input>-->
-            <!--                </b-form-group>-->
-            <!--              </form>-->
-            <!--            </b-modal>-->
           </div>
         </div>
       </div>
@@ -139,7 +298,19 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.hotel_name }}</b-td>
+                  <b-td>
+                    <div class="table-img">
+                      <img
+                        :src="
+                          `http://localhost:8080/request/document/` +
+                            item.hotel_image
+                        "
+                        alt="Admin Pet"
+                      />
+                    </div>
+                    <br />
+                    {{ item.hotel_name }}</b-td
+                  >
                   <b-td
                     >{{ item.hotel_email }} <br />
                     {{ item.hotel_phone }}</b-td
@@ -147,7 +318,7 @@
                   <b-td>{{ item.npwp }}</b-td>
                   <b-td
                     >{{ item.admin_name }} <br />
-                    {{ item.phone }}
+                    {{ item.admin_phone }}
                   </b-td>
                   <b-td>{{ item.nik }}</b-td>
                   <b-td>
@@ -174,15 +345,15 @@
                     <!--                    <b-button variant="primary" @click="onEdit"-->
                     <!--                      >Detail</b-button-->
                     <!--                    >-->
-                    <span class="action-button">
-                      <img
-                        class="pointer"
-                        style="width: 20px"
-                        @click="onEdit(item)"
-                        src="@/assets/icon/button/edit.png"
-                        alt="edit"
-                      />
-                    </span>
+                    <!--                    <span class="action-button">-->
+                    <!--                      <img-->
+                    <!--                        class="pointer"-->
+                    <!--                        style="width: 20px"-->
+                    <!--                        @click="onEdit(item)"-->
+                    <!--                        src="@/assets/icon/button/edit.png"-->
+                    <!--                        alt="edit"-->
+                    <!--                      />-->
+                    <!--                    </span>-->
                     <span class="action-button">
                       <img
                         class="pointer"
@@ -272,7 +443,6 @@ export default {
       orderBy: "desc",
       page: 1,
       title: "",
-      modalVisible: false,
       perPage: 10,
       totalData: 0,
       totalPage: 0,
@@ -280,12 +450,15 @@ export default {
       isEdit: null,
       isDetail: null,
       submittedNames: [],
+      modalTitle: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       permintaan: [],
       addForm: {
         hotel_name: "",
         hotel_email: "",
         hotel_phone: "",
+        hotel_address: "",
+        hotel_image: "",
         npwp: "",
         document: "",
         admin_name: "",
@@ -310,6 +483,17 @@ export default {
     },
     hideModal() {
       this.$refs["my-modal"].hide();
+    },
+    changeStatus(data) {
+      console.log(data);
+      this.$api
+        .put(`request/status`, {
+          id_request: data.id_request,
+          status: data.status
+        })
+        .then(() => {
+          this.fetchRequest();
+        });
     },
     fetchRequest(page = 1) {
       this.$api
@@ -341,12 +525,14 @@ export default {
       this.showModal();
       this.isDetail = true;
       this.isEdit = false;
+      this.modalTitle = `${data.hotel_name} Details`;
       this.addForm = Object.assign({}, data);
     },
     onEdit(data) {
       this.showModal();
       this.isEdit = true;
       this.isDetail = false;
+      this.modalTitle = `Edit ${data.hotel_name}`;
       this.addForm = Object.assign({}, data);
     },
     onDelete(id) {
@@ -484,6 +670,20 @@ export default {
 </script>
 
 <style>
+.table-img img {
+  border-radius: 8px;
+  max-height: 5rem;
+}
+.table-img1 img {
+  border-radius: 25px;
+  max-height: 18rem;
+}
+
+.table-img-1 {
+  max-height: 3em;
+  border-radius: 6px;
+}
+
 .pointer {
   cursor: pointer;
 }

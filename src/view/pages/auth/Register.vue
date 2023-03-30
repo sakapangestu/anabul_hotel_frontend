@@ -110,14 +110,6 @@
                 NPWP Wajib Diisi.
               </b-form-invalid-feedback>
             </b-form-group>
-
-            <!--            <b-form-group-->
-            <!--              id="example-input-group-8"-->
-            <!--              label=""-->
-            <!--              label-for="example-input-8"-->
-            <!--            >-->
-            <!--              &lt;!&ndash;              <Dropzone @dz-success="dzSuccess" accept=".jpg,.jpeg,.png" />&ndash;&gt;-->
-            <!--            </b-form-group>-->
             <b-form-group
               id="example-input-group-4"
               label=""
@@ -129,20 +121,41 @@
                 ref="ktp"
                 v-on:change="handleKtp()"
               />
-              <!--              <b-form-file-->
-              <!--                type="files"-->
-              <!--                id="example-input-4"-->
-              <!--                name="example-input-4"-->
-              <!--                class="register-files"-->
-              <!--                v-model="form.ktp"-->
-              <!--                aria-describedby="input-4-live-feedback"-->
-              <!--                placeholder="Masukkan foto KTP"-->
-              <!--                drop-placeholder="Masukkan foto KTP"-->
-              <!--                accept=".jpg, .png, .jpeg"-->
-              <!--              ></b-form-file>-->
-              <!--          <div class="mt-3">Selected file: {{ filedocument ? filedocument.name : "" }}</div>-->
+            </b-form-group>
+
+            <b-form-group
+              id="example-input-group-11"
+              label=""
+              label-for="example-input-11"
+            >
+              <b-form-textarea
+                id="example-input-11"
+                name="example-input-11"
+                v-model="$v.form.hotel_address.$model"
+                placeholder="Masukkan Alamat..."
+                :state="validateState('hotel_address')"
+                aria-describedby="input-11-live-feedback"
+                rows="3"
+                max-rows="6"
+                required
+              ></b-form-textarea>
+              <!--              <b-form-input-->
+              <!--                class="form-control form-control-solid h-auto py-5 px-6"-->
+              <!--                type="number"-->
+              <!--                id="example-input-11"-->
+              <!--                name="example-input-11"-->
+              <!--                v-model="$v.form.hotel_address.$model"-->
+              <!--                :state="validateState('hotel_address')"-->
+              <!--                aria-describedby="input-11-live-feedback"-->
+              <!--                placeholder="Alamat"-->
+              <!--              ></b-form-input>-->
+
+              <b-form-invalid-feedback id="input-11-live-feedback">
+                Alamat Wajib Diisi.
+              </b-form-invalid-feedback>
             </b-form-group>
           </div>
+
           <div class="col-6 float-right">
             <b-form-group
               id="example-input-group-5"
@@ -215,25 +228,6 @@
                 ref="docs"
                 v-on:change="handleDocument()"
               />
-              <!--              <input-->
-              <!--                type="file"-->
-              <!--                name="example-input-8"-->
-              <!--                id="example-input-group-8"-->
-              <!--                ref="document"-->
-              <!--                multiple-->
-              <!--                v-on:change="handleFilesUpload()"-->
-              <!--              />-->
-              <!--              <b-form-file-->
-              <!--                type="files"-->
-              <!--                id="example-input-8"-->
-              <!--                name="example-input-8"-->
-              <!--                v-model="form.filedocument"-->
-              <!--                aria-describedby="input-8-live-feedback"-->
-              <!--                placeholder="SIUP/AKTA/NIB"-->
-              <!--                drop-placeholder="SIUP/AKTA/NIB"-->
-              <!--                accept=".jpg, .png, .jpeg"-->
-              <!--              ></b-form-file>-->
-              <!--          <div class="mt-3">Selected file: {{ filedocument ? filedocument.name : "" }}</div>-->
             </b-form-group>
 
             <b-form-group
@@ -247,25 +241,18 @@
                 ref="selfie"
                 v-on:change="handleSelfie()"
               />
-              <!--              <input-->
-              <!--                type="file"-->
-              <!--                name="example-input-9"-->
-              <!--                id="example-input-group-9"-->
-              <!--                ref="selfie"-->
-              <!--                multiple-->
-              <!--                v-on:change="handleFilesUploadSelfie()"-->
-              <!--              />-->
-              <!--              <b-form-file-->
-              <!--                type="files"-->
-              <!--                id="example-input-9"-->
-              <!--                name="example-input-9"-->
-              <!--                v-model="form.selfie"-->
-              <!--                aria-describedby="input-9-live-feedback"-->
-              <!--                placeholder="Upload foto selfie"-->
-              <!--                drop-placeholder="Upload foto selfie"-->
-              <!--                accept=".jpg, .png, .jpeg"-->
-              <!--              ></b-form-file>-->
-              <!--          <div class="mt-3">Selected file: {{ filedocument ? filedocument.name : "" }}</div>-->
+            </b-form-group>
+            <b-form-group
+              id="example-input-group-10"
+              label=""
+              label-for="example-input-10"
+            >
+              <input
+                type="file"
+                id="file"
+                ref="hotel_image"
+                v-on:change="handleImageHotel()"
+              />
             </b-form-group>
           </div>
         </div>
@@ -330,6 +317,8 @@ export default {
         hotel_name: "",
         hotel_email: "",
         hotel_phone: "",
+        hotel_image: null,
+        hotel_address: "",
         npwp: "",
         document: null,
         admin_name: "",
@@ -375,6 +364,9 @@ export default {
       nik: {
         required,
         minLength: minLength(16)
+      },
+      hotel_address: {
+        required
       }
       // password: {
       //   required,
@@ -398,6 +390,11 @@ export default {
       // console.log(this.$refs);
       this.form.selfie = this.$refs.selfie.files[0];
     },
+    handleImageHotel() {
+      // console.log("HOTEL IMAGE");
+      // console.log(this.$refs);
+      this.form.hotel_image = this.$refs.hotel_image.files[0];
+    },
     validateState(name) {
       const { $dirty, $error } = this.$v.form[name];
       return $dirty ? !$error : null;
@@ -407,6 +404,8 @@ export default {
         hotel_name: null,
         hotel_email: null,
         hotel_phone: null,
+        hotel_address: null,
+        hotel_image: null,
         npwp: null,
         document: null,
         admin_name: null,
@@ -449,19 +448,25 @@ export default {
         formData.append("hotel_name", this.form.hotel_name);
         formData.append("hotel_email", this.form.hotel_email);
         formData.append("hotel_phone", this.form.hotel_phone);
+        formData.append("hotel_address", this.form.hotel_address);
+        if (this.$refs.hotel_image.files[0] !== undefined)
+          formData.append("hotel_image", this.$refs.hotel_image.files[0]);
         formData.append("npwp", this.form.npwp);
-        formData.append("document", this.$refs.docs.files[0]);
+        if (this.$refs.docs.files[0] !== undefined)
+          formData.append("document", this.$refs.docs.files[0]);
         formData.append("admin_name", this.form.admin_name);
         formData.append("admin_phone", this.form.admin_phone);
         formData.append("nik", this.form.nik);
-        formData.append("ktp", this.$refs.ktp.files[0]);
-        formData.append("selfie", this.$refs.selfie.files[0]);
+        if (this.$refs.ktp.files[0] !== undefined)
+          formData.append("ktp", this.$refs.ktp.files[0]);
+        if (this.$refs.selfie.files[0] !== undefined)
+          formData.append("selfie", this.$refs.selfie.files[0]);
         // send register request
         this.$api
           .post(`request/add`, formData, config)
           .then(res => {
             // console.log(res.data.data.token)
-                console.log(res)
+            console.log(res);
             if (res.status === 200) {
               // console.log(res.data.data.role);
 
