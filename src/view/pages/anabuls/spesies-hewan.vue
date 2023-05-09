@@ -18,7 +18,7 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kelas hewan"
+              placeholder="Search name Spesies hewan"
               v-model="search"
               @input="fetchSpesies()"
             />
@@ -101,11 +101,11 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button pill variant="primary" @click="onEdit(item)"
+                    <b-button  variant="primary" @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
-                      pill
+
                       class="ml-3"
                       variant="danger"
                       @click="onDelete(item.id_class)"

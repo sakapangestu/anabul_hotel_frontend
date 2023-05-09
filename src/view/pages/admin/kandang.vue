@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kategori hewan"
+              placeholder="Search name kandang hewan"
               v-model="search"
-              @input="fetchCategory()"
+              @input="fetchCage()"
             />
           </div>
         </div>
@@ -32,14 +32,15 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Kategori Hewan</b-button
+              Kandang</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
+              <!--              <v-select :options="['Canada', 'United States']"></v-select>-->
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Kategori Hewan"
+                  label="Nama Kandang"
                   label-for="name-input"
-                  invalid-feedback="category is required"
+                  invalid-feedback="Harga is required"
                   :state="nameState"
                 >
                   <b-form-input
@@ -49,21 +50,74 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <!--                {{ klshewan }}-->
                 <b-form-group
-                  label="Kelas Hewan"
+                  label="Detail Kandang"
                   label-for="name-input"
-                  invalid-feedback="class is required"
+                  invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
                 >
-                  <b-form-select
-                    v-model="addForm.class_id"
-                    :label-field="klshewan.name"
-                    value-field="id_class"
-                    text-field="name"
-                    :options="klshewan"
-                  ></b-form-select>
+                  <Multiselect
+                    :options="detailKandang"
+                    v-model="addForm.cage_detail_id"
+                    :custom-label="
+                      ({ cage_category, cage_type }) =>
+                        `${cage_category.name} - ${cage_type.name}`
+                    "
+                  />
+                  <!--                  <v-select :options="['Canada', 'United States']"></v-select>-->
+                  <!--                  <vSelect-->
+                  <!--                    :getOptionLabel="-->
+                  <!--                      cs =>-->
+                  <!--                        `${cs.cage_category.name} ${cs.cage_type.name}`-->
+                  <!--                    "-->
+                  <!--                    :reduce="cs => cs.id"-->
+                  <!--                    :options="detailKandang"-->
+                  <!--                    v-model="addForm.cage_detail_id"-->
+                  <!--                  ></vSelect>-->
                 </b-form-group>
+
+                <!--                <b-form-group-->
+                <!--                  label="Status"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="Status is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-select-->
+                <!--                    :state="nameState"-->
+                <!--                    id="name-input"-->
+                <!--                    v-model="addForm.status"-->
+                <!--                    :options="['Tersedia', 'Penuh']"-->
+                <!--                    class="per-page"-->
+                <!--                    @change="changeStatus(addForm)"-->
+                <!--                    required-->
+                <!--                  >-->
+                <!--                  </b-form-select>-->
+                <!--                </b-form-group>-->
+                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    v-model="addForm.status"
+                    :options="options"
+                    :disabled="isDetail"
+                    :aria-describedby="ariaDescribedby"
+                    name="radios-stacked"
+                    stacked
+                  ></b-form-radio-group>
+                </b-form-group>
+                <!--                {{ spesies }}-->
+                <!--                <b-form-group-->
+                <!--                  label="Hotel"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="Hotel is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-select-->
+                <!--                    v-model="addForm.hotel_id"-->
+                <!--                    :label-field="hotel.name"-->
+                <!--                    value-field="id_hotel"-->
+                <!--                    text-field="name"-->
+                <!--                    :options="hotel"-->
+                <!--                  ></b-form-select>-->
+                <!--                </b-form-group>-->
                 <b-button class="mt-3" type="submit" variant="primary" block
                   >Submit</b-button
                 >
@@ -79,18 +133,31 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Kelas Hewan</b-th>
-                  <b-th>Kategori Hewan</b-th>
+                  <b-th>Nama Kandang</b-th>
+                  <b-th>Detail Kandang</b-th>
+                  <b-th>Status</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in ktghewan" :key="item.id">
+                <b-tr v-for="(item, index) in kandang" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.class.name }}</b-td>
                   <b-td>{{ item.name }}</b-td>
+                  <b-td
+                    >{{ item.cage_detail.cage_category.name }}
+                    {{ item.cage_detail.cage_type.name }}</b-td
+                  >
+                  <b-td>
+                    <b-badge variant="success" v-if="item.status === 'kosong'"
+                      >Kosong</b-badge
+                    >
+                    <!--                    {{ item }}-->
+                    <b-badge variant="warning" v-if="item.status === 'terisi'"
+                      >Terisi</b-badge
+                    >
+                  </b-td>
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -101,13 +168,14 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button variant="primary" @click="onEdit(item)"
+                    <b-button  variant="primary" @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
+
                       class="ml-3"
                       variant="danger"
-                      @click="onDelete(item.id_class)"
+                      @click="onDelete(item.id_cage_detail)"
                       >Delete</b-button
                     >
                     <!--                    <span class="action-button">-->
@@ -123,7 +191,7 @@
                     <!--                      <img-->
                     <!--                        class="pointer"-->
                     <!--                        style="width: 20px"-->
-                    <!--                        @click="onDelete(item.id_category)"-->
+                    <!--                        @click="onDelete(item.id_group)"-->
                     <!--                        src="@/assets/icon/button/delete.png"-->
                     <!--                        alt="del"-->
                     <!--                      />-->
@@ -142,7 +210,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchCategory()"
+              @change="fetchCage()"
             >
             </b-form-select>
           </div>
@@ -163,7 +231,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchCategory(page - 1)"
+                    @click="fetchCage(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -174,13 +242,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchCategory(pg)">{{
+                  <a class="page-link" href="#" @click="fetchCage(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchCategory(page + 1)"
+                  <a class="page-link" href="#" @click="fetchCage(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -197,9 +265,12 @@
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import { getHotelId } from "@/service/jwt.service";
+import Multiselect from "vue-multiselect";
 export default {
   components: {
-    KTCard
+    KTCard,
+    Multiselect
   },
   data() {
     return {
@@ -215,13 +286,22 @@ export default {
       nameState: null,
       isEdit: null,
       isDetail: null,
+      submittedNames: [],
       modalTitle: "",
+      hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      ktghewan: [],
-      klshewan: [],
+      kandang: [],
+      hotel: [],
+      detailKandang: [],
+      options: [
+        { text: " terisi ", value: "terisi " },
+        { text: "kosong", value: "kosong" }
+      ],
       addForm: {
         name: "",
-        class_id: ""
+        hotel_id: "",
+        cage_detail_id: "",
+        status: ""
       }
       // validations: {
       //   addForm: {
@@ -232,7 +312,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Kategori Hewan";
+      this.modalTitle = "Tambah Detail Golongan Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -240,26 +320,61 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    fetchClass() {
+    // changeStatus(data) {
+    //   console.log(data);
+    //   this.$api
+    //     .put(`cage/status`, {
+    //       id_request: data.id_request,
+    //       status: data.status
+    //     })
+    //     .then(() => {
+    //       this.fetchRequest();
+    //     });
+    // },
+    // fetchHotel() {
+    //   this.$api
+    //     .get(`hotel/all`)
+    //     .then(res => {
+    //       this.hotel = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.klshewan);
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //       // alert(err);
+    //     });
+    // },
+    fetchDetailKandang() {
       this.$api
-        .post(`class/all`)
+        .get(`cageDetail/all`)
         .then(res => {
-          this.klshewan = res.data.data.data ? res.data.data.data : [];
-          // console.log(this.klshewan);
+          this.detailKandang = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.spesies);
         })
         .catch(err => {
           console.error(err);
           // alert(err);
         });
     },
-    fetchCategory(page = 1) {
+    // fetchUkuran() {
+    //   this.$api
+    //     .get(`cageType/all`)
+    //     .then(res => {
+    //       this.ukuran = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.spesies);
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //       // alert(err);
+    //     });
+    // },
+    fetchCage(page = 1) {
       this.$api
         .get(
-          `category/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `cage/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
-          this.ktghewan = res.data.data.data ? res.data.data.data : [];
-          console.log(this.ktghewan);
+          this.kandang = res.data.data.data ? res.data.data.data : [];
+          console.log(this.kandang);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -279,6 +394,8 @@ export default {
       this.isEdit = true;
       this.modalTitle = `Edit ${data.name}`;
       this.addForm = Object.assign({}, data);
+      this.addForm.cage_detail_id = data.cage_detail;
+      // console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -293,10 +410,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`category/delete/${id}`)
+            .delete(`cage/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchCategory();
+                this.fetchCage();
                 // this.toastAlert("menghapus");
               }
             })
@@ -330,14 +447,16 @@ export default {
       // if (!this.$v.addForm.$error) {
       //
       // }
+      console.log(this.addForm);
       if (this.isEdit) {
+        this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("category/update", this.addForm)
+          .put("cage/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchCategory();
-              // this.$bvModal.hide("modal-category");
+              this.fetchCage();
+              // this.$bvModal.hide("modal-group");
               // this.toastAlert("update");
             }
           })
@@ -354,12 +473,13 @@ export default {
             }
           });
       } else {
+        this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("category/add", this.addForm)
+          .post("cage/add", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchCategory();
+              this.fetchCage();
               // this.toastAlert("tambah");
             }
           })
@@ -396,25 +516,28 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.ktghewan.length === this.perPage) {
+        if (this.kandang.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage - (this.perPage - this.ktghewan.length);
-          meta.startSection = meta.endSection - (this.ktghewan.length - 1);
+            this.page * this.perPage - (this.perPage - this.kandang.length);
+          meta.startSection = meta.endSection - (this.kandang.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchCategory();
-    this.fetchClass();
+    this.fetchCage();
+    this.fetchDetailKandang();
+    // this.fetchUkuran();
+    this.hotelId = getHotelId();
   }
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 .pointer {
   cursor: pointer;

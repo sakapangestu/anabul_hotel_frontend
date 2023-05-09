@@ -18,7 +18,7 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kelas hewan"
+              placeholder="Search pet Hotel"
               v-model="search"
               @input="fetchRequest()"
             />
@@ -234,14 +234,14 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/request/document/` + addForm.image
+                      `http://localhost:8080/hotel/profile/` + addForm.image
                     "
                   >
                     <div class="table-img1">
                       <img
                         id="image"
                         :src="
-                          `http://localhost:8080/request/document/` +
+                          `http://localhost:8080/hotel/profile/` +
                             addForm.image
                         "
                         alt="Admin Pet"
@@ -280,7 +280,7 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/request/document/` +
+                      `http://localhost:8080/hotel/document/` +
                         addForm.document
                     "
                     :state="nameState"

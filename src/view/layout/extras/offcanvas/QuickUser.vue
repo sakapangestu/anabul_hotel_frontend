@@ -295,8 +295,11 @@ export default {
   },
   methods: {
     onLogout() {
-      localStorage.clear();
       this.$router.push({ name: "login" });
+      this.$api.post("auth/logout").then(res => {
+        console.log(res);
+        localStorage.clear();
+      });
       // this.$store
       //   .dispatch(LOGOUT)
       //   .then(() => this.$router.push({ name: "login" }));

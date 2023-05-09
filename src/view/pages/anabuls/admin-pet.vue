@@ -18,7 +18,7 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kelas hewan"
+              placeholder="Search Admin Pet"
               v-model="search"
               @input="fetchRequest()"
             />
@@ -161,14 +161,14 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/request/document/` + addForm.ktp
+                      `http://localhost:8080/user/ktp/` + addForm.ktp
                     "
                   >
                     <div class="table-img1">
                       <img
                         id="ktpimage"
                         :src="
-                          `http://localhost:8080/request/document/` +
+                          `http://localhost:8080/user/ktp/` +
                             addForm.ktp
                         "
                         alt="KTP"
@@ -191,14 +191,14 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/request/document/` + addForm.selfie
+                      `http://localhost:8080/user/selfie/` + addForm.selfie
                     "
                   >
                     <div class="table-img1">
                       <img
                         id="selfieimage"
                         :src="
-                          `http://localhost:8080/request/document/` +
+                          `http://localhost:8080/user/selfie/` +
                             addForm.selfie
                         "
                         alt="Selfie"

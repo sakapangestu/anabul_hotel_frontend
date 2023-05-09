@@ -3,7 +3,8 @@
   <div class="brand flex-column-auto" id="kt_brand" ref="kt_brand">
     <div class="brand-logo">
       <router-link to="/">
-        <img :src="siteLogo()" alt="Logo" />
+        <a class="anabul-brand text-white"> PET HOTEL </a>
+<!--        <img :src="siteLogo()" alt="Logo" />-->
       </router-link>
     </div>
     <div class="brand-tools" v-if="allowMinimize">
@@ -27,6 +28,10 @@
 <style lang="scss" scoped>
 .aside-toggle {
   outline: none;
+}
+.anabul-brand{
+  font-size: 15px;
+  width: 10px;
 }
 </style>
 

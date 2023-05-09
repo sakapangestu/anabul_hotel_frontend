@@ -111,11 +111,10 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button pill variant="primary" @click="onEdit(item)"
+                    <b-button  variant="primary" @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
-                      pill
                       class="ml-3"
                       variant="danger"
                       @click="onDelete(item.id_class)"

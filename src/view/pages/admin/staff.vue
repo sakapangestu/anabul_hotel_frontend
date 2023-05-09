@@ -20,92 +20,89 @@
               class="form-control search-input"
               placeholder="Search name kelas hewan"
               v-model="search"
-              @input="fetchRequest()"
+              @input="fetchStaff()"
             />
           </div>
         </div>
         <div class="ml-15 col-6 mt-4">
           <div>
-            <!--            <b-button-->
-            <!--              id="show-btn"-->
-            <!--              @click="showModal"-->
-            <!--              variant="dark"-->
-            <!--              class="float-right"-->
-            <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Kelas-->
-            <!--              Hewan</b-button-->
-            <!--            >-->
+            <b-button
+              id="show-btn"
+              @click="showModal"
+              variant="dark"
+              class="float-right"
+              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Kelas
+              Hewan</b-button
+            >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Hotel Name"
+                  label="Nama Staff"
                   label-for="name-input"
-                  invalid-feedback="Nama Harus di Isi"
+                  invalid-feedback="species is required"
                   :state="nameState"
                 >
                   <b-form-input
                     id="name-input"
-                    v-model="addForm.hotel_name"
+                    v-model="addForm.name"
                     :state="nameState"
                     :disabled="isDetail"
                     required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Email Hotel"
+                  label="Email Staff"
                   label-for="name-input"
-                  invalid-feedback="Email Harus di isi"
+                  invalid-feedback="species is required"
                   :state="nameState"
                 >
                   <b-form-input
                     type="email"
                     id="name-input"
-                    v-model="addForm.hotel_email"
+                    v-model="addForm.email"
                     :state="nameState"
                     :disabled="isDetail"
                     required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="No Hp Hotel"
+                  label="No Hp Staff"
                   label-for="name-input"
-                  invalid-feedback="No Hp Harus di is"
+                  invalid-feedback="species is required"
                   :state="nameState"
                 >
                   <b-form-input
                     type="number"
                     id="name-input"
-                    v-model="addForm.hotel_phone"
+                    v-model="addForm.phone"
                     :state="nameState"
                     :disabled="isDetail"
                     required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Dokumen SIB/SIUB/AKTA"
+                  label="Role"
                   label-for="name-input"
-                  invalid-feedback="Dokumen Harus di Isi"
+                  invalid-feedback="species is required"
                   :state="nameState"
                 >
-                  <b-link
-                    target="_blank"
-                    :href="
-                      `http://localhost:8080/request/document/` +
-                        addForm.document
-                    "
+                  <b-form-input
+                    id="name-input"
+                    v-model="addForm.role"
                     :state="nameState"
+                    :disabled="isDetail"
                     required
-                    >SIB/SIUP/AKTA</b-link
-                  >
+                  ></b-form-input>
                 </b-form-group>
                 <b-form-group
                   label="Alamat"
                   label-for="name-input"
-                  invalid-feedback="Alamat Harus di Isi"
+                  invalid-feedback="species is required"
                   :state="nameState"
                 >
                   <b-form-textarea
                     id="textarea"
-                    v-model="addForm.hotel_address"
+                    v-model="addForm.address"
                     placeholder="Enter something..."
                     :state="nameState"
                     rows="3"
@@ -115,73 +112,30 @@
                   ></b-form-textarea>
                 </b-form-group>
                 <b-form-group
-                  label="Gambar Hotel "
+                  label="Tanggal Kelahiran"
                   label-for="name-input"
-                  invalid-feedback="Alamat Harus di Isi"
+                  invalid-feedback="species is required"
                   :state="nameState"
                 >
-                  <b-link
-                    target="_blank"
-                    :href="
-                      `http://localhost:8080/hotel/profile/` +
-                        addForm.hotel_image
-                    "
-                  >
-                    <div class="table-img1">
-                      <img
-                        :src="
-                          `http://localhost:8080/hotel/profile/` +
-                            addForm.hotel_image
-                        "
-                        alt="Admin Pet"
-                      />
-                    </div>
-                  </b-link>
-                </b-form-group>
-                <b-form-group
-                  label="NPWP"
-                  label-for="name-input"
-                  invalid-feedback="NPWP Harus di isi"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    type="number"
+                  <date-picker
                     id="name-input"
-                    v-model="addForm.npwp"
                     :state="nameState"
+                    v-model="addForm.birth_date"
+                    value-type="format"
                     :disabled="isDetail"
+                    class="w-100"
                     required
-                  ></b-form-input>
+                  ></date-picker>
                 </b-form-group>
-                <b-form-group
-                  label="Nama Admin"
-                  label-for="name-input"
-                  invalid-feedback="Nama Admin harus di isi"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    id="name-input"
-                    v-model="addForm.admin_name"
-                    :state="nameState"
+                <b-form-group label="Gender" v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    v-model="addForm.gender"
+                    :options="options"
                     :disabled="isDetail"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="No Hp Admin"
-                  label-for="name-input"
-                  invalid-feedback="No Hp Admin harus di isi"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    id="name-input"
-                    type="number"
-                    v-model="addForm.admin_phone"
-                    :state="nameState"
-                    :disabled="isDetail"
-                    required
-                  ></b-form-input>
+                    :aria-describedby="ariaDescribedby"
+                    name="radios-stacked"
+                    stacked
+                  ></b-form-radio-group>
                 </b-form-group>
                 <b-form-group
                   label="NIK"
@@ -190,8 +144,8 @@
                   :state="nameState"
                 >
                   <b-form-input
-                    id="name-input"
                     type="number"
+                    id="name-input"
                     v-model="addForm.nik"
                     :state="nameState"
                     :disabled="isDetail"
@@ -207,19 +161,26 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/user/ktp/` + addForm.ktp
+                      `http://localhost:8080/request/document/` + addForm.ktp
                     "
                   >
                     <div class="table-img1">
                       <img
+                        id="ktpimage"
                         :src="
-                          `http://localhost:8080/user/ktp/` +
+                          `http://localhost:8080/request/document/` +
                             addForm.ktp
                         "
                         alt="KTP"
                       />
                     </div>
                   </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="ktp"
+                    v-on:change="handleKtp()"
+                  />
                 </b-form-group>
                 <b-form-group
                   label="Selfie "
@@ -230,47 +191,120 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/user/selfie/` + addForm.selfie
+                      `http://localhost:8080/request/document/` + addForm.selfie
                     "
                   >
                     <div class="table-img1">
                       <img
+                        id="selfieimage"
                         :src="
-                          `http://localhost:8080/user/selfie/` +
+                          `http://localhost:8080/request/document/` +
                             addForm.selfie
                         "
                         alt="Selfie"
                       />
                     </div>
                   </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="selfie"
+                    v-on:change="handleSelfie()"
+                  />
                 </b-form-group>
                 <b-form-group
-                  label="Status"
+                  label="Gambar Staff "
                   label-for="name-input"
-                  invalid-feedback="Status is required"
+                  invalid-feedback="Gambar Harus di Isi"
+                  :state="nameState"
+                >
+                  <b-link
+                    target="_blank"
+                    :href="
+                      `http://localhost:8080/user/profile/` + addForm.image
+                    "
+                  >
+                    <div class="table-img1">
+                      <img
+                        id="image"
+                        :src="
+                          `http://localhost:8080/user/profile/` + addForm.image
+                        "
+                        alt="Staff Pet"
+                      />
+                    </div>
+                  </b-link>
+                  <input
+                    type="file"
+                    id="name-input"
+                    ref="image"
+                    v-on:change="handleImage()"
+                  />
+                </b-form-group>
+                <b-form-group
+                  label="Hotel"
+                  label-for="name-input"
+                  invalid-feedback="Hotel is required"
                   :state="nameState"
                 >
                   <b-form-select
-                    :state="nameState"
-                    id="name-input"
-                    v-model="addForm.status"
-                    :options="['Proses', 'Terima', 'Tolak']"
-                    class="per-page"
-                    @change="changeStatus(addForm)"
-                    required
-                  >
-                  </b-form-select>
+                    v-model="addForm.hotel_id"
+                    :label-field="hotel.name"
+                    value-field="id_hotel"
+                    text-field="name"
+                    :options="hotel"
+                  ></b-form-select>
                 </b-form-group>
+
+                <!--                {{ ktghewan }}-->
+                <!--                <b-form-group-->
+                <!--                  label="Kategori Hewan"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="class is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-select-->
+                <!--                    v-model="addForm.category_id"-->
+                <!--                    :label-field="ktghewan.name"-->
+                <!--                    value-field="id_category"-->
+                <!--                    text-field="name"-->
+                <!--                    :options="ktghewan"-->
+                <!--                  ></b-form-select>-->
+                <!--                </b-form-group>-->
                 <b-button
                   class="mt-3"
                   type="submit"
-                  v-if="!isDetail"
                   variant="primary"
+                  v-if="!isDetail"
                   block
                   >Submit</b-button
                 >
               </b-form>
             </b-modal>
+            <!--            <b-modal-->
+            <!--              id="modal-prevent-closing"-->
+            <!--              ref="modal"-->
+            <!--              title="Submit Your Name"-->
+            <!--              @show="resetModal"-->
+            <!--              @hidden="resetModal"-->
+            <!--              @ok="handleOk"-->
+            <!--            >-->
+            <!--              <form ref="form" @submit.stop.prevent="handleSubmit">-->
+            <!--                <b-form-group-->
+            <!--                  label="Name"-->
+            <!--                  label-for="name-input"-->
+            <!--                  invalid-feedback="Name is required"-->
+            <!--                  :state="nameState"-->
+            <!--                >-->
+            <!--                  <b-form-input-->
+            <!--                    id="name-input"-->
+            <!--                    v-model="addForm.name"-->
+            <!--                    :state="nameState"-->
+            <!--                    required-->
+            <!--                  ></b-form-input>-->
+            <!--                </b-form-group>-->
+            <!--              </form>-->
+            <!--            </b-modal>-->
           </div>
         </div>
       </div>
@@ -281,20 +315,17 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
+                  <b-th>Image</b-th>
                   <b-th
-                    >Hotel Nama
-                    <i class="fas fa-sort ml-3" @click="fetchSort"></i
+                    >Nama <i class="fas fa-sort ml-3" @click="fetchSort"></i
                   ></b-th>
-                  <b-th>Hotel Email</b-th>
-                  <b-th>NPWP</b-th>
-                  <b-th>Admin Name</b-th>
-                  <b-th>NIK</b-th>
-                  <b-th>Status</b-th>
+                  <b-th>Email</b-th>
+                  <b-th>Alamat</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in permintaan" :key="item.id">
+                <b-tr v-for="(item, index) in staffPet" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
@@ -302,36 +333,19 @@
                     <div class="table-img">
                       <img
                         :src="
-                          `http://localhost:8080/hotel/profile/` +
-                            item.hotel_image
+                          `http://localhost:8080/user/profile/` + item.image
                         "
-                        alt="Admin Pet"
+                        alt="Staff Pet"
                       />
                     </div>
-                    <br />
-                    {{ item.hotel_name }}</b-td
-                  >
-                  <b-td
-                    >{{ item.hotel_email }} <br />
-                    {{ item.hotel_phone }}</b-td
-                  >
-                  <b-td>{{ item.npwp }}</b-td>
-                  <b-td
-                    >{{ item.admin_name }} <br />
-                    {{ item.admin_phone }}
                   </b-td>
-                  <b-td>{{ item.nik }}</b-td>
-                  <b-td>
-                    <b-badge variant="success" v-if="item.status === 'Terima'"
-                      >Diterima</b-badge
-                    >
-                    <b-badge variant="warning" v-if="item.status === 'Proses'"
-                      >Diproses</b-badge
-                    >
-                    <b-badge variant="danger" v-if="item.status === 'Tolak'"
-                      >Ditolak</b-badge
-                    >
-                  </b-td>
+                  <b-td
+                    >{{ item.name }} <br />
+                    {{ item.phone }}</b-td
+                  >
+                  <b-td>{{ item.email }} </b-td>
+                  <b-td>{{ item.address }}</b-td>
+                  <!--                  <b-td>{{ item.role }} </b-td>-->
                   <b-td class="action-cols">
                     <span class="action-button">
                       <img
@@ -345,20 +359,20 @@
                     <!--                    <b-button variant="primary" @click="onEdit"-->
                     <!--                      >Detail</b-button-->
                     <!--                    >-->
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onEdit(item)"-->
-                    <!--                        src="@/assets/icon/button/edit.png"-->
-                    <!--                        alt="edit"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
                     <span class="action-button">
                       <img
                         class="pointer"
                         style="width: 20px"
-                        @click="onDelete(item.id_request)"
+                        @click="onEdit(item)"
+                        src="@/assets/icon/button/edit.png"
+                        alt="edit"
+                      />
+                    </span>
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onDelete(item.id)"
                         src="@/assets/icon/button/delete.png"
                         alt="del"
                       />
@@ -377,7 +391,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchRequest()"
+              @change="fetchStaff()"
             >
             </b-form-select>
           </div>
@@ -398,7 +412,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchRequest(page - 1)"
+                    @click="fetchStaff(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -409,13 +423,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchRequest(pg)">{{
+                  <a class="page-link" href="#" @click="fetchStaff(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchRequest(page + 1)"
+                  <a class="page-link" href="#" @click="fetchStaff(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -429,12 +443,16 @@
 </template>
 
 <script>
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import axios from "axios";
 export default {
   components: {
-    KTCard
+    KTCard,
+    DatePicker
   },
   data() {
     return {
@@ -449,24 +467,29 @@ export default {
       nameState: null,
       isEdit: null,
       isDetail: null,
-      submittedNames: [],
       modalTitle: "",
+      submittedNames: [],
+      hotel: [],
       // Note 'isActive' is left out and will not appear in the rendered table
-      permintaan: [],
+      staffPet: [],
+      options: [
+        { text: "Laki - laki ", value: "Laki-laki" },
+        { text: "Perempuan", value: "Perempuan" }
+      ],
       addForm: {
-        hotel_name: "",
-        hotel_email: "",
-        hotel_phone: "",
-        hotel_address: "",
-        hotel_image: "",
-        npwp: "",
-        document: "",
-        admin_name: "",
-        admin_phone: "",
+        id: "",
+        name: "",
+        email: "",
         nik: "",
         ktp: "",
         selfie: "",
-        status: ""
+        role: "",
+        birth_date: "",
+        address: "",
+        phone: "",
+        hotel_id: "",
+        image: "",
+        gender: ""
       }
       // validations: {
       //   addForm: {
@@ -477,6 +500,7 @@ export default {
   },
   methods: {
     showModal() {
+      this.modalTitle = "Tambah Kelas Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -484,25 +508,67 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    changeStatus(data) {
-      console.log(data);
+    handleKtp() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      var output = document.getElementById("ktpimage");
+      const file = this.$refs.ktp.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.ktp = this.$refs.ktp.files[0];
+      }
+      // this.addForm.ktp = this.$refs.ktp.files[0];
+    },
+    handleSelfie() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      var output = document.getElementById("selfieimage");
+      const file = this.$refs.selfie.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.selfie = this.$refs.selfie.files[0];
+      }
+    },
+    handleImage() {
+      // console.log("DOKUMEN");
+      // console.log(this.$refs.docs.files[0]);
+      var output = document.getElementById("image");
+      const file = this.$refs.image.files[0];
+      console.log(file);
+      if (file) {
+        output.src = URL.createObjectURL(file);
+      } else {
+        this.addForm.image = this.$refs.image.files[0];
+      }
+    },
+    fetchHotel() {
       this.$api
-        .put(`request/status`, {
-          id_request: data.id_request,
-          status: data.status
+        .get(`hotel/all`)
+        .then(res => {
+          this.hotel = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.klshewan);
         })
-        .then(() => {
-          this.fetchRequest();
+        .catch(err => {
+          console.error(err);
+          // alert(err);
         });
     },
-    fetchRequest(page = 1) {
-      this.$api
+    fetchStaff(page = 1) {
+      axios.create({
+        baseURL: process.env.VUE_APP_ROOT_API
+      });
+      // console.log(localStorage.getItem("token"))
+      axios
         .get(
-          `request/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `staff/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
-          this.permintaan = res.data.data.data ? res.data.data.data : [];
-          // console.log(this.permintaan);
+          this.staffPet = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.staffPet);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -519,21 +585,22 @@ export default {
       } else {
         this.orderBy = "desc";
       }
-      this.fetchRequest();
+      this.fetchStaff();
     },
     onDetail(data) {
       this.showModal();
       this.isDetail = true;
+      this.modalTitle = `${data.name} Details`;
       this.isEdit = false;
-      this.modalTitle = `${data.hotel_name} Details`;
       this.addForm = Object.assign({}, data);
     },
     onEdit(data) {
       this.showModal();
       this.isEdit = true;
       this.isDetail = false;
-      this.modalTitle = `Edit ${data.hotel_name}`;
       this.addForm = Object.assign({}, data);
+      this.modalTitle = `Edit ${data.name}`;
+      console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -548,10 +615,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`request/delete/${id}`)
+            .delete(`staff/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchRequest();
+                this.fetchStaff();
                 // this.toastAlert("menghapus");
               }
             })
@@ -577,6 +644,28 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
+      this.addForm.phone = parseInt(this.addForm.phone);
+      this.addForm.nik = parseInt(this.addForm.nik);
+      const config = {
+        headers: { "content-type": "multipart/form-data" }
+      };
+
+      let formData = new FormData();
+
+      formData.append("id", this.addForm.id);
+      formData.append("name", this.addForm.name);
+      formData.append("email", this.addForm.email);
+      formData.append("birth_date", this.addForm.birth_date);
+      formData.append("gender", this.addForm.gender);
+      if (this.$refs.ktp.files[0] !== undefined)
+        formData.append("ktp", this.$refs.ktp.files[0]);
+      if (this.$refs.selfie.files[0] !== undefined)
+        formData.append("selfie", this.$refs.selfie.files[0]);
+      formData.append("address", this.addForm.address);
+      if (this.$refs.image.files[0] !== undefined)
+        formData.append("image", this.$refs.image.files[0]);
+      formData.append("role", this.addForm.role);
+      formData.append("hotel_id", this.addForm.hotel_id);
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
@@ -587,11 +676,11 @@ export default {
       // }
       if (this.isEdit) {
         this.$api
-          .put("request/update", this.addForm)
+          .put("staff/update", formData, config)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchRequest();
+              this.fetchStaff();
               // this.$bvModal.hide("modal-category");
               // this.toastAlert("update");
             }
@@ -610,11 +699,11 @@ export default {
           });
       } else {
         this.$api
-          .post("request/add", this.addForm)
+          .post("staff/add", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchRequest();
+              this.fetchStaff();
               // this.toastAlert("tambah");
             }
           })
@@ -651,20 +740,21 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.permintaan.length === this.perPage) {
+        if (this.staffPet.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage - (this.perPage - this.permintaan.length);
-          meta.startSection = meta.endSection - (this.permintaan.length - 1);
+            this.page * this.perPage - (this.perPage - this.staffPet.length);
+          meta.startSection = meta.endSection - (this.staffPet.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchRequest();
+    this.fetchStaff();
+    this.fetchHotel();
   }
 };
 </script>
@@ -678,12 +768,6 @@ export default {
   border-radius: 25px;
   max-height: 18rem;
 }
-
-.table-img-1 {
-  max-height: 3em;
-  border-radius: 6px;
-}
-
 .pointer {
   cursor: pointer;
 }

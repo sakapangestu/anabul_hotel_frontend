@@ -128,7 +128,14 @@ import { LOGOUT } from "@/core/services/store/auth.module";
 import { validationMixin } from "vuelidate";
 import { email, minLength, required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import {saveImage, saveName, saveToken, saveRole, saveEmail} from "@/service/jwt.service";
+import {
+  saveImage,
+  saveName,
+  saveToken,
+  saveRole,
+  saveEmail,
+  saveHotelId
+} from "@/service/jwt.service";
 
 export default {
   mixins: [validationMixin],
@@ -203,9 +210,21 @@ export default {
               saveName(res.data.data.name);
               saveRole(res.data.data.role);
               saveEmail(res.data.data.email);
+              saveHotelId(res.data.data.hotel_id);
+              // localStorage.setItem("token", res.data.data.token);
               localStorage.setItem("isAuthenticated", true);
               if (res.data.data.role === "Super Admin") {
                 this.$router.push({ name: "dashboard" });
+                Swal.fire({
+                  title: "",
+                  text: "Succes Login",
+                  icon: "success",
+                  showConfirmButton: false,
+                  // confirmButtonClass: "btn btn-secondary",
+                  timer: 1500
+                });
+              } else if (res.data.data.role === "Admin") {
+                this.$router.push({ name: "Dashboard-Admin" });
                 Swal.fire({
                   title: "",
                   text: "Succes Login",

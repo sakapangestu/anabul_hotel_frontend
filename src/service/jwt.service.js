@@ -111,6 +111,16 @@ export const destroyNIK = () => {
   window.localStorage.removeItem("nik");
 };
 
+export const getHotelId = () => {
+  return window.localStorage.getItem("hotel_id");
+};
+export const saveHotelId = HotelId => {
+  window.localStorage.setItem("hotel_id", HotelId);
+};
+export const destroyHotelId = () => {
+  window.localStorage.removeItem("hotel_id");
+};
+
 
 
 export default {
@@ -146,6 +156,9 @@ export default {
   destroyImage,
   getNIK,
   saveNIK,
-  destroyNIK
+  destroyNIK,
+  getHotelId,
+  saveHotelId,
+  destroyHotelId
 
 };
