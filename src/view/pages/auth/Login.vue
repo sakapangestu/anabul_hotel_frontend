@@ -134,7 +134,8 @@ import {
   saveToken,
   saveRole,
   saveEmail,
-  saveHotelId
+  saveHotelId,
+  saveHotelprovince, saveHotelCity, saveHotelDistrict, saveHotelSubdistrict
 } from "@/service/jwt.service";
 
 export default {
@@ -159,7 +160,7 @@ export default {
       },
       password: {
         required,
-        minLength: minLength(6)
+        minLength: minLength(5)
       }
     }
   },
@@ -211,6 +212,10 @@ export default {
               saveRole(res.data.data.role);
               saveEmail(res.data.data.email);
               saveHotelId(res.data.data.hotel_id);
+              saveHotelprovince(res.data.data.province_id);
+              saveHotelCity(res.data.data.city_id);
+              saveHotelDistrict(res.data.data.district_id);
+              saveHotelSubdistrict(res.data.data.subdistrict_id);
               // localStorage.setItem("token", res.data.data.token);
               localStorage.setItem("isAuthenticated", true);
               if (res.data.data.role === "Super Admin") {

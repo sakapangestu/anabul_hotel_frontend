@@ -111,7 +111,7 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button  variant="primary" @click="onEdit(item)"
+                    <b-button variant="primary" @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
@@ -208,6 +208,7 @@
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard
@@ -422,6 +423,7 @@ export default {
   },
   mounted() {
     this.fetchClass();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Kelas Hewan" }]);
   }
 };
 </script>

@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kategori kandang hewan"
+              placeholder="Search name detal golongan hewan"
               v-model="search"
-              @input="fetchcageCategory()"
+              @input="fetchdetailGroup()"
             />
           </div>
         </div>
@@ -32,41 +32,41 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Kategori Kandang Hewan</b-button
+              Detail Golongan Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Kategori Kandang"
+                  label="Minimal Berat"
                   label-for="name-input"
-                  invalid-feedback="Kategori Kandang is required"
+                  invalid-feedback="group is required"
                   :state="nameState"
                 >
                   <b-form-input
+                    step="0.01"
+                    type="number"
                     id="name-input"
-                    v-model="addForm.name"
+                    v-model="addForm.min_weight"
                     :state="nameState"
                     required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Diskripsi"
+                  label="Maksimal Berat"
                   label-for="name-input"
-                  invalid-feedback="Diskripsi is required"
+                  invalid-feedback="group is required"
                   :state="nameState"
                 >
-                  <b-form-textarea
-                    id="textarea"
-                    v-model="addForm.description"
-                    placeholder="Enter something..."
+                  <b-form-input
+                    step="0.01"
+                    type="number"
+                    id="name-input"
+                    v-model="addForm.max_weight"
                     :state="nameState"
-                    rows="3"
-                    max-rows="6"
-                    :disabled="isDetail"
                     required
-                  ></b-form-textarea>
+                  ></b-form-input>
                 </b-form-group>
-                <!--                {{ ktghewan }}-->
+                <!--                {{ spesies }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Hotel"-->
                 <!--                  label-for="name-input"-->
@@ -81,6 +81,34 @@
                 <!--                    :options="hotel"-->
                 <!--                  ></b-form-select>-->
                 <!--                </b-form-group>-->
+                <b-form-group
+                  label="Spesies"
+                  label-for="name-input"
+                  invalid-feedback="spesies is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    v-model="addForm.species_id"
+                    :label-field="spesies.name"
+                    value-field="id_species"
+                    text-field="name"
+                    :options="spesies"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Golongan"
+                  label-for="name-input"
+                  invalid-feedback="golongan is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    v-model="addForm.group_id"
+                    :label-field="golongan.name"
+                    value-field="id_group"
+                    text-field="name"
+                    :options="golongan"
+                  ></b-form-select>
+                </b-form-group>
                 <b-button class="mt-3" type="submit" variant="primary" block
                   >Submit</b-button
                 >
@@ -96,18 +124,25 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Kategori Kandang</b-th>
-                  <b-th>Diskripsi</b-th>
+                  <b-th>Spesies</b-th>
+                  <b-th>Golongan</b-th>
+                  <b-th>Hotel</b-th>
+                  <b-th>Minimal Berat</b-th>
+                  <b-th>Maksimal Berat</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in golongan" :key="item.id">
+                <b-tr v-for="(item, index) in detailgol" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.name }}</b-td>
-                  <b-td>{{ item.description }}</b-td>
+                  <b-td>{{ item.species.name }}</b-td>
+                  <b-td>{{ item.group.name }}</b-td>
+                  <b-td>{{ item.hotel.name }}</b-td>
+                  <b-td>{{ item.min_weight }}</b-td>
+                  <b-td>{{ item.max_weight }}</b-td>
+
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -118,13 +153,13 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button class="mr-3 mt-1" variant="primary" @click="onEdit(item)"
+                    <b-button variant="primary" @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
-                        class="mt-1"
+                      class="ml-3"
                       variant="danger"
-                      @click="onDelete(item.id_cage_category)"
+                      @click="onDelete(item.id_groupDetail)"
                       >Delete</b-button
                     >
                     <!--                    <span class="action-button">-->
@@ -159,7 +194,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchcageCategory()"
+              @change="fetchdetailGroup()"
             >
             </b-form-select>
           </div>
@@ -180,7 +215,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchcageCategory(page - 1)"
+                    @click="fetchdetailGroup(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -191,13 +226,16 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchcageCategory(pg)">{{
+                  <a class="page-link" href="#" @click="fetchdetailGroup(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchcageCategory(page + 1)"
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchdetailGroup(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -215,6 +253,7 @@ import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard
@@ -237,12 +276,17 @@ export default {
       modalTitle: "",
       hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      golongan: [],
+      detailgol: [],
       hotel: [],
+      golongan: [],
+      spesies: [],
       addForm: {
         name: "",
-        description: "",
-        hotel_id: ""
+        hotel_id: "",
+        group_id: "",
+        species_id: "",
+        min_weight: "",
+        max_weight: ""
       }
       // validations: {
       //   addForm: {
@@ -253,7 +297,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Golongan Hewan";
+      this.modalTitle = "Tambah Detail Golongan Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -273,26 +317,38 @@ export default {
     //       // alert(err);
     //     });
     // },
-    // fetchCategory() {
-    //   this.$api
-    //     .get(`category/all`)
-    //     .then(res => {
-    //       this.ktghewan = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.ktghewan);
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //       // alert(err);
-    //     });
-    // },
-    fetchcageCategory(page = 1) {
+    fetchSpesies() {
       this.$api
-        .get(
-          `cageCategory/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
-        )
+        .get(`species/all`)
+        .then(res => {
+          this.spesies = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.spesies);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchGroup() {
+      this.$api
+        .get(`group/all`)
         .then(res => {
           this.golongan = res.data.data.data ? res.data.data.data : [];
-          console.log(this.golongan);
+          // console.log(this.spesies);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchdetailGroup(page = 1) {
+      this.$api
+        .get(
+          `groupDetail/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+        )
+        .then(res => {
+          this.detailgol = res.data.data.data ? res.data.data.data : [];
+          console.log(this.detailgol);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -310,7 +366,7 @@ export default {
     onEdit(data) {
       this.showModal();
       this.isEdit = true;
-      this.modalTitle = `Edit ${data.name}`;
+      this.modalTitle = `Edit ${data.species.name}`;
       this.addForm = Object.assign({}, data);
     },
     onDelete(id) {
@@ -326,10 +382,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`cageCategory/delete/${id}`)
+            .delete(`groupDetail/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchcageCategory();
+                this.fetchdetailGroup();
                 // this.toastAlert("menghapus");
               }
             })
@@ -363,15 +419,22 @@ export default {
       // if (!this.$v.addForm.$error) {
       //
       // }
+      if (this.addForm.min_weight) {
+        this.addForm.min_weight = parseFloat(this.addForm.min_weight);
+      }
+      if (this.addForm.max_weight) {
+        this.addForm.max_weight = parseFloat(this.addForm.max_weight);
+      }
+      console.log(this.addForm);
       if (this.isEdit) {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("cageCategory/update", this.addForm)
+          .put("groupDetail/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchcageCategory();
-              // this.$bvModal.hide("modal-cageCategory");
+              this.fetchdetailGroup();
+              // this.$bvModal.hide("modal-group");
               // this.toastAlert("update");
             }
           })
@@ -390,11 +453,11 @@ export default {
       } else {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("cageCategory/add", this.addForm)
+          .post("groupDetail/add", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchcageCategory();
+              this.fetchdetailGroup();
               // this.toastAlert("tambah");
             }
           })
@@ -431,22 +494,24 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.golongan.length === this.perPage) {
+        if (this.detailgol.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage - (this.perPage - this.golongan.length);
-          meta.startSection = meta.endSection - (this.golongan.length - 1);
+            this.page * this.perPage - (this.perPage - this.detailgol.length);
+          meta.startSection = meta.endSection - (this.detailgol.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchcageCategory();
+    this.fetchdetailGroup();
+    this.fetchSpesies();
+    this.fetchGroup();
     this.hotelId = getHotelId();
-    console.log(this.hotelId);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Detail Golongan Hewan" }]);
   }
 };
 </script>

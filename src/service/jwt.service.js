@@ -120,6 +120,42 @@ export const saveHotelId = HotelId => {
 export const destroyHotelId = () => {
   window.localStorage.removeItem("hotel_id");
 };
+export const getHotelprovince = () => {
+  return window.localStorage.getItem("province_id");
+};
+export const saveHotelprovince = ProvinceId => {
+  window.localStorage.setItem("province_id", ProvinceId);
+};
+export const destroyprovince = () => {
+  window.localStorage.removeItem("province_id");
+};
+export const getHotelCity = () => {
+  return window.localStorage.getItem("city_id");
+};
+export const saveHotelCity = CityId => {
+  window.localStorage.setItem("city_id", CityId);
+};
+export const destroyCity = () => {
+  window.localStorage.removeItem("city_id");
+};
+export const getHotelDistrict = () => {
+  return window.localStorage.getItem("district_id");
+};
+export const saveHotelDistrict = DistrictId => {
+  window.localStorage.setItem("district_id", DistrictId);
+};
+export const destroyDistrict = () => {
+  window.localStorage.removeItem("district_id");
+};
+export const getHotelSubdistrict = () => {
+  return window.localStorage.getItem("subdistrict_id");
+};
+export const saveHotelSubdistrict = SubdistrictId => {
+  window.localStorage.setItem("subdistrict_id", SubdistrictId);
+};
+export const destroySubdistrict = () => {
+  window.localStorage.removeItem("subdistrict_id");
+};
 
 
 
@@ -159,6 +195,17 @@ export default {
   destroyNIK,
   getHotelId,
   saveHotelId,
-  destroyHotelId
-
+  destroyHotelId,
+  getHotelprovince,
+  saveHotelprovince,
+  destroyprovince,
+  getHotelCity,
+  saveHotelCity,
+  destroyCity,
+  getHotelDistrict,
+  saveHotelDistrict,
+  destroyDistrict,
+  getHotelSubdistrict,
+  saveHotelSubdistrict,
+  destroySubdistrict
 };

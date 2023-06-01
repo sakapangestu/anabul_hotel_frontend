@@ -247,6 +247,7 @@ import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
+import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard
@@ -508,6 +509,7 @@ export default {
     // this.fetchDetailKandang();
     // this.fetchUkuran();
     this.hotelId = getHotelId();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Regulasi" }]);
   }
 };
 </script>

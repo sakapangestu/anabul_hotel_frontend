@@ -1,79 +1,223 @@
 <template>
-  <div>
-    <!--begin::Dashboard-->
-    <div class="row">
-      <div class="col-xxl-4">
-        <MixedWidget1></MixedWidget1>
-      </div>
-      <div class="col-xxl-4">
-        <ListWidget9></ListWidget9>
-      </div>
-      <div class="col-xxl-4">
-        <StatsWidget7></StatsWidget7>
-        <StatsWidget12></StatsWidget12>
-      </div>
-
-      <div class="col-xxl-4 order-1 order-xxl-1">
-        <ListWidget1></ListWidget1>
-      </div>
-      <div class="col-xxl-8 order-2 order-xxl-1">
-        <AdvancedTableWidget2></AdvancedTableWidget2>
-      </div>
-
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget3></ListWidget3>
-      </div>
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <ListWidget4></ListWidget4>
-      </div>
-      <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-        <ListWidget8></ListWidget8>
-      </div>
-
-      <div class="col-xxl-4 order-1 order-xxl-2">
-        <StatsWidget13></StatsWidget13>
-      </div>
-      <div class="col-xxl-8 order-1 order-xxl-2">
-        <AdvancedTableWidget3></AdvancedTableWidget3>
+  <div class="row mb-3">
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-uppercase mb-1">
+                Total Pet Hotel
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ totalPethotel }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar fa-2x text-primary"></i>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <!--end::Dashboard-->
+    <!-- Earnings (Annual) Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-uppercase mb-1">
+                Total Kelas Hewan
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ totalKelas }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-shopping-cart fa-2x text-success"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- New User Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-uppercase mb-1">
+                Total Kategori Hewan
+              </div>
+              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                {{ totalKategori }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-users fa-2x text-info"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Pending Requests Card Example -->
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-uppercase mb-1">
+                Total Spesies Hewan
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ totalSpecies }}
+              </div>
+              <!--              <div class="mt-2 mb-0 text-muted text-xs">-->
+              <!--                <span class="text-danger mr-2"-->
+              <!--                  ><i class="fas fa-arrow-down"></i> {{totalSpecies}}</span-->
+              <!--                >-->
+              <!--&lt;!&ndash;                <span>Since yesterday</span>&ndash;&gt;-->
+              <!--              </div>-->
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-comments fa-2x text-warning"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--     Area Chart-->
+    <b-container class="bv-example-row">
+      <b-row>
+        <div class="col">
+          <div class="row">
+            <div class="card col-6">
+              <b-col class="card-body" sm="6">
+                <div id="chart">
+                  <a> JUMLAH PET HOTEL</a>
+                  <JmlhHotel></JmlhHotel>
+                </div>
+              </b-col>
+            </div>
+            <div class="card col-6">
+              <b-col class="card-body" sm="6">
+                <div id="chart">
+                  <a> JUMLAH 10 HOTEL TERBAIK </a>
+                  <JmlhTerbaik></JmlhTerbaik>
+                </div>
+              </b-col>
+            </div>
+          </div>
+        </div>
+      </b-row>
+      <b-row class="mt-5">
+        <div class="col">
+          <div class="row">
+            <div class="card col-8">
+              <b-col class="card-body" sm="8">
+                <div id="chart">
+                  <a> JUMLAH PET HOTEL BERGABUNG </a>
+                  <HotelBergabung></HotelBergabung>
+                </div>
+              </b-col>
+            </div>
+            <div class="card col-4">
+              <p class="pt-10">JUMLAH PERMINTAAN</p>
+              <b-col class="card-body d-flex align-items-center" sm="4">
+                <div id="chart">
+                  <permintaan></permintaan>
+                </div>
+              </b-col>
+            </div>
+          </div>
+        </div>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 // import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
-import AdvancedTableWidget2 from "@/view/content/widgets/advance-table/Widget2.vue";
-import AdvancedTableWidget3 from "@/view/content/widgets/advance-table/Widget3.vue";
-import MixedWidget1 from "@/view/content/widgets/mixed/Widget1.vue";
-import ListWidget1 from "@/view/content/widgets/list/Widget1.vue";
-import ListWidget3 from "@/view/content/widgets/list/Widget3.vue";
-import ListWidget4 from "@/view/content/widgets/list/Widget4.vue";
-import ListWidget8 from "@/view/content/widgets/list/Widget8.vue";
-import ListWidget9 from "@/view/content/widgets/list/Widget9.vue";
-import StatsWidget7 from "@/view/content/widgets/stats/Widget7.vue";
-import StatsWidget12 from "@/view/content/widgets/stats/Widget12.vue";
-import StatsWidget13 from "@/view/content/widgets/stats/Widget13.vue";
-
+import VueApexCharts from "vue-apexcharts";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+import HotelBergabung from "@/view/pages/componen/hotel-bergabung";
+import JmlhTerbaik from "@/view/pages/componen/jmlh-10trbaik";
+import JmlhHotel from "@/view/pages/componen/Jmlh-hotel";
+import Permintaan from "@/view/pages/componen/permintaan";
 export default {
   name: "dashboard",
   components: {
-    AdvancedTableWidget2,
-    AdvancedTableWidget3,
-    MixedWidget1,
-    ListWidget1,
-    ListWidget3,
-    ListWidget4,
-    ListWidget8,
-    ListWidget9,
-    StatsWidget7,
-    StatsWidget12,
-    StatsWidget13
+    // eslint-disable-next-line vue/no-unused-components
+    VueApexCharts,
+    HotelBergabung,
+    JmlhTerbaik,
+    JmlhHotel,
+    Permintaan
   },
-  mounted() {
-    // this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
+
+  data() {
+    return {
+      totalSpecies: 0,
+      totalPethotel: 0,
+      totalKelas: 0,
+      totalKategori: 0,
+      spshewan: [],
+      pethotel: [],
+      klshewan: [],
+      ktghewan: []
+    };
   },
   methods: {
+    featchSpesies() {
+      this.$api
+        .get(`species/all`)
+        .then(res => {
+          this.spshewan = res.data.data.data ? res.data.data.data : [];
+          this.totalSpecies = this.spshewan.length;
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    featchHotel() {
+      this.$api
+        .get(`hotel/all`)
+        .then(res => {
+          this.pethotel = res.data.data.data ? res.data.data.data : [];
+          this.totalPethotel = this.pethotel.length;
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    featchKelas() {
+      this.$api
+        .post(`class/all`)
+        .then(res => {
+          this.klshewan = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.klshewan);
+          this.totalKelas = this.klshewan.length;
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    featchKategori() {
+      this.$api
+        .get(`category/all`)
+        .then(res => {
+          this.ktghewan = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+          this.totalKategori = this.ktghewan.length;
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    }
     // setActiveTab1(event) {
     //   this.tabIndex = this.setActiveTab(event);
     // },
@@ -99,6 +243,13 @@ export default {
     //   // set clicked tab index to bootstrap tab
     //   return parseInt(event.target.getAttribute("data-tab"));
     // }
+  },
+  mounted() {
+    this.featchSpesies();
+    this.featchHotel();
+    this.featchKelas();
+    this.featchKategori();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Dashboard" }]);
   }
 };
 </script>

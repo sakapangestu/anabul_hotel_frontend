@@ -448,6 +448,7 @@ import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard,
@@ -749,6 +750,7 @@ export default {
   mounted() {
     this.fetchRequest();
     this.fetchHotel();
+     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Admin Pet Hotel" }]);
   }
 };
 </script>

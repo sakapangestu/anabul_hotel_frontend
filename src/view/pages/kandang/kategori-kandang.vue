@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name golongan hewan"
+              placeholder="Search name kategori kandang hewan"
               v-model="search"
-              @input="fetchGroup()"
+              @input="fetchcageCategory()"
             />
           </div>
         </div>
@@ -32,14 +32,14 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Golongan Hewan</b-button
+              Kategori Kandang Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Golongan Hewan"
+                  label="Kategori Kandang"
                   label-for="name-input"
-                  invalid-feedback="group is required"
+                  invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
                 >
                   <b-form-input
@@ -48,6 +48,23 @@
                     :state="nameState"
                     required
                   ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="Diskripsi"
+                  label-for="name-input"
+                  invalid-feedback="Diskripsi is required"
+                  :state="nameState"
+                >
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="addForm.description"
+                    placeholder="Enter something..."
+                    :state="nameState"
+                    rows="3"
+                    max-rows="6"
+                    :disabled="isDetail"
+                    required
+                  ></b-form-textarea>
                 </b-form-group>
                 <!--                {{ ktghewan }}-->
                 <!--                <b-form-group-->
@@ -79,8 +96,8 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Golongan Hewan</b-th>
-                  <b-th>Hotel</b-th>
+                  <b-th>Kategori Kandang</b-th>
+                  <b-th>Diskripsi</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -90,7 +107,7 @@
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
                   <b-td>{{ item.name }}</b-td>
-                  <b-td>{{ item.hotel.name }}</b-td>
+                  <b-td>{{ item.description }}</b-td>
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -101,14 +118,16 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button  variant="primary" @click="onEdit(item)"
+                    <b-button
+                      class="mr-3 mt-1"
+                      variant="primary"
+                      @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
-
-                      class="ml-3"
+                      class="mt-1"
                       variant="danger"
-                      @click="onDelete(item.id_group)"
+                      @click="onDelete(item.id_cage_category)"
                       >Delete</b-button
                     >
                     <!--                    <span class="action-button">-->
@@ -143,7 +162,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchGroup()"
+              @change="fetchcageCategory()"
             >
             </b-form-select>
           </div>
@@ -164,7 +183,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchGroup(page - 1)"
+                    @click="fetchcageCategory(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -175,13 +194,19 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchGroup(pg)">{{
-                    pg
-                  }}</a>
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchcageCategory(pg)"
+                    >{{ pg }}</a
+                  >
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchGroup(page + 1)"
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchcageCategory(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -199,6 +224,7 @@ import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard
@@ -225,6 +251,7 @@ export default {
       hotel: [],
       addForm: {
         name: "",
+        description: "",
         hotel_id: ""
       }
       // validations: {
@@ -268,10 +295,10 @@ export default {
     //       // alert(err);
     //     });
     // },
-    fetchGroup(page = 1) {
+    fetchcageCategory(page = 1) {
       this.$api
         .get(
-          `group/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `cageCategory/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
           this.golongan = res.data.data.data ? res.data.data.data : [];
@@ -309,10 +336,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`group/delete/${id}`)
+            .delete(`cageCategory/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchGroup();
+                this.fetchcageCategory();
                 // this.toastAlert("menghapus");
               }
             })
@@ -349,12 +376,12 @@ export default {
       if (this.isEdit) {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("group/update", this.addForm)
+          .put("cageCategory/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchGroup();
-              // this.$bvModal.hide("modal-group");
+              this.fetchcageCategory();
+              // this.$bvModal.hide("modal-cageCategory");
               // this.toastAlert("update");
             }
           })
@@ -373,11 +400,11 @@ export default {
       } else {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("group/add", this.addForm)
+          .post("cageCategory/add", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchGroup();
+              this.fetchcageCategory();
               // this.toastAlert("tambah");
             }
           })
@@ -427,9 +454,9 @@ export default {
     }
   },
   mounted() {
-    this.fetchGroup();
+    this.fetchcageCategory();
     this.hotelId = getHotelId();
-    console.log(this.hotelId);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Kategori Kadang Hewan" }]);
   }
 };
 </script>

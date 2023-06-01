@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kandang hewan"
+              placeholder="Search name layanan hewan"
               v-model="search"
-              @input="fetchCage()"
+              @input="fetchService()"
             />
           </div>
         </div>
@@ -32,15 +32,14 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Kandang</b-button
+              Kategori Kandang Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
-              <!--              <v-select :options="['Canada', 'United States']"></v-select>-->
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Kandang"
+                  label="Kategori Kandang"
                   label-for="name-input"
-                  invalid-feedback="Harga is required"
+                  invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
                 >
                   <b-form-input
@@ -51,59 +50,36 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Detail Kandang"
+                  label="Diskripsi"
                   label-for="name-input"
-                  invalid-feedback="Kategori Kandang is required"
+                  invalid-feedback="Diskripsi is required"
                   :state="nameState"
                 >
-                  <Multiselect
-                    :options="detailKandang"
-                    v-model="addForm.cage_detail_id"
-                    :custom-label="
-                      ({ cage_category, cage_type }) =>
-                        `${cage_category.name} - ${cage_type.name}`
-                    "
-                  />
-                  <!--                  <v-select :options="['Canada', 'United States']"></v-select>-->
-                  <!--                  <vSelect-->
-                  <!--                    :getOptionLabel="-->
-                  <!--                      cs =>-->
-                  <!--                        `${cs.cage_category.name} ${cs.cage_type.name}`-->
-                  <!--                    "-->
-                  <!--                    :reduce="cs => cs.id"-->
-                  <!--                    :options="detailKandang"-->
-                  <!--                    v-model="addForm.cage_detail_id"-->
-                  <!--                  ></vSelect>-->
-                </b-form-group>
-
-                <!--                <b-form-group-->
-                <!--                  label="Status"-->
-                <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="Status is required"-->
-                <!--                  :state="nameState"-->
-                <!--                >-->
-                <!--                  <b-form-select-->
-                <!--                    :state="nameState"-->
-                <!--                    id="name-input"-->
-                <!--                    v-model="addForm.status"-->
-                <!--                    :options="['Tersedia', 'Penuh']"-->
-                <!--                    class="per-page"-->
-                <!--                    @change="changeStatus(addForm)"-->
-                <!--                    required-->
-                <!--                  >-->
-                <!--                  </b-form-select>-->
-                <!--                </b-form-group>-->
-                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
-                  <b-form-radio-group
-                    v-model="addForm.status"
-                    :options="options"
+                  <b-form-textarea
+                    id="textarea"
+                    v-model="addForm.description"
+                    placeholder="Enter something..."
+                    :state="nameState"
+                    rows="3"
+                    max-rows="6"
                     :disabled="isDetail"
-                    :aria-describedby="ariaDescribedby"
-                    name="radios-stacked"
-                    stacked
-                  ></b-form-radio-group>
+                    required
+                  ></b-form-textarea>
                 </b-form-group>
-                <!--                {{ spesies }}-->
+                <b-form-group
+                  label="Satuan"
+                  label-for="name-input"
+                  invalid-feedback="Satuan Hari atau Jam is required"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="addForm.unit_type"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <!--                {{ ktghewan }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Hotel"-->
                 <!--                  label-for="name-input"-->
@@ -133,31 +109,20 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Nama Kandang</b-th>
-                  <b-th>Detail Kandang</b-th>
-                  <b-th>Status</b-th>
+                  <b-th>Nama Layanan</b-th>
+                  <b-th>Diskripsi</b-th>
+                  <b-th>Satuan Hari/Jam</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in kandang" :key="item.id">
+                <b-tr v-for="(item, index) in layanan" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
                   <b-td>{{ item.name }}</b-td>
-                  <b-td
-                    >{{ item.cage_detail.cage_category.name }}
-                    {{ item.cage_detail.cage_type.name }}</b-td
-                  >
-                  <b-td>
-                    <b-badge variant="success" v-if="item.status === 'kosong'"
-                      >Kosong</b-badge
-                    >
-                    <!--                    {{ item }}-->
-                    <b-badge variant="warning" v-if="item.status === 'terisi'"
-                      >Terisi</b-badge
-                    >
-                  </b-td>
+                  <b-td>{{ item.description }}</b-td>
+                  <b-td>{{ item.unit_type }}</b-td>
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -168,14 +133,13 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button  variant="primary" @click="onEdit(item)"
+                    <b-button variant="primary" @click="onEdit(item)"
                       >Edit</b-button
                     >
                     <b-button
-
                       class="ml-3"
                       variant="danger"
-                      @click="onDelete(item.id_cage_detail)"
+                      @click="onDelete(item.id_service)"
                       >Delete</b-button
                     >
                     <!--                    <span class="action-button">-->
@@ -210,7 +174,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchCage()"
+              @change="fetchService()"
             >
             </b-form-select>
           </div>
@@ -231,7 +195,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchCage(page - 1)"
+                    @click="fetchService(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -242,13 +206,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchCage(pg)">{{
+                  <a class="page-link" href="#" @click="fetchService(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchCage(page + 1)"
+                  <a class="page-link" href="#" @click="fetchService(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -266,11 +230,10 @@ import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
-import Multiselect from "vue-multiselect";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
-    KTCard,
-    Multiselect
+    KTCard
   },
   data() {
     return {
@@ -290,18 +253,13 @@ export default {
       modalTitle: "",
       hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      kandang: [],
+      layanan: [],
       hotel: [],
-      detailKandang: [],
-      options: [
-        { text: " terisi ", value: "terisi " },
-        { text: "kosong", value: "kosong" }
-      ],
       addForm: {
         name: "",
-        hotel_id: "",
-        cage_detail_id: "",
-        status: ""
+        description: "",
+        unit_type: "",
+        hotel_id: ""
       }
       // validations: {
       //   addForm: {
@@ -312,7 +270,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Detail Golongan Hewan";
+      this.modalTitle = "Tambah Golongan Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -320,17 +278,6 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    // changeStatus(data) {
-    //   console.log(data);
-    //   this.$api
-    //     .put(`cage/status`, {
-    //       id_request: data.id_request,
-    //       status: data.status
-    //     })
-    //     .then(() => {
-    //       this.fetchRequest();
-    //     });
-    // },
     // fetchHotel() {
     //   this.$api
     //     .get(`hotel/all`)
@@ -343,38 +290,26 @@ export default {
     //       // alert(err);
     //     });
     // },
-    fetchDetailKandang() {
-      this.$api
-        .get(`cageDetail/all`)
-        .then(res => {
-          this.detailKandang = res.data.data.data ? res.data.data.data : [];
-          // console.log(this.spesies);
-        })
-        .catch(err => {
-          console.error(err);
-          // alert(err);
-        });
-    },
-    // fetchUkuran() {
+    // fetchCategory() {
     //   this.$api
-    //     .get(`cageType/all`)
+    //     .get(`category/all`)
     //     .then(res => {
-    //       this.ukuran = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.spesies);
+    //       this.ktghewan = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.ktghewan);
     //     })
     //     .catch(err => {
     //       console.error(err);
     //       // alert(err);
     //     });
     // },
-    fetchCage(page = 1) {
+    fetchService(page = 1) {
       this.$api
         .get(
-          `cage/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `service/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
-          this.kandang = res.data.data.data ? res.data.data.data : [];
-          console.log(this.kandang);
+          this.layanan = res.data.data.data ? res.data.data.data : [];
+          console.log(this.layanan);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -394,8 +329,6 @@ export default {
       this.isEdit = true;
       this.modalTitle = `Edit ${data.name}`;
       this.addForm = Object.assign({}, data);
-      this.addForm.cage_detail_id = data.cage_detail;
-      // console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -410,10 +343,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`cage/delete/${id}`)
+            .delete(`service/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchCage();
+                this.fetchService();
                 // this.toastAlert("menghapus");
               }
             })
@@ -447,16 +380,15 @@ export default {
       // if (!this.$v.addForm.$error) {
       //
       // }
-      console.log(this.addForm);
       if (this.isEdit) {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("cage/update", this.addForm)
+          .put("service/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchCage();
-              // this.$bvModal.hide("modal-group");
+              this.fetchService();
+              // this.$bvModal.hide("modal-service");
               // this.toastAlert("update");
             }
           })
@@ -475,11 +407,11 @@ export default {
       } else {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("cage/add", this.addForm)
+          .post("service/add", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchCage();
+              this.fetchService();
               // this.toastAlert("tambah");
             }
           })
@@ -516,28 +448,26 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.kandang.length === this.perPage) {
+        if (this.layanan.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage - (this.perPage - this.kandang.length);
-          meta.startSection = meta.endSection - (this.kandang.length - 1);
+            this.page * this.perPage - (this.perPage - this.layanan.length);
+          meta.startSection = meta.endSection - (this.layanan.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchCage();
-    this.fetchDetailKandang();
-    // this.fetchUkuran();
+    this.fetchService();
     this.hotelId = getHotelId();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Layanan Hewan" }]);
   }
 };
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 .pointer {
   cursor: pointer;

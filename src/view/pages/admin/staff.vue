@@ -80,20 +80,20 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <b-form-group
-                  label="Role"
-                  label-for="name-input"
-                  invalid-feedback="species is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    id="name-input"
-                    v-model="addForm.role"
-                    :state="nameState"
-                    :disabled="isDetail"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+                <!--                <b-form-group-->
+                <!--                  label="Role"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="species is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-input-->
+                <!--                    id="name-input"-->
+                <!--                    v-model="addForm.role"-->
+                <!--                    :state="nameState"-->
+                <!--                    :disabled="isDetail"-->
+                <!--                    required-->
+                <!--                  ></b-form-input>-->
+                <!--                </b-form-group>-->
                 <b-form-group
                   label="Alamat"
                   label-for="name-input"
@@ -160,17 +160,12 @@
                 >
                   <b-link
                     target="_blank"
-                    :href="
-                      `http://localhost:8080/request/document/` + addForm.ktp
-                    "
+                    :href="`http://localhost:8080/user/ktp/` + addForm.ktp"
                   >
                     <div class="table-img1">
                       <img
                         id="ktpimage"
-                        :src="
-                          `http://localhost:8080/request/document/` +
-                            addForm.ktp
-                        "
+                        :src="`http://localhost:8080/user/ktp/` + addForm.ktp"
                         alt="KTP"
                       />
                     </div>
@@ -191,15 +186,14 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/request/document/` + addForm.selfie
+                      `http://localhost:8080/user/selfie/` + addForm.selfie
                     "
                   >
                     <div class="table-img1">
                       <img
                         id="selfieimage"
                         :src="
-                          `http://localhost:8080/request/document/` +
-                            addForm.selfie
+                          `http://localhost:8080/user/selfie/` + addForm.selfie
                         "
                         alt="Selfie"
                       />
@@ -241,20 +235,20 @@
                     v-on:change="handleImage()"
                   />
                 </b-form-group>
-                <b-form-group
-                  label="Hotel"
-                  label-for="name-input"
-                  invalid-feedback="Hotel is required"
-                  :state="nameState"
-                >
-                  <b-form-select
-                    v-model="addForm.hotel_id"
-                    :label-field="hotel.name"
-                    value-field="id_hotel"
-                    text-field="name"
-                    :options="hotel"
-                  ></b-form-select>
-                </b-form-group>
+                <!--                <b-form-group-->
+                <!--                  label="Hotel"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="Hotel is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-select-->
+                <!--                    v-model="addForm.hotel_id"-->
+                <!--                    :label-field="hotel.name"-->
+                <!--                    value-field="id_hotel"-->
+                <!--                    text-field="name"-->
+                <!--                    :options="hotel"-->
+                <!--                  ></b-form-select>-->
+                <!--                </b-form-group>-->
 
                 <!--                {{ ktghewan }}-->
                 <!--                <b-form-group-->
@@ -446,9 +440,10 @@
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
+import { getHotelId } from "@/service/jwt.service";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import axios from "axios";
+import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard,
@@ -470,6 +465,7 @@ export default {
       modalTitle: "",
       submittedNames: [],
       hotel: [],
+      hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       staffPet: [],
       options: [
@@ -545,34 +541,32 @@ export default {
         this.addForm.image = this.$refs.image.files[0];
       }
     },
-    fetchHotel() {
-      this.$api
-        .get(`hotel/all`)
-        .then(res => {
-          this.hotel = res.data.data.data ? res.data.data.data : [];
-          // console.log(this.klshewan);
-        })
-        .catch(err => {
-          console.error(err);
-          // alert(err);
-        });
-    },
+    // fetchHotel() {
+    //   this.$api
+    //     .get(`hotel/all`)
+    //     .then(res => {
+    //       this.hotel = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.klshewan);
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //       // alert(err);
+    //     });
+    // },
     fetchStaff(page = 1) {
-      axios.create({
-        baseURL: process.env.VUE_APP_ROOT_API
-      });
-      // console.log(localStorage.getItem("token"))
-      axios
+      this.$api
         .get(
           `staff/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
+          // console.log(res);
           this.staffPet = res.data.data.data ? res.data.data.data : [];
           // console.log(this.staffPet);
-          this.page = res.data.data.paginate.page;
-          this.perPage = res.data.data.paginate.perPage;
-          this.totalData = res.data.data.paginate.totalData;
-          this.totalPage = res.data.data.paginate.totalPage;
+          // console.log(this.staffPet);
+          // this.page = res.data.data.paginate.page;
+          // this.perPage = res.data.data.paginate.perPage;
+          // this.totalData = res.data.data.paginate.totalData;
+          // this.totalPage = res.data.data.paginate.totalPage;
         })
         .catch(err => {
           console.error(err);
@@ -619,6 +613,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchStaff();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -644,17 +648,16 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
-      this.addForm.phone = parseInt(this.addForm.phone);
-      this.addForm.nik = parseInt(this.addForm.nik);
       const config = {
         headers: { "content-type": "multipart/form-data" }
       };
-
+      this.addForm.role = "Staff";
       let formData = new FormData();
-
       formData.append("id", this.addForm.id);
       formData.append("name", this.addForm.name);
       formData.append("email", this.addForm.email);
+      formData.append("phone", this.addForm.phone);
+      formData.append("nik", this.addForm.nik);
       formData.append("birth_date", this.addForm.birth_date);
       formData.append("gender", this.addForm.gender);
       if (this.$refs.ktp.files[0] !== undefined)
@@ -665,7 +668,8 @@ export default {
       if (this.$refs.image.files[0] !== undefined)
         formData.append("image", this.$refs.image.files[0]);
       formData.append("role", this.addForm.role);
-      formData.append("hotel_id", this.addForm.hotel_id);
+      formData.append("hotel_id", getHotelId());
+
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
@@ -681,6 +685,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchStaff();
+              Swal.fire({
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.$bvModal.hide("modal-category");
               // this.toastAlert("update");
             }
@@ -699,11 +713,21 @@ export default {
           });
       } else {
         this.$api
-          .post("staff/add", this.addForm)
+          .post("staff/add", formData, config)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
               this.fetchStaff();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })
@@ -754,7 +778,8 @@ export default {
   },
   mounted() {
     this.fetchStaff();
-    this.fetchHotel();
+    this.hotelId = getHotelId();
+     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Staff Hotel" }]);
   }
 };
 </script>

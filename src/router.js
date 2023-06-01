@@ -15,7 +15,8 @@ export default new Router({
           path: "/dashboard",
           name: "dashboard",
           component: () => import("@/view/pages/Dashboard.vue")
-        }, {
+        },
+        {
           path: "/dashboard-admin",
           name: "Dashboard-Admin",
           component: () => import("@/view/pages/Dashboard-admin.vue")
@@ -31,25 +32,10 @@ export default new Router({
           component: () => import("@/view/pages/admin/anabul-admin.vue"),
           children: [
             {
-              path: "detail-golongan",
-              name: "DetailGolongan",
-              component: () => import("@/view/pages/admin/detail-golongan.vue")
-            },
-            {
               path: "detail-inventaris",
               name: "DetailInventaris",
               component: () =>
                 import("@/view/pages/admin/detail-inventaris.vue")
-            },
-            {
-              path: "detail-kandang",
-              name: "DetailKandang",
-              component: () => import("@/view/pages/admin/detail-kandang.vue")
-            },
-            {
-              path: "detail-kandang",
-              name: "DetailKandang",
-              component: () => import("@/view/pages/admin/detail-kandang.vue")
             },
             {
               path: "detail-laser",
@@ -57,49 +43,14 @@ export default new Router({
               component: () => import("@/view/pages/admin/detail-laser.vue")
             },
             {
-              path: "detail-layanan",
-              name: "DetailLayanan",
-              component: () => import("@/view/pages/admin/detail-layanan.vue")
-            },
-            {
               path: "detail-reservasi",
               name: "DetailReservasi",
               component: () => import("@/view/pages/admin/detail-reservasi.vue")
             },
             {
-              path: "golongan",
-              name: "Golongan",
-              component: () => import("@/view/pages/admin/golongan.vue")
-            },
-            {
-              path: "kandang",
-              name: "Kandang",
-              component: () => import("@/view/pages/admin/kandang.vue")
-            },
-            {
-              path: "kategori-kandang",
-              name: "KategoriKandang",
-              component: () => import("@/view/pages/admin/kategori-kandang.vue")
-            },
-            {
-              path: "layanan",
-              name: "Layanan",
-              component: () => import("@/view/pages/admin/layanan.vue")
-            },
-            {
               path: "produk",
               name: "Produk",
               component: () => import("@/view/pages/admin/produk.vue")
-            },
-            {
-              path: "profil-hotel",
-              name: "ProfilHotel",
-              component: () => import("@/view/pages/admin/profil-hotel.vue")
-            },
-            {
-              path: "profil-admin",
-              name: "ProfilAdmin",
-              component: () => import("@/view/pages/admin/profil-admin.vue")
             },
             {
               path: "rating-penilaian",
@@ -120,11 +71,6 @@ export default new Router({
               path: "staff",
               name: "Staff",
               component: () => import("@/view/pages/admin/staff.vue")
-            },
-            {
-              path: "ukuran-kandang",
-              name: "UkuranKandang",
-              component: () => import("@/view/pages/admin/ukuran-kandang.vue")
             }
           ]
         },
@@ -165,7 +111,89 @@ export default new Router({
             }
           ]
         },
-
+        {
+          path: "/golongan",
+          name: "golongan",
+          component: () => import("@/view/pages/golongan/golongan.vue"),
+          children: [
+            {
+              path: "detail-golongan",
+              name: "detail-golongan",
+              component: () =>
+                import("@/view/pages/golongan/detail-golongan.vue")
+            },
+            {
+              path: "golongan-hewan",
+              name: "golongan-hewan",
+              component: () =>
+                import("@/view/pages/golongan/golongan-hewan.vue")
+            }
+          ]
+        },
+        {
+          path: "/kandang",
+          name: "kandang",
+          component: () => import("@/view/pages/kandang/kandang.vue"),
+          children: [
+            {
+              path: "kandang-hewan",
+              name: "kandang-hewan",
+              component: () => import("@/view/pages/kandang/kandang-hewan.vue")
+            },
+            {
+              path: "kategori-kandang",
+              name: "kategori-kandang",
+              component: () =>
+                import("@/view/pages/kandang/kategori-kandang.vue")
+            },
+            {
+              path: "ukuran-kandang",
+              name: "ukuran-kandang",
+              component: () => import("@/view/pages/kandang/ukuran-kandang.vue")
+            },
+            {
+              path: "detail-kandang",
+              name: "detail-kandang",
+              component: () => import("@/view/pages/kandang/detail-kandang.vue")
+            }
+          ]
+        },
+        {
+          path: "/layanan",
+          name: "layanan",
+          component: () => import("@/view/pages/layanan/layanan.vue"),
+          children: [
+            {
+              path: "detail-layanan",
+              name: "detail-layanan",
+              component: () => import("@/view/pages/layanan/detail-layanan.vue")
+            },
+            {
+              path: "layanan-hewan",
+              name: "layanan-hewan",
+              component: () => import("@/view/pages/layanan/layanan-hewan.vue")
+            }
+          ]
+        },
+        {
+          path: "/profile",
+          name: "profile",
+          component: () => import("@/view/pages/profile-admin/profile.vue"),
+          children: [
+            {
+              path: "profil-admin",
+              name: "profil-admin",
+              component: () =>
+                import("@/view/pages/profile-admin/profil-admin.vue")
+            },
+            {
+              path: "profil-hotel",
+              name: "profil-hotel",
+              component: () =>
+                import("@/view/pages/profile-admin/profil-hotel.vue")
+            }
+          ]
+        },
         // {
         //   path: "/vue-bootstrap",
         //   name: "vue-bootstrap",
@@ -475,12 +503,12 @@ export default new Router({
     // {
     //   path: "*",
     //   redirect: "/404"
-    // },
-    {
-      // the 404 route, when none of the above matches
-      path: "/404",
-      name: "404",
-      component: () => import("@/view/pages/error/Error-1.vue")
-    }
+    // // },
+    // {
+    //   // the 404 route, when none of the above matches
+    //   path: "/404",
+    //   name: "404",
+    //   component: () => import("@/view/pages/error/Error-1.vue")
+    // }
   ]
 });

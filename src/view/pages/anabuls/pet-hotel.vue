@@ -20,7 +20,7 @@
               class="form-control search-input"
               placeholder="Search pet Hotel"
               v-model="search"
-              @input="fetchRequest()"
+              @input="fetchHotel()"
             />
           </div>
         </div>
@@ -431,7 +431,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchRequest()"
+              @change="fetchHotel()"
             >
             </b-form-select>
           </div>
@@ -452,7 +452,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchRequest(page - 1)"
+                    @click="fetchHotel(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -463,13 +463,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchRequest(pg)">{{
+                  <a class="page-link" href="#" @click="fetchHotel(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchRequest(page + 1)"
+                  <a class="page-link" href="#" @click="fetchHotel(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -487,6 +487,7 @@ import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard,
@@ -603,7 +604,7 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    fetchRequest(page = 1) {
+    fetchHotel(page = 1) {
       this.$api
         .get(
           `hotel/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
@@ -627,7 +628,7 @@ export default {
       } else {
         this.orderBy = "desc";
       }
-      this.fetchRequest();
+      this.fetchHotel();
     },
     onDetail(data) {
       this.showModal();
@@ -660,7 +661,7 @@ export default {
             .delete(`hotel/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchRequest();
+                this.fetchHotel();
                 // this.toastAlert("menghapus");
               }
             })
@@ -729,7 +730,7 @@ export default {
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchRequest();
+              this.fetchHotel();
               // this.$bvModal.hide("modal-category");
               // this.toastAlert("update");
             }
@@ -752,7 +753,7 @@ export default {
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchRequest();
+              this.fetchHotel();
               // this.toastAlert("tambah");
             }
           })
@@ -802,10 +803,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchRequest();
+    this.fetchHotel();
     this.fetchProvinces();
     this.fetchCity();
     this.fetchDistrict();
+     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Pet Hotel" }]);
   }
 };
 </script>

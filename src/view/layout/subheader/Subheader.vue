@@ -12,31 +12,31 @@
         <h5 class="text-dark font-weight-bold my-2 mr-5">
           {{ title }}
         </h5>
-        <ul
-          class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2"
-        >
-          <li class="breadcrumb-item">
-            <router-link :to="'/'" class="subheader-breadcrumbs-home">
-              <i class="flaticon2-shelter text-muted icon-1x"></i>
-            </router-link>
-          </li>
+<!--        <ul-->
+<!--          class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2"-->
+<!--        >-->
+<!--          <li class="breadcrumb-item">-->
+<!--            <router-link :to="'/'" class="subheader-breadcrumbs-home">-->
+<!--              <i class="flaticon2-shelter text-muted icon-1x"></i>-->
+<!--            </router-link>-->
+<!--          </li>-->
 
-          <template v-for="(breadcrumb, i) in breadcrumbs">
-            <li class="breadcrumb-item" :key="`${i}-${breadcrumb.id}`">
-              <router-link
-                v-if="breadcrumb.route"
-                :key="i"
-                :to="breadcrumb.route"
-                class="text-muted"
-              >
-                {{ breadcrumb.title }}
-              </router-link>
-              <span class="text-muted" :key="i" v-if="!breadcrumb.route">
-                {{ breadcrumb.title }}
-              </span>
-            </li>
-          </template>
-        </ul>
+<!--          <template v-for="(breadcrumb, i) in breadcrumbs">-->
+<!--            <li class="breadcrumb-item" :key="`${i}-${breadcrumb.id}`">-->
+<!--              <router-link-->
+<!--                v-if="breadcrumb.route"-->
+<!--                :key="i"-->
+<!--                :to="breadcrumb.route"-->
+<!--                class="text-muted"-->
+<!--              >-->
+<!--                {{ breadcrumb.title }}-->
+<!--              </router-link>-->
+<!--              <span class="text-muted" :key="i" v-if="!breadcrumb.route">-->
+<!--                {{ breadcrumb.title }}-->
+<!--              </span>-->
+<!--            </li>-->
+<!--          </template>-->
+<!--        </ul>-->
       </div>
       <div class="d-flex align-items-center">
 <!--        <a href="#" class="btn btn-light font-weight-bold btn-sm">-->

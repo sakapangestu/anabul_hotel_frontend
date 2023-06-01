@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name detail layanan hewan"
+              placeholder="Search name kandang hewan"
               v-model="search"
-              @input="fetchDetailService()"
+              @input="fetchCage()"
             />
           </div>
         </div>
@@ -32,53 +32,50 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Detail Kandang</b-button
+              Kandang</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
+              <!--              <v-select :options="['Canada', 'United States']"></v-select>-->
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Layanan"
-                  label-for="name-input"
-                  invalid-feedback="Kategori Kandang is required"
-                  :state="nameState"
-                >
-                  <b-form-select
-                    v-model="addForm.service_id"
-                    :label-field="layanan.name"
-                    value-field="id_service"
-                    text-field="name"
-                    :options="layanan"
-                  ></b-form-select>
-                </b-form-group>
-                <b-form-group
-                  label="Kandang"
-                  label-for="name-input"
-                  invalid-feedback="Kategori Kandang is required"
-                  :state="nameState"
-                >
-                  <b-form-select
-                    v-model="addForm.group_id"
-                    :label-field="kandang.name"
-                    value-field="id_group"
-                    text-field="name"
-                    :options="kandang"
-                  ></b-form-select>
-                </b-form-group>
-                <b-form-group
-                  label="Harga"
+                  label="Nama Kandang"
                   label-for="name-input"
                   invalid-feedback="Harga is required"
                   :state="nameState"
                 >
                   <b-form-input
-                    step="0.01"
-                    type="number"
                     id="name-input"
-                    v-model="addForm.price"
+                    v-model="addForm.name"
                     :state="nameState"
                     required
                   ></b-form-input>
                 </b-form-group>
+                <b-form-group
+                  label="Detail Kandang"
+                  label-for="name-input"
+                  invalid-feedback="Kategori Kandang is required"
+                  :state="nameState"
+                >
+                  <Multiselect
+                    :options="detailKandang"
+                    v-model="addForm.cage_detail_id"
+                    :custom-label="
+                      ({ cage_category, cage_type }) =>
+                        `${cage_category.name} - ${cage_type.name}`
+                    "
+                  />
+                  <!--                  <v-select :options="['Canada', 'United States']"></v-select>-->
+                  <!--                  <vSelect-->
+                  <!--                    :getOptionLabel="-->
+                  <!--                      cs =>-->
+                  <!--                        `${cs.cage_category.name} ${cs.cage_type.name}`-->
+                  <!--                    "-->
+                  <!--                    :reduce="cs => cs.id"-->
+                  <!--                    :options="detailKandang"-->
+                  <!--                    v-model="addForm.cage_detail_id"-->
+                  <!--                  ></vSelect>-->
+                </b-form-group>
+
                 <!--                <b-form-group-->
                 <!--                  label="Status"-->
                 <!--                  label-for="name-input"-->
@@ -96,6 +93,16 @@
                 <!--                  >-->
                 <!--                  </b-form-select>-->
                 <!--                </b-form-group>-->
+                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    v-model="addForm.status"
+                    :options="options"
+                    :disabled="isDetail"
+                    :aria-describedby="ariaDescribedby"
+                    name="radios-stacked"
+                    stacked
+                  ></b-form-radio-group>
+                </b-form-group>
                 <!--                {{ spesies }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Hotel"-->
@@ -126,20 +133,31 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Nama Layanan</b-th>
-                  <b-th>Kandang</b-th>
-                  <b-th>Harga</b-th>
+                  <b-th>Nama Kandang</b-th>
+                  <b-th>Detail Kandang</b-th>
+                  <b-th>Status</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in detailKandang" :key="item.id">
+                <b-tr v-for="(item, index) in kandang" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.service.name }}</b-td>
-                  <b-td>{{ item.group.name }}</b-td>
-                  <b-td>{{ item.price }}</b-td>
+                  <b-td>{{ item.name }}</b-td>
+                  <b-td
+                    >{{ item.cage_detail.cage_category.name }}
+                    {{ item.cage_detail.cage_type.name }}</b-td
+                  >
+                  <b-td>
+                    <b-badge variant="success" v-if="item.status === 'Kosong'"
+                      >Kosong</b-badge
+                    >
+                    <!--                    {{ item }}-->
+                    <b-badge variant="warning" v-if="item.status === 'Terisi'"
+                      >Terisi</b-badge
+                    >
+                  </b-td>
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -156,7 +174,7 @@
                     <b-button
                       class="ml-3"
                       variant="danger"
-                      @click="onDelete(item.id_service_detail)"
+                      @click="onDelete(item.id_cage)"
                       >Delete</b-button
                     >
                     <!--                    <span class="action-button">-->
@@ -191,7 +209,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchDetailService()"
+              @change="fetchCage()"
             >
             </b-form-select>
           </div>
@@ -212,7 +230,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchDetailService(page - 1)"
+                    @click="fetchCage(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -223,16 +241,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchDetailService(pg)">{{
+                  <a class="page-link" href="#" @click="fetchCage(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a
-                    class="page-link"
-                    href="#"
-                    @click="fetchDetailService(page + 1)"
+                  <a class="page-link" href="#" @click="fetchCage(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -250,9 +265,12 @@ import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
+import Multiselect from "vue-multiselect";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
-    KTCard
+    KTCard,
+    Multiselect
   },
   data() {
     return {
@@ -272,15 +290,18 @@ export default {
       modalTitle: "",
       hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      detailKandang: [],
-      hotel: [],
-      layanan: [],
       kandang: [],
+      hotel: [],
+      detailKandang: [],
+      options: [
+        { text: " Terisi ", value: "Terisi " },
+        { text: "Kosong", value: "Kosong" }
+      ],
       addForm: {
-        service_id: "",
+        name: "",
         hotel_id: "",
-        group_id: "",
-        price: "",
+        cage_detail_id: "",
+        status: ""
       }
       // validations: {
       //   addForm: {
@@ -302,7 +323,7 @@ export default {
     // changeStatus(data) {
     //   console.log(data);
     //   this.$api
-    //     .put(`serviceDetail/status`, {
+    //     .put(`cage/status`, {
     //       id_request: data.id_request,
     //       status: data.status
     //     })
@@ -322,38 +343,38 @@ export default {
     //       // alert(err);
     //     });
     // },
-    fetchService() {
+    fetchDetailKandang() {
       this.$api
-        .get(`service/all`)
-        .then(res => {
-          this.layanan = res.data.data.data ? res.data.data.data : [];
-          // console.log(this.spesies);
-        })
-        .catch(err => {
-          console.error(err);
-          // alert(err);
-        });
-    },
-    fetchGroup() {
-      this.$api
-        .get(`group/all`)
-        .then(res => {
-          this.kandang = res.data.data.data ? res.data.data.data : [];
-          // console.log(this.spesies);
-        })
-        .catch(err => {
-          console.error(err);
-          // alert(err);
-        });
-    },
-    fetchDetailService(page = 1) {
-      this.$api
-        .get(
-          `serviceDetail/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
-        )
+        .get(`cageDetail/all`)
         .then(res => {
           this.detailKandang = res.data.data.data ? res.data.data.data : [];
-          console.log(this.detailKandang);
+          // console.log(this.spesies);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    // fetchUkuran() {
+    //   this.$api
+    //     .get(`cageType/all`)
+    //     .then(res => {
+    //       this.ukuran = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.spesies);
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //       // alert(err);
+    //     });
+    // },
+    fetchCage(page = 1) {
+      this.$api
+        .get(
+          `cage/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+        )
+        .then(res => {
+          this.kandang = res.data.data.data ? res.data.data.data : [];
+          console.log(this.kandang);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -371,8 +392,10 @@ export default {
     onEdit(data) {
       this.showModal();
       this.isEdit = true;
-      this.modalTitle = `Edit ${data.service.name}`;
+      this.modalTitle = `Edit ${data.name}`;
       this.addForm = Object.assign({}, data);
+      this.addForm.cage_detail_id = data.cage_detail;
+      // console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -387,10 +410,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`serviceDetail/delete/${id}`)
+            .delete(`cage/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchDetailService();
+                this.fetchCage();
                 // this.toastAlert("menghapus");
               }
             })
@@ -424,18 +447,19 @@ export default {
       // if (!this.$v.addForm.$error) {
       //
       // }
-      if (this.addForm.price) {
-        this.addForm.price = parseFloat(this.addForm.price);
-      }
       console.log(this.addForm);
       if (this.isEdit) {
+         this.addForm.hotel_id = this.hotelId;
+        let id_cage = this.addForm.cage_detail_id.id_cage_detail;
+        this.addForm.cage_detail_id = "";
+        this.addForm.cage_detail_id = id_cage;
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("serviceDetail/update", this.addForm)
+          .put("cage/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchDetailService();
+              this.fetchCage();
               // this.$bvModal.hide("modal-group");
               // this.toastAlert("update");
             }
@@ -453,13 +477,17 @@ export default {
             }
           });
       } else {
+        // this.addForm.cage_detail_id = this.cage_detail_id.id_cage_detail
         this.addForm.hotel_id = this.hotelId;
+        let id_cage = this.addForm.cage_detail_id.id_cage_detail;
+        this.addForm.cage_detail_id = "";
+        this.addForm.cage_detail_id = id_cage;
         this.$api
-          .post("serviceDetail/add", this.addForm)
+          .post("cage/add", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchDetailService();
+              this.fetchCage();
               // this.toastAlert("tambah");
             }
           })
@@ -496,28 +524,29 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.detailKandang.length === this.perPage) {
+        if (this.kandang.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage -
-            (this.perPage - this.detailKandang.length);
-          meta.startSection = meta.endSection - (this.detailKandang.length - 1);
+            this.page * this.perPage - (this.perPage - this.kandang.length);
+          meta.startSection = meta.endSection - (this.kandang.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchDetailService();
-    this.fetchService();
-    this.fetchGroup();
+    this.fetchCage();
+    this.fetchDetailKandang();
+    // this.fetchUkuran();
     this.hotelId = getHotelId();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Kandang Hewan" }]);
   }
 };
 </script>
 
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 .pointer {
   cursor: pointer;

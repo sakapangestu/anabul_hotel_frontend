@@ -197,6 +197,7 @@
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
+import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard
@@ -411,6 +412,7 @@ export default {
   mounted() {
     this.fetchCategory();
     this.fetchClass();
+     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Kategori Hewan" }]);
   }
 };
 </script>
