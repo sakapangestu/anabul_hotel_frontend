@@ -89,9 +89,10 @@
                   <b-form-select
                     :disabled="isDetail"
                     v-model="addForm.province_id"
+                    @change="resetProvince"
                     :label-field="provinces.name"
                     value-field="id_province"
-                    text-field="province_name"
+                    text-field="name"
                     :options="provinces"
                   ></b-form-select>
                 </b-form-group>
@@ -104,6 +105,7 @@
                   <b-form-select
                     :disabled="isDetail"
                     v-model="addForm.city_id"
+                    @change="fetchDistrict"
                     :label-field="cities.name"
                     value-field="id_city"
                     text-field="name"
@@ -119,10 +121,26 @@
                   <b-form-select
                     :disabled="isDetail"
                     v-model="addForm.district_id"
+                    @change="fetchSubdistrict"
                     :label-field="districts.name"
                     value-field="id_district"
                     text-field="name"
                     :options="districts"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kelurahan Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.subdistrict_id"
+                    :label-field="subdistricts.name"
+                    value-field="id_district"
+                    text-field="name"
+                    :options="subdistricts"
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
@@ -241,8 +259,7 @@
                       <img
                         id="image"
                         :src="
-                          `http://localhost:8080/hotel/profile/` +
-                            addForm.image
+                          `http://localhost:8080/hotel/profile/` + addForm.image
                         "
                         alt="Admin Pet"
                       />
@@ -280,8 +297,7 @@
                   <b-link
                     target="_blank"
                     :href="
-                      `http://localhost:8080/hotel/document/` +
-                        addForm.document
+                      `http://localhost:8080/hotel/document/` + addForm.document
                     "
                     :state="nameState"
                     required
@@ -487,7 +503,7 @@ import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard,
@@ -513,6 +529,7 @@ export default {
       provinces: [],
       cities: [],
       districts: [],
+      subdistricts: [],
       addForm: {
         id_hotel: "",
         name: "",
@@ -520,6 +537,7 @@ export default {
         province_id: "",
         city_id: "",
         district_id: "",
+        subdistrict_id: "",
         address: "",
         no_hp: "",
         image: null,
@@ -542,6 +560,12 @@ export default {
     };
   },
   methods: {
+    resetProvince() {
+      this.addForm.city_id = "";
+      this.addForm.subdistrict_id = "";
+      this.addForm.district_id = "";
+      this.featchCity(this.addForm.province_id);
+    },
     handleDocument() {
       // console.log("DOKUMEN");
       // console.log(this.$refs.docs.files[0]);
@@ -561,6 +585,7 @@ export default {
       }
     },
     fetchProvinces() {
+      this.resetProvince();
       this.$api
         .get(`province/all`)
         .then(res => {
@@ -572,9 +597,9 @@ export default {
           // alert(err);
         });
     },
-    fetchCity() {
+    fetchCity(province = this.addForm.province_id) {
       this.$api
-        .get(`city/all`)
+        .get(`city/all?provinceId=${province}`)
         .then(res => {
           this.cities = res.data.data.data ? res.data.data.data : [];
           // console.log(this.ktghewan);
@@ -584,11 +609,23 @@ export default {
           // alert(err);
         });
     },
-    fetchDistrict() {
+    fetchDistrict(city = this.addForm.city_id) {
       this.$api
-        .get(`district/all`)
+        .get(`district/all?cityId=${city}`)
         .then(res => {
           this.districts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchSubdistrict(district = this.addForm.district_id) {
+      this.$api
+        .get(`subdistrict/all?districtId=${district}`)
+        .then(res => {
+          this.subdistricts = res.data.data.data ? res.data.data.data : [];
           // console.log(this.ktghewan);
         })
         .catch(err => {
@@ -662,6 +699,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchHotel();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -689,6 +736,10 @@ export default {
     handleSubmit() {
       this.addForm.no_hp = parseInt(this.addForm.no_hp);
       this.addForm.npwp = parseInt(this.addForm.npwp);
+      this.addForm.province_id = parseInt(this.addForm.province_id);
+      this.addForm.city_id = parseInt(this.addForm.city_id);
+      this.addForm.district_id = parseInt(this.addForm.district_id);
+      this.addForm.subdistrict_id = parseInt(this.addForm.subdistrict_id);
       // this.$v.addForm.$touch();
       // if (this.$v.addForm.$anyError) {
       //   return;
@@ -716,6 +767,8 @@ export default {
       formData.append("regulation", this.addForm.regulation);
       formData.append("open_time", this.addForm.open_time);
       formData.append("close_time", this.addForm.close_time);
+      formData.append("close_time", this.addForm.no_hp);
+      formData.append("close_time", this.addForm.npwp);
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
@@ -731,6 +784,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchHotel();
+              Swal.fire({
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.$bvModal.hide("modal-category");
               // this.toastAlert("update");
             }
@@ -754,6 +817,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchHotel();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })
@@ -807,7 +880,8 @@ export default {
     this.fetchProvinces();
     this.fetchCity();
     this.fetchDistrict();
-     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Pet Hotel" }]);
+    this.fetchSubdistrict();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Pet Hotel" }]);
   }
 };
 </script>

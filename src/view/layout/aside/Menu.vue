@@ -207,7 +207,7 @@
       data-menu-toggle="hover"
       class="menu-item menu-item-submenu"
       v-bind:class="{
-        'menu-item-open': hasActiveChildren('/golongan/golongan')
+        'menu-item-open': hasActiveChildren('/golongan')
       }"
     >
       <a href="#" class="menu-link menu-toggle">
@@ -387,7 +387,7 @@
       data-menu-toggle="hover"
       class="menu-item menu-item-submenu"
       v-bind:class="{
-        'menu-item-open': hasActiveChildren('/layanan/layanan')
+        'menu-item-open': hasActiveChildren('/layanan')
       }"
     >
       <a href="#" class="menu-link menu-toggle">
@@ -1941,6 +1941,21 @@ export default {
     this.image = getImage();
     this.role = getRole();
     this.email = getEmail();
+
+    const path = "/golongan/golongan-hewan";
+    console.log(path.indexOf("/golongan/detail-golongan"));
   }
 };
 </script>
+
+<style>
+.menu-item-active a i {
+  color: #100303 !important;
+}
+.menu-item:hover a i {
+  color: #100303 !important;
+}
+/*.menu-submenu:hover a i {*/
+/*  color: #fff !important;*/
+/*}*/
+</style>

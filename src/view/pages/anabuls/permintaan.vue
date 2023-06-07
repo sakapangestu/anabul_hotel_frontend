@@ -206,16 +206,11 @@
                 >
                   <b-link
                     target="_blank"
-                    :href="
-                      `http://localhost:8080/user/ktp/` + addForm.ktp
-                    "
+                    :href="`http://localhost:8080/user/ktp/` + addForm.ktp"
                   >
                     <div class="table-img1">
                       <img
-                        :src="
-                          `http://localhost:8080/user/ktp/` +
-                            addForm.ktp
-                        "
+                        :src="`http://localhost:8080/user/ktp/` + addForm.ktp"
                         alt="KTP"
                       />
                     </div>
@@ -236,8 +231,7 @@
                     <div class="table-img1">
                       <img
                         :src="
-                          `http://localhost:8080/user/selfie/` +
-                            addForm.selfie
+                          `http://localhost:8080/user/selfie/` + addForm.selfie
                         "
                         alt="Selfie"
                       />
@@ -432,7 +426,7 @@
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard
@@ -553,6 +547,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchRequest();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -600,12 +604,14 @@ export default {
           .catch(err => {
             if (err.message === "Request failed with status code 409") {
               Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Kode kategori sudah ada!",
-                showConfirmButton: false,
-                width: "25em",
-                timer: 2500
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
               });
             }
           });
@@ -666,7 +672,7 @@ export default {
   },
   mounted() {
     this.fetchRequest();
-     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Permintaan" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Permintaan" }]);
   }
 };
 </script>

@@ -500,6 +500,21 @@ export default new Router({
         }
       ]
     },
+    {
+      name: "email",
+      path: "/email",
+      component: () => import("@/view/pages/auth/resetEmail")
+    },
+    {
+      name: "resetPassword",
+      path: "/resetPassword",
+      component: () => import("@/view/pages/auth/resetPassword")
+    },
+    {
+      name: "resetSucces",
+      path: "/resetSucces",
+      component: () => import("@/view/pages/auth/resetSucces")
+    }
     // {
     //   path: "*",
     //   redirect: "/404"

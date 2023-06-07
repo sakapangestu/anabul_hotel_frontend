@@ -34,197 +34,570 @@
             <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create-->
             <!--              Kategori Kandang Hewan</b-button-->
             <!--            >-->
-            <b-modal ref="my-modal" hide-footer :title="modalTitle">
+            <b-modal ref="my-modal" size="xl" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
-                <b-form-group
-                  label="Kategori Kandang"
-                  label-for="name-input"
-                  invalid-feedback="Kategori Kandang is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    id="name-input"
-                    v-model="addForm.user.name"
-                    :state="nameState"
-                    disabled
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Waktu Reservasi"
-                  label-for="name-input"
-                  invalid-feedback="Waktu Reservasi is required"
-                  :state="nameState"
-                >
-                  <date-picker
-                    format="YYYY-MM-DD HH:mm"
-                    id="name-input"
-                    :state="nameState"
-                    v-model="addForm.CreatedAt"
-                    value-type="format"
-                    type="datetime"
-                    :disabled="isDetail"
-                    class="w-100"
-                    required
-                  ></date-picker>
-                </b-form-group>
-                <b-form-group
-                  label="Waktu Masuk Hotel"
-                  label-for="name-input"
-                  invalid-feedback="Waktu Masuk Hotel is required"
-                  :state="nameState"
-                >
-                  <date-picker
-                    format="YYYY-MM-DD HH:mm"
-                    id="name-input"
-                    :state="nameState"
-                    type="datetime"
-                    v-model="addForm.start_date"
-                    value-type="format"
-                    :disabled="isDetail"
-                    class="w-100"
-                    required
-                  ></date-picker>
-                </b-form-group>
-                <b-form-group
-                  label="Waktu Keluar Hotel"
-                  label-for="name-input"
-                  invalid-feedback="Waktu Keluar Hotel is required"
-                  :state="nameState"
-                >
-                  <date-picker
-                    format="YYYY-MM-DD HH:mm"
-                    id="name-input"
-                    :state="nameState"
-                    type="datetime"
-                    v-model="addForm.end_date"
-                    value-type="format"
-                    :disabled="isDetail"
-                    class="w-100"
-                    required
-                  ></date-picker>
-                </b-form-group>
-                <b-form-group
-                  label="Total Harga"
-                  label-for="name-input"
-                  invalid-feedback="Total Harga is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    step="0.01"
-                    type="number"
-                    id="name-input"
-                    :disabled="isDetail"
-                    v-model="addForm.total_cost"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Dp Pembayaran"
-                  label-for="name-input"
-                  invalid-feedback="Dp Pembayaran is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    step="0.01"
-                    type="number"
-                    id="name-input"
-                    :disabled="isDetail"
-                    v-model="addForm.dp_cost"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Status Pembayaran"
-                  label-for="name-input"
-                  invalid-feedback="Status is required"
-                  :state="nameState"
-                >
-                  <b-form-select
-                    :state="nameState"
-                    id="name-input"
-                    :disabled="isDetail"
-                    v-model="addForm.payment_status"
-                    :options="['Dibayar', 'Belum Dibayar']"
-                    class="per-page"
-                    @change="changeStatusPembayaran(addForm)"
-                    required
-                  >
-                  </b-form-select>
-                </b-form-group>
-                <b-form-group
-                  label="Status Masuk"
-                  label-for="name-input"
-                  invalid-feedback="Status Masuk is required"
-                  :state="nameState"
-                >
-                  <b-form-select
-                    :state="nameState"
-                    id="name-input"
-                    :disabled="isDetail"
-                    v-model="addForm.check_in_status"
-                    :options="['Masuk', 'Keluar']"
-                    class="per-page"
-                    @change="changeStatusMasuk(addForm)"
-                    required
-                  >
-                  </b-form-select>
-                </b-form-group>
-                <b-form-group
-                  label="Status Masuk"
-                  label-for="name-input"
-                  invalid-feedback="Status Masuk is required"
-                  :state="nameState"
-                >
-                  <b-form-select
-                    :state="nameState"
-                    id="name-input"
-                    :disabled="isDetail"
-                    v-model="addForm.reservation_status"
-                    :options="['Proses', 'Diterima', 'Ditolak', 'Selesai']"
-                    class="per-page"
-                    @change="changeStatusReservasi(addForm)"
-                    required
-                  >
-                  </b-form-select>
-                </b-form-group>
-                <b-form-checkbox v-model="addForm.agreement" disabled>
-                  Menyetujui syarat dan peraturan penitipan hewan
-                </b-form-checkbox>
-                <!--                <b-form-group-->
-                <!--                  label="Diskripsi"-->
-                <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="Diskripsi is required"-->
-                <!--                  :state="nameState"-->
-                <!--                >-->
-                <!--                  <b-form-textarea-->
-                <!--                    id="textarea"-->
-                <!--                    v-model="addForm.description"-->
-                <!--                    placeholder="Enter something..."-->
-                <!--                    :state="nameState"-->
-                <!--                    rows="3"-->
-                <!--                    max-rows="6"-->
-                <!--                    :disabled="isDetail"-->
-                <!--                    required-->
-                <!--                  ></b-form-textarea>-->
-                <!--                </b-form-group>-->
-                <!--                {{ ktghewan }}-->
-                <!--                <b-form-group-->
-                <!--                  label="Hotel"-->
-                <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="Hotel is required"-->
-                <!--                  :state="nameState"-->
-                <!--                >-->
-                <!--                  <b-form-select-->
-                <!--                    v-model="addForm.hotel_id"-->
-                <!--                    :label-field="hotel.name"-->
-                <!--                    value-field="id_hotel"-->
-                <!--                    text-field="name"-->
-                <!--                    :options="hotel"-->
-                <!--                  ></b-form-select>-->
-                <!--                </b-form-group>-->
+                <div class="row">
+                  <div class="col">
+                    <b-form-group
+                      label="Kategori Kandang"
+                      label-for="name-input"
+                      invalid-feedback="Kategori Kandang is required"
+                    >
+                      <b-form-input
+                        id="name-input"
+                        v-model="addForm.user.name"
+                        disabled
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      label="Waktu Reservasi"
+                      label-for="name-input"
+                      invalid-feedback="Waktu Reservasi is required"
+                    >
+                      <date-picker
+                        format="YYYY-MM-DD HH:mm"
+                        id="name-input"
+                        v-model="addForm.CreatedAt"
+                        value-type="format"
+                        type="datetime"
+                        :disabled="isDetail"
+                        class="w-100"
+                      ></date-picker>
+                    </b-form-group>
+                    <b-form-group
+                      label="Waktu Masuk Hotel"
+                      label-for="name-input"
+                      invalid-feedback="Waktu Masuk Hotel is required"
+                    >
+                      <date-picker
+                        format="YYYY-MM-DD HH:mm"
+                        id="name-input"
+                        type="datetime"
+                        v-model="addForm.start_date"
+                        value-type="format"
+                        :disabled="isDetail"
+                        class="w-100"
+                      ></date-picker>
+                    </b-form-group>
+                    {{ addForm.end_date }}
+                    <b-form-group
+                      label="Waktu Keluar Hotel"
+                      label-for="name-input"
+                      invalid-feedback="Waktu Keluar Hotel is required"
+                    >
+                      <date-picker
+                        format="YYYY-MM-DD HH:mm"
+                        id="name-input"
+                        type="datetime"
+                        v-model="addForm.end_date"
+                        value-type="format"
+                        :disabled="isDetail"
+                        class="w-100"
+                      ></date-picker>
+                    </b-form-group>
+                    <b-form-group
+                      label="Total Harga"
+                      label-for="name-input"
+                      invalid-feedback="Total Harga is required"
+                    >
+                      <b-form-input
+                        type="number"
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.total_cost"
+                      ></b-form-input>
+                    </b-form-group>
+                    <!--                    <b-form-group-->
+                    <!--                      label="Dp Pembayaran"-->
+                    <!--                      label-for="name-input"-->
+                    <!--                      invalid-feedback="Dp Pembayaran is required"-->
+                    <!--                    >-->
+                    <!--                      <b-form-input-->
+                    <!--                        type="number"-->
+                    <!--                        id="name-input"-->
+                    <!--                        :disabled="isDetail"-->
+                    <!--                        v-model="addForm.dp_cost"-->
+                    <!--                      ></b-form-input>-->
+                    <!--                    </b-form-group>-->
+                    <b-form-group
+                      label="Uang Pembayaran"
+                      label-for="name-input"
+                      invalid-feedback="Dp Pembayaran is required"
+                    >
+                      <b-form-input
+                        type="number"
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.payment"
+                        @input="HasilPerhitungan"
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      label="Kembalian Pembayaran"
+                      label-for="name-input"
+                      invalid-feedback="Dp Pembayaran is required"
+                    >
+                      <b-form-input
+                        type="number"
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.change"
+                      ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      label="Status Pembayaran"
+                      label-for="name-input"
+                      invalid-feedback="Status is required"
+                    >
+                      <b-form-select
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.payment_status"
+                        :options="['Dibayar', 'Belum Dibayar']"
+                        class="per-page"
+                        @change="changeStatusPembayaran(addForm)"
+                      >
+                      </b-form-select>
+                    </b-form-group>
+                    <b-form-group
+                      label="Status Masuk"
+                      label-for="name-input"
+                      invalid-feedback="Status Masuk is required"
+                    >
+                      <b-form-select
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.check_in_status"
+                        :options="['Masuk', 'Keluar']"
+                        class="per-page"
+                        @change="changeStatusMasuk(addForm)"
+                      >
+                      </b-form-select>
+                    </b-form-group>
+                    <b-form-group
+                      label="Status Masuk"
+                      label-for="name-input"
+                      invalid-feedback="Status Masuk is required"
+                    >
+                      <b-form-select
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.reservation_status"
+                        :options="['Proses', 'Diterima', 'Ditolak', 'Selesai']"
+                        class="per-page"
+                        @change="changeStatusReservasi(addForm)"
+                      >
+                      </b-form-select>
+                    </b-form-group>
+                    <b-form-checkbox v-model="addForm.agreement" disabled>
+                      Menyetujui syarat dan peraturan penitipan hewan
+                    </b-form-checkbox>
+                    <!--                    <div class="col">-->
+                    <!--                      <inventoris></inventoris>-->
+                    <!--                    </div>-->
+                  </div>
+                  <div class="col">
+                    <div v-for="(pet, index) in petDetails" :key="pet.id">
+                      <b-button
+                        @click="fetchCageByCageDetailID(pet.cage_detail_id)"
+                        v-b-toggle="'collapse-' + index"
+                        class="m-1"
+                      >
+                        Detail Reservasi Hewan {{ index + 1 }}
+                      </b-button>
+                      <b-button
+                        v-if="index === petDetails.length - 1 && index !== 0"
+                        @click="deletePet"
+                        >X</b-button
+                      >
+                      <b-collapse :id="'collapse-' + index">
+                        <b-card>
+                          <b-form-group
+                            label="Nama Hewan"
+                            label-for="name-input"
+                            invalid-feedback="Nama Hewan is required"
+                          >
+                            <b-form-select
+                              v-model="pet.pet_id"
+                              :label-field="pets.name"
+                              value-field="id_pet"
+                              text-field="name"
+                              :disabled="isDetail"
+                              :options="pets"
+                            ></b-form-select>
+                          </b-form-group>
+                          <b-form-group
+                            label="Berat Hewan"
+                            label-for="name-input"
+                            invalid-feedback="Berat hewan is required"
+                          >
+                            <b-form-input
+                              type="number"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="pet.weight"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Golongan Hewan"
+                            label-for="name-input"
+                            invalid-feedback="Golongan Hewan is required"
+                          >
+                            <b-form-select
+                              v-model="pet.group_id"
+                              :label-field="golongan.name"
+                              value-field="id_group"
+                              text-field="name"
+                              :disabled="isDetail"
+                              :options="golongan"
+                            ></b-form-select>
+                          </b-form-group>
+                          <b-form-group
+                            label="Detail Kandang"
+                            label-for="name-input"
+                            invalid-feedback="Detail Kandang is required"
+                          >
+                            <b-form-select
+                              v-model="pet.cage_detail_id"
+                              :disabled="isDetail"
+                            >
+                              <!--                              <option :value="null" disabled>-->
+                              <!--                                &#45;&#45; Please select an option &#45;&#45;-->
+                              <!--                              </option>-->
+                              <option
+                                v-for="det in detailkandang"
+                                :key="det.id"
+                                :value="det.cage_detail_id"
+                              >
+                                {{ det.cage_category }}
+                                {{ det.cage_type }}
+                              </option>
+                            </b-form-select>
+                          </b-form-group>
+                          <b-form-group
+                            label="Kandang Hewan"
+                            label-for="name-input"
+                            invalid-feedback="Kandang Hewan is required"
+                          >
+                            <b-form-select
+                              v-model="pet.cage_id"
+                              :label-field="kandang.name"
+                              value-field="id_cage"
+                              :disabled="isDetail"
+                              text-field="name"
+                              :options="kandang"
+                            ></b-form-select>
+                          </b-form-group>
+                          <b-form-group
+                            label="Status Vaksin"
+                            label-for="name-input"
+                            invalid-feedback="Status Vaksin is required"
+                          >
+                            <b-form-input
+                              type="text"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="pet.vaccination"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Alergi Makanan"
+                            label-for="name-input"
+                            invalid-feedback="Alergis required"
+                          >
+                            <b-form-input
+                              type="text"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="pet.food_allergy"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Penyakit Kutu"
+                            label-for="name-input"
+                            invalid-feedback="Penyakit Kutu required"
+                          >
+                            <b-form-input
+                              type="text"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="pet.flea_disease"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Riwayat Penyakit Lain"
+                            label-for="name-input"
+                            invalid-feedback="Riwayat Penyakit Lain required"
+                          >
+                            <b-form-input
+                              type="text"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="pet.another_disease"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Nama Staff"
+                            label-for="name-input"
+                            invalid-feedback="Nama Staff is required"
+                          >
+                            <b-form-select
+                              v-model="pet.staff_id"
+                              :label-field="staff.name"
+                              value-field="id"
+                              :disabled="isDetail"
+                              text-field="name"
+                              :options="staff"
+                            ></b-form-select>
+                          </b-form-group>
+                          <b-form-group
+                            label="Biaya Kandang"
+                            label-for="name-input"
+                            invalid-feedback="Harga is required"
+                          >
+                            <b-form-input
+                              type="number"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="pet.cage_cost"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Total Biaya Perhewan"
+                            label-for="name-input"
+                            invalid-feedback="Harga is required"
+                          >
+                            <b-form-input
+                              type="number"
+                              :disabled="isDetail"
+                              id="name-input"
+                              v-model="pet.subtotal_cost"
+                            ></b-form-input>
+                          </b-form-group>
+                          <div
+                            v-for="(ly,
+                            indexLayanan) in pet.reservation_services"
+                            :key="ly.id"
+                          >
+                            <b-button
+                              v-b-toggle="'collapseL-' + index + indexLayanan"
+                              class="m-1"
+                            >
+                              Detail Layanan {{ indexLayanan + 1 }}
+                            </b-button>
+                            <b-button
+                              v-if="
+                                indexLayanan ===
+                                  pet.reservation_services.length - 1 &&
+                                  indexLayanan !== 0
+                              "
+                              @click="deleteLayanan(index)"
+                              >X</b-button
+                            >
+                            <b-collapse
+                              :id="'collapseL-' + index + indexLayanan"
+                            >
+                              <b-form-group
+                                label="Nama Layanan"
+                                label-for="name-input"
+                                invalid-feedback="Nama Layanan is required"
+                              >
+                                <b-form-select
+                                  v-model="ly.service_id"
+                                  :label-field="layanan.name"
+                                  value-field="id_service"
+                                  text-field="name"
+                                  :disabled="isDetail"
+                                  :options="layanan"
+                                ></b-form-select>
+                              </b-form-group>
+                              <b-form-group
+                                label="Kuantitas Layanan"
+                                label-for="name-input"
+                                invalid-feedback="Harga is required"
+                              >
+                                <b-form-input
+                                  type="number"
+                                  id="name-input"
+                                  :disabled="isDetail"
+                                  v-model="ly.quantity"
+                                ></b-form-input>
+                              </b-form-group>
+                              <b-form-group
+                                label="Catatan Layanan"
+                                label-for="name-input"
+                                invalid-feedback="Catatan Layanan required"
+                              >
+                                <b-form-input
+                                  type="text"
+                                  id="name-input"
+                                  :disabled="isDetail"
+                                  v-model="ly.note"
+                                ></b-form-input>
+                              </b-form-group>
+                              <b-form-group
+                                label="Biaya Layanan"
+                                label-for="name-input"
+                                invalid-feedback="Harga is required"
+                              >
+                                <b-form-input
+                                  type="number"
+                                  id="name-input"
+                                  :disabled="isDetail"
+                                  v-model="ly.service_cost"
+                                ></b-form-input>
+                              </b-form-group>
+                              Detail Layanan
+                            </b-collapse>
+                          </div>
+                          <b-button
+                            variant="primary"
+                            @click="addLayanan(index)"
+                          >
+                            Tambah Layanan
+                          </b-button>
+                          <div
+                            v-for="(mk, indexMkn) in pet.reservation_products"
+                            :key="mk.id"
+                          >
+                            <b-button
+                              v-b-toggle="'collapseM-' + index + indexMkn"
+                              class="m-1"
+                            >
+                              Detail Makanan {{ indexMkn + 1 }}
+                            </b-button>
+                            <b-button
+                              v-if="
+                                indexMkn ===
+                                  pet.reservation_products.length - 1 &&
+                                  indexMkn !== 0
+                              "
+                              @click="deleteMakanan(index)"
+                              >X</b-button
+                            >
+                            <b-collapse :id="'collapseM-' + index + indexMkn">
+                              <b-form-group
+                                label="Nama Makanan"
+                                label-for="name-input"
+                                invalid-feedback="Nama Layanan is required"
+                              >
+                                <b-form-select
+                                  v-model="mk.product_id"
+                                  :label-field="produk.name"
+                                  value-field="id_product"
+                                  text-field="name"
+                                  :disabled="isDetail"
+                                  :options="produk"
+                                ></b-form-select>
+                              </b-form-group>
+                              <b-form-group
+                                label="Kuantitas Makanan"
+                                label-for="name-input"
+                                invalid-feedback="Harga is required"
+                              >
+                                <b-form-input
+                                  type="number"
+                                  id="name-input"
+                                  :disabled="isDetail"
+                                  v-model="mk.quantity"
+                                ></b-form-input>
+                              </b-form-group>
+                              <b-form-group
+                                label="Catatan Makanan"
+                                label-for="name-input"
+                                invalid-feedback="Catatan Layanan required"
+                              >
+                                <b-form-input
+                                  type="text"
+                                  id="name-input"
+                                  :disabled="isDetail"
+                                  v-model="mk.note"
+                                ></b-form-input>
+                              </b-form-group>
+                              <b-form-group
+                                label="Biaya Makanan"
+                                label-for="name-input"
+                                invalid-feedback="Harga is required"
+                              >
+                                <b-form-input
+                                  type="number"
+                                  id="name-input"
+                                  :disabled="isDetail"
+                                  v-model="mk.product_cost"
+                                ></b-form-input>
+                              </b-form-group>
+                              Detail Makanan
+                            </b-collapse>
+                          </div>
+                          <b-button
+                            variant="primary"
+                            @click="addMakanan(index)"
+                          >
+                            Tambah Makanan
+                          </b-button>
+                        </b-card>
+                      </b-collapse>
+                    </div>
+                    <b-button variant="primary" @click="addPet">
+                      Tambah Hewan
+                    </b-button>
+                  </div>
+                  <div class="col">
+                    <div v-for="(ivt, index) in petInventoris" :key="ivt.id">
+                      <b-button v-b-toggle="'collapseivt-' + index" class="m-1">
+                        Detail Mainan Hewan {{ index + 1 }}
+                      </b-button>
+                      <b-button
+                        v-if="index === petInventoris.length - 1 && index !== 0"
+                        @click="deleteIvt"
+                        >X</b-button
+                      >
+                      <b-collapse :id="'collapseivt-' + index">
+                        <b-card>
+                          <b-form-group
+                            label="Barang Pelanggan"
+                            label-for="name-input"
+                            invalid-feedback="Barang Pelanggan required"
+                          >
+                            <b-form-input
+                              type="text"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="ivt.name"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Jumlah Barang"
+                            label-for="name-input"
+                            invalid-feedback="Berat hewan is required"
+                          >
+                            <b-form-input
+                              type="number"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="ivt.quantity"
+                            ></b-form-input>
+                          </b-form-group>
+                          <b-form-group
+                            label="Catatan Barang Pelanggan"
+                            label-for="name-input"
+                            invalid-feedback="Barang Pelanggan required"
+                          >
+                            <b-form-input
+                              type="text"
+                              id="name-input"
+                              :disabled="isDetail"
+                              v-model="ivt.note"
+                            ></b-form-input>
+                          </b-form-group>
+                        </b-card>
+                      </b-collapse>
+                    </div>
+                    <b-button variant="primary" @click="addIvt">
+                      Tambah Mainan
+                    </b-button>
+                  </div>
+                </div>
                 <b-button class="mt-3" type="submit" variant="primary" block
                   >Submit</b-button
                 >
@@ -256,7 +629,7 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-<!--                  <b-td>{{ item }}</b-td>-->
+                  <!--                  <b-td>{{ item }}</b-td>-->
                   <b-td>{{ item.user.name }}</b-td>
                   <b-td>{{ convertDate(item.CreatedAt) }}</b-td>
                   <b-td>{{ convertDate(item.start_date) }}</b-td>
@@ -416,19 +789,25 @@
 <script>
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
+// import Multiselect from "vue-multiselect";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 import moment from "moment";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
+// import inventoris from "@/view/pages/componen inventoris/inventoris"
 export default {
   components: {
     KTCard,
     DatePicker
+    // inventoris
+    // Multiselect
   },
   data() {
     return {
+      petDetails: [],
+      petInventoris: [],
       search: "",
       sortBy: "created_at",
       orderBy: "desc",
@@ -463,18 +842,29 @@ export default {
       hotel: [],
       addForm: {
         user: {},
-        reservation_detail: [],
+        user_id: "",
+        reservation_details: [],
+        reservation_inventories: [],
+        payment: "",
+        change: "",
         hotel_id: "",
         CreatedAt: "",
         start_date: "",
         end_date: "",
         total_cost: "",
-        dp_cost: "",
+        // dp_cost: "",
         payment_status: "",
         check_in_status: "",
         reservation_status: "",
         agreement: ""
-      }
+      },
+      pets: [],
+      layanan: [],
+      produk: [],
+      golongan: [],
+      kandang: [],
+      detailkandang: [],
+      staff: []
       // validations: {
       //   addForm: {
       //     name: { required }
@@ -483,15 +873,63 @@ export default {
     };
   },
   methods: {
+    HasilPerhitungan() {
+      this.addForm.change = this.addForm.payment - this.addForm.total_cost;
+    },
+    fetchCageByCageDetailID(cageDetailID) {
+      console.log(cageDetailID);
+      this.$api
+        .get(`cage/all?cageDetailId=${cageDetailID}`)
+        .then(res => {
+          this.kandang = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    addPet() {
+      this.petDetails.push({
+        reservation_services: [{}],
+        reservation_products: [{}]
+      });
+    },
+    addIvt() {
+      this.petInventoris.push({});
+    },
+    deleteIvt() {
+      this.petInventoris.pop();
+    },
+    deletePet() {
+      this.petDetails.pop();
+    },
+    deleteLayanan(index) {
+      this.petDetails[index].reservation_services.pop();
+    },
+    deleteMakanan(index) {
+      this.petDetails[index].reservation_products.pop();
+    },
+    addLayanan(index) {
+      this.petDetails[index].reservation_services.push({});
+    },
+    addMakanan(index) {
+      this.petDetails[index].reservation_products.push({});
+    },
+
     convertDate(date_moment) {
       return moment(String(date_moment))
         .locale("id")
-        .format("DD-MM-YYYY HH:mm ");
+        .format("DD-MM-YYYY HH:mm");
     },
     convertDateForm(date_moment) {
       return moment(String(date_moment))
         .locale("id")
         .format("YYYY-MM-DD HH:mm");
+    },
+    convertDateEdit(date_moment) {
+      return moment(String(date_moment))
+        .locale("id")
+        .format("YYYY-MM-DD HH:mm:ss");
     },
     Rp(rp) {
       return `Rp. ${rp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
@@ -504,18 +942,97 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    // fetchUser() {
-    //   this.$api
-    //     .get(`category/all`)
-    //     .then(res => {
-    //       this.ktghewan = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.ktghewan);
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //       // alert(err);
-    //     });
-    // },
+    fetchPet(id) {
+      // console.log(this.addForm.user_id);
+      this.$api
+        .get(`pet/all?user_id=${id}`)
+        .then(res => {
+          this.pets = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchService(id) {
+      // console.log(this.addForm.user_id);
+      this.$api
+        .get(`service/all?hotel_id=${id}`)
+        .then(res => {
+          this.layanan = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchProduk(id) {
+      // console.log(this.addForm.user_id);
+      this.$api
+        .get(`product/all?hotel_id=${id}`)
+        .then(res => {
+          this.produk = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchGolongan(id) {
+      // console.log(this.addForm.user_id);
+      this.$api
+        .get(`group/all?hotel_id=${id}`)
+        .then(res => {
+          this.golongan = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchKandang(id) {
+      // console.log(this.addForm.user_id);
+      this.$api
+        .get(`cage/all?hotel_id=${id}`)
+        .then(res => {
+          this.kandang = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchDetailKandang(id) {
+      this.$api
+        .get(`cageDetail/all?hotel_id=${id}`)
+        .then(res => {
+          // this.detailkandang = res.data.data.data ? res.data.data.data : [];
+          this.detailkandang = res.data.data.data.map(e => {
+            return {
+              cage_detail_id: e.id_cage_detail,
+              cage_category: e.cage_category.name,
+              cage_type: e.cage_type.name
+            };
+          });
+          console.log(this.detailkandang);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchStaff(id) {
+      // console.log(this.addForm.user_id);
+      this.$api
+        .get(`staff/all?hotel_id=${id}`)
+        .then(res => {
+          this.staff = res.data.data.data ? res.data.data.data : [];
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
     changeStatusPembayaran(data) {
       console.log(data);
       this.$api
@@ -556,7 +1073,7 @@ export default {
         )
         .then(res => {
           this.reservasi = res.data.data.data ? res.data.data.data : [];
-          console.log(this.reservasi);
+          // console.log(this.reservasi);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -569,20 +1086,57 @@ export default {
     },
     onDetail(data) {
       this.showModal();
+      this.petDetails = [];
+      this.petInventoris = [];
       this.isDetail = true;
       this.modalTitle = `${data.user.name} Details`;
       this.isEdit = false;
       this.addForm = Object.assign({}, data);
+      this.fetchPet(this.addForm.user_id);
+      this.fetchService(this.addForm.hotel_id);
+      this.fetchProduk(this.addForm.hotel_id);
+      this.fetchGolongan(this.addForm.hotel_id);
+      this.fetchKandang(this.addForm.hotel_id);
+      this.fetchDetailKandang(this.addForm.hotel_id);
+      this.fetchStaff(this.addForm.hotel_id);
+      this.addForm.start_date = this.convertDateForm(this.addForm.start_date);
+      this.addForm.end_date = this.convertDateForm(this.addForm.end_date);
+      this.addForm.CreatedAt = this.convertDateForm(this.addForm.CreatedAt);
+      this.addForm.reservation_details.map(e => {
+        this.petDetails.push(e);
+        console.log(e);
+      });
+      this.addForm.reservation_inventories.map(i => {
+        this.petInventoris.push(i);
+        // console.log(i);
+      });
     },
     onEdit(data) {
       this.showModal();
+      this.petDetails = [];
+      this.petInventoris = [];
       this.isEdit = true;
       this.modalTitle = `Edit ${data.user.name}`;
       this.isDetail = false;
       this.addForm = Object.assign({}, data);
+      this.fetchPet(this.addForm.user_id);
+      this.fetchService(this.addForm.hotel_id);
+      this.fetchProduk(this.addForm.hotel_id);
+      this.fetchGolongan(this.addForm.hotel_id);
+      this.fetchKandang(this.addForm.hotel_id);
+      this.fetchDetailKandang(this.addForm.hotel_id);
+      this.fetchStaff(this.addForm.hotel_id);
       this.addForm.start_date = this.convertDateForm(this.addForm.start_date);
       this.addForm.end_date = this.convertDateForm(this.addForm.end_date);
       this.addForm.CreatedAt = this.convertDateForm(this.addForm.CreatedAt);
+      this.addForm.reservation_details.map(e => {
+        this.petDetails.push(e);
+        console.log(e);
+      });
+      this.addForm.reservation_inventories.map(i => {
+        this.petInventoris.push(i);
+        // console.log(i);
+      });
     },
     onDelete(id) {
       Swal.fire({
@@ -601,6 +1155,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchReservasi();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -620,30 +1184,73 @@ export default {
       this.nameState = null;
     },
     handleOk(bvModalEvent) {
+      console.log(this.petDetails);
       // Prevent modal from closing
       bvModalEvent.preventDefault();
       // Trigger submit handler
       this.handleSubmit();
     },
+    // handleSubmit() {
+    //   console.log(this.petDetails);
+    // },
     handleSubmit() {
       // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
+      // if (!this.checkFormValidity()) {
+      //   return;
+      // }
       // evt.preventDefault();
       // if (!this.$v.addForm.$error) {
       //
       // }
+      console.log(this.petDetails);
+      if (this.addForm.total_cost) {
+        this.addForm.total_cost = parseFloat(this.addForm.total_cost);
+      }
+      // if (this.addForm.dp_cost) {
+      //   this.addForm.dp_cost = parseFloat(this.addForm.dp_cost);
+      // }
+      if (this.addForm.payment) {
+        this.addForm.payment = parseFloat(this.addForm.payment);
+      }
+      if (this.addForm.change) {
+        this.addForm.change = parseFloat(this.addForm.change);
+      }
+      this.addForm.reservation_details = this.petDetails;
+      this.addForm.reservation_details.map(e => {
+        e.reservation_services.map(s => {
+          s.quantity = s.quantity >>> 0;
+        });
+        e.reservation_products.map(p => {
+          p.quantity = p.quantity >>> 0;
+        });
+      });
+      this.addForm.reservation_inventories = this.petInventoris;
+      this.addForm.reservation_inventories.map(i => {
+        i.quantity = i.quantity >>> 0;
+      });
       if (this.isEdit) {
         this.addForm.hotel_id = this.hotelId;
+        this.addForm.start_date = this.convertDateEdit(this.addForm.start_date);
+        this.addForm.end_date = this.convertDateEdit(this.addForm.end_date);
         this.$api
-          .put("reservation/update", this.addForm)
+          .put("reservation/update/v2", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
               this.fetchReservasi();
+              Swal.fire({
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.$bvModal.hide("modal-service");
               // this.toastAlert("update");
+              this.petDetails = [];
             }
           })
           .catch(err => {
@@ -666,6 +1273,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchReservasi();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })
@@ -721,7 +1338,7 @@ export default {
   }
 };
 </script>
-
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style>
 .pointer {
   cursor: pointer;

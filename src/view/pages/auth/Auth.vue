@@ -62,8 +62,14 @@ export default {
       errors: state => state.auth.errors
     }),
     backgroundImage() {
-      return process.env.BASE_URL + "media/bg/7__.jpg";
+      return process.env.BASE_URL + "media/bg/app_logo.png";
     }
   }
 };
 </script>
+
+<style>
+.imageLogin {
+  width: 400px;
+}
+</style>

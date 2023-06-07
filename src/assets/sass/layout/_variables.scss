@@ -8,8 +8,9 @@ $root-font-size-lg:                             	13px; // Root font size for tab
 $root-font-size-md:                             	12px; // Root font size for mobile mode
 
 // Layout Theme Colors
+// GANTI WARNA SIDEBAR
 $layout-themes: (
-	dark:  #1e1e2d, // Dark theme color
+	dark:  #FFF0E2, // Dark theme color
 	light: #ffffff // Light theme color
 ) !default;
 
@@ -1651,12 +1652,13 @@ $aside-menu-config: (
 						// Link
 						link: (
 							self: (
+								// GANTI WARNA SIDEBAR ACTIVE
 								bg-color: (
 									default: transparent,
-									open: #1b1b28,
-									here: #1b1b28,
-									active: #1b1b28,
-									hover: #1b1b28
+									open: #f6ddcf,
+									here: #f6ddcf,
+									active: #f6ddcf,
+									hover: #f6ddcf
 								)
 							),
 
@@ -1697,7 +1699,7 @@ $aside-menu-config: (
 							// Text
 							text:	(
 								font-color:	(
-									default: #a2a3b7,
+									default: #1e1e2d,
 									open: #ffffff,
 									here: #ffffff,
 									active: #ffffff,
@@ -1744,13 +1746,14 @@ $aside-menu-config: (
 								// Link
 								link: (
 									// Link
+												//GANTI WARNA ACTIVE
 									self: (
 										bg-color: (
 											default: transparent,
-											open: #1b1b28,
-											here: #1b1b28,
-											active: #1b1b28,
-											hover: #1b1b28
+											open: #f6ddcf,
+											here: #f6ddcf,
+											active: #f6ddcf,
+											hover: #f6ddcf
 										)
 									),
 									// Icon

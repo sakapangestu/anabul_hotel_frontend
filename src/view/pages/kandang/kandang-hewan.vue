@@ -64,35 +64,7 @@
                         `${cage_category.name} - ${cage_type.name}`
                     "
                   />
-                  <!--                  <v-select :options="['Canada', 'United States']"></v-select>-->
-                  <!--                  <vSelect-->
-                  <!--                    :getOptionLabel="-->
-                  <!--                      cs =>-->
-                  <!--                        `${cs.cage_category.name} ${cs.cage_type.name}`-->
-                  <!--                    "-->
-                  <!--                    :reduce="cs => cs.id"-->
-                  <!--                    :options="detailKandang"-->
-                  <!--                    v-model="addForm.cage_detail_id"-->
-                  <!--                  ></vSelect>-->
                 </b-form-group>
-
-                <!--                <b-form-group-->
-                <!--                  label="Status"-->
-                <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="Status is required"-->
-                <!--                  :state="nameState"-->
-                <!--                >-->
-                <!--                  <b-form-select-->
-                <!--                    :state="nameState"-->
-                <!--                    id="name-input"-->
-                <!--                    v-model="addForm.status"-->
-                <!--                    :options="['Tersedia', 'Penuh']"-->
-                <!--                    class="per-page"-->
-                <!--                    @change="changeStatus(addForm)"-->
-                <!--                    required-->
-                <!--                  >-->
-                <!--                  </b-form-select>-->
-                <!--                </b-form-group>-->
                 <b-form-group label="Status" v-slot="{ ariaDescribedby }">
                   <b-form-radio-group
                     v-model="addForm.status"
@@ -103,21 +75,6 @@
                     stacked
                   ></b-form-radio-group>
                 </b-form-group>
-                <!--                {{ spesies }}-->
-                <!--                <b-form-group-->
-                <!--                  label="Hotel"-->
-                <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="Hotel is required"-->
-                <!--                  :state="nameState"-->
-                <!--                >-->
-                <!--                  <b-form-select-->
-                <!--                    v-model="addForm.hotel_id"-->
-                <!--                    :label-field="hotel.name"-->
-                <!--                    value-field="id_hotel"-->
-                <!--                    text-field="name"-->
-                <!--                    :options="hotel"-->
-                <!--                  ></b-form-select>-->
-                <!--                </b-form-group>-->
                 <b-button class="mt-3" type="submit" variant="primary" block
                   >Submit</b-button
                 >
@@ -168,33 +125,27 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button variant="primary" @click="onEdit(item)"
-                      >Edit</b-button
-                    >
-                    <b-button
-                      class="ml-3"
-                      variant="danger"
-                      @click="onDelete(item.id_cage)"
-                      >Delete</b-button
-                    >
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onEdit(item)"-->
-                    <!--                        src="@/assets/icon/button/edit.png"-->
-                    <!--                        alt="edit"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onDelete(item.id_group)"-->
-                    <!--                        src="@/assets/icon/button/delete.png"-->
-                    <!--                        alt="del"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
+                    <!--                    <b-button variant="primary" @click="onEdit"-->
+                    <!--                      >Detail</b-button-->
+                    <!--                    >-->
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onEdit(item)"
+                        src="@/assets/icon/button/edit.png"
+                        alt="edit"
+                      />
+                    </span>
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onDelete(item.id_cage)"
+                        src="@/assets/icon/button/delete.png"
+                        alt="del"
+                      />
+                    </span>
                   </b-td>
                 </b-tr>
               </b-tbody>
@@ -414,6 +365,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchCage();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -449,7 +410,7 @@ export default {
       // }
       console.log(this.addForm);
       if (this.isEdit) {
-         this.addForm.hotel_id = this.hotelId;
+        this.addForm.hotel_id = this.hotelId;
         let id_cage = this.addForm.cage_detail_id.id_cage_detail;
         this.addForm.cage_detail_id = "";
         this.addForm.cage_detail_id = id_cage;
@@ -460,6 +421,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchCage();
+              Swal.fire({
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.$bvModal.hide("modal-group");
               // this.toastAlert("update");
             }
@@ -488,6 +459,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchCage();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })

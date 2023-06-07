@@ -402,7 +402,9 @@ export default {
       });
     },
     featchDistrict(city = this.profiladmin.city_id) {
-      this.$api.get(`district/all?cityId=${city}`).then(res => {
+      this.$api
+          .get(`district/all?cityId=${city}`)
+          .then(res => {
         this.districts = res.data.data.data ? res.data.data.data : [];
       });
     },

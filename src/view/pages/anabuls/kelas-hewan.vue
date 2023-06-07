@@ -111,34 +111,27 @@
                     <!--                        alt="detail"-->
                     <!--                      />-->
                     <!--                    </span>-->
-                    <b-button variant="primary" @click="onEdit(item)"
-                      >Edit</b-button
-                    >
-                    <b-button
-                      class="ml-3"
-                      variant="danger"
-                      @click="onDelete(item.id_class)"
-                      >Delete</b-button
-                    >
-
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onEdit(item)"-->
-                    <!--                        src="@/assets/icon/button/edit.png"-->
-                    <!--                        alt="edit"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onDelete(item.id_class)"-->
-                    <!--                        src="@/assets/icon/button/delete.png"-->
-                    <!--                        alt="del"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
+                    <!--                    <b-button variant="primary" @click="onEdit"-->
+                    <!--                      >Detail</b-button-->
+                    <!--                    >-->
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onEdit(item)"
+                        src="@/assets/icon/button/edit.png"
+                        alt="edit"
+                      />
+                    </span>
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onDelete(item.id_class)"
+                        src="@/assets/icon/button/delete.png"
+                        alt="del"
+                      />
+                    </span>
                   </b-td>
                 </b-tr>
               </b-tbody>
@@ -310,6 +303,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchClass();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -350,6 +353,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchClass();
+              Swal.fire({
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.$bvModal.hide("modal-category");
               // this.toastAlert("update");
             }
@@ -373,6 +386,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchClass();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })
@@ -435,5 +458,38 @@ export default {
 
 .gutter-b {
   margin-bottom: 10px;
+}
+.btn-orange {
+  color: #fff;
+  background-color: #dc822a;
+  border-color: #dc822a;
+  font-family: sans-serif;
+}
+
+.btn-orange :hover {
+  color: #fff;
+  background-color: #dc822a;
+  border-color: #dc822a;
+}
+
+.btn-orange :active {
+  color: #fff !important;
+  background-color: #dc822a !important;
+  border-color: #dc822a !important;
+}
+
+.btn-orange :focus,
+.btn-orange .focus {
+  color: #fff;
+  background-color: #dc822a;
+  border-color: #dc822a;
+  box-shadow: 0 0 0 0.2rem rgba(238, 179, 90, 0.589);
+}
+
+.btn-orange .disabled,
+.btn-orange :disabled {
+  color: #fff;
+  background-color: #dc822a;
+  border-color: #dc822a;
 }
 </style>

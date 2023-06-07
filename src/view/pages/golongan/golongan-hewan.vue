@@ -92,43 +92,36 @@
                   <b-td>{{ item.name }}</b-td>
                   <b-td>{{ item.hotel.name }}</b-td>
                   <b-td class="action-cols">
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onDetail(item)"-->
-                    <!--                        src="@/assets/icon/button/view.png"-->
-                    <!--                        alt="detail"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
-                    <b-button  variant="primary" @click="onEdit(item)"
-                      >Edit</b-button
-                    >
-                    <b-button
-
-                      class="ml-3"
-                      variant="danger"
-                      @click="onDelete(item.id_group)"
-                      >Delete</b-button
-                    >
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onEdit(item)"-->
-                    <!--                        src="@/assets/icon/button/edit.png"-->
-                    <!--                        alt="edit"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onDelete(item.id_group)"-->
-                    <!--                        src="@/assets/icon/button/delete.png"-->
-                    <!--                        alt="del"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
+<!--                    <span class="action-button">-->
+<!--                      <img-->
+<!--                        class="pointer"-->
+<!--                        style="width: 20px"-->
+<!--                        @click="onDetail(item)"-->
+<!--                        src="@/assets/icon/button/view.png"-->
+<!--                        alt="detail"-->
+<!--                      />-->
+<!--                    </span>-->
+                    <!--                    <b-button variant="primary" @click="onEdit"-->
+                    <!--                      >Detail</b-button-->
+                    <!--                    >-->
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onEdit(item)"
+                        src="@/assets/icon/button/edit.png"
+                        alt="edit"
+                      />
+                    </span>
+                    <span class="action-button">
+                      <img
+                        class="pointer"
+                        style="width: 20px"
+                        @click="onDelete(item.id_group)"
+                        src="@/assets/icon/button/delete.png"
+                        alt="del"
+                      />
+                    </span>
                   </b-td>
                 </b-tr>
               </b-tbody>
@@ -314,6 +307,16 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchGroup();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
                 // this.toastAlert("menghapus");
               }
             })
@@ -355,6 +358,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchGroup();
+              Swal.fire({
+                icon: "success",
+                title: "Edit Berhasil",
+                text: "Data berhasil diedit",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.$bvModal.hide("modal-group");
               // this.toastAlert("update");
             }
@@ -379,6 +392,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchGroup();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })

@@ -9,6 +9,8 @@ import { RESET_LAYOUT_CONFIG } from "@/core/services/store/config.module";
 import API from "./service/axios";
 import VueApexCharts from "vue-apexcharts";
 
+import "@/assets/global.css";
+
 Vue.use(VueApexCharts);
 
 Vue.component("apexchart", VueApexCharts);

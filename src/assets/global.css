@@ -1,0 +1,18 @@
+.btn-dark {
+    background-color: #DC822A !important;
+    border-color: #DC822A !important;
+}
+
+.btn-primary {
+        background-color: #DC822A !important;
+    border-color: #DC822A !important;
+}
+.page-item.active .page-link {
+    background-color: #DC822A;
+    border-color: #DC822A;
+}
+.menu-item menu-item-submenu {
+    background-color: #DC822A;
+    border-color: #DC822A;
+}
+

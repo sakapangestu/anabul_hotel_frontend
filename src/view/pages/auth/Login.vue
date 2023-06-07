@@ -29,7 +29,8 @@
       <b-form class="form" @submit.stop.prevent="onSubmit">
         <div role="alert" class="alert alert-danger" v-if="isError">
           <div class="alert-text">
-            Lorem dsafjsadkjfsdafja sdfjsdafjsadl fjasdfjasdlf j
+            <strong>Login gagal</strong> <br />
+            Pastikan email & password sudah benar!
           </div>
         </div>
 
@@ -88,13 +89,15 @@
         <div
           class="form-group d-flex flex-wrap justify-content-between align-items-center"
         >
-          <a
-            href="#"
-            class="text-dark-60 text-hover-primary my-3 mr-2"
-            id="kt_login_forgot"
+          <router-link :to="{ name: 'email' }"
+            ><a
+              href="#"
+              class="text-dark-60 text-hover-primary my-3 mr-2"
+              id="kt_login_forgot"
+            >
+              Forgot Password ?
+            </a></router-link
           >
-            Forgot Password ?
-          </a>
           <button
             ref="kt_login_signin_submit"
             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
@@ -135,7 +138,10 @@ import {
   saveRole,
   saveEmail,
   saveHotelId,
-  saveHotelprovince, saveHotelCity, saveHotelDistrict, saveHotelSubdistrict
+  saveHotelprovince,
+  saveHotelCity,
+  saveHotelDistrict,
+  saveHotelSubdistrict
 } from "@/service/jwt.service";
 
 export default {
@@ -277,3 +283,38 @@ export default {
   }
 };
 </script>
+<style>
+.btn-orange {
+  color: #fff;
+  background-color: #DC822A;
+  border-color: #DC822A;
+  font-family: sans-serif;
+}
+
+.btn-orange :hover {
+  color: #fff;
+  background-color: #DC822A;
+  border-color: #DC822A;
+}
+
+.btn-orange :active {
+  color: #fff !important;
+  background-color: #DC822A !important;
+  border-color: #DC822A !important;
+}
+
+.btn-orange :focus,
+.btn-orange .focus {
+  color: #fff;
+  background-color: #DC822A;
+  border-color: #DC822A;
+  box-shadow: 0 0 0 0.2rem rgba(238, 179, 90, 0.589);
+}
+
+.btn-orange .disabled,
+.btn-orange :disabled {
+  color: #fff;
+  background-color: #DC822A;
+  border-color:#DC822A;
+}
+</style>
