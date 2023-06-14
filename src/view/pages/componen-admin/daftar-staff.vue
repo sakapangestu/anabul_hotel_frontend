@@ -25,7 +25,7 @@ export default {
       show: false,
       series: [
         {
-          name: "Jumlah Peliharaan",
+          name: "Jumlah Daftar Staff",
           data: []
         }
       ],
@@ -47,23 +47,22 @@ export default {
           categories: []
         }
       },
-      toplayanan: {},
+      daftarStaff: {},
       hotelId: ""
     };
   },
   methods: {
-    fetchTopLayanan() {
+    fetchDaftarStaff() {
       this.$api
-        .get(`dashboard/topService?hotel_id=${getHotelId()}`)
+        .get(`dashboard/staff/top`)
         .then(res => {
-          this.toplayanan = res.data.data ? res.data.data : {};
-          console.log(res.data.data);
-          // this.toplayanan.map(e => {
-          //   // console.log(e);
-          //   this.series[0].data.push(e.total);
-          //   this.chartOptions.xaxis.categories.push(e.name);
-          //   this.show = true;
-          // });
+          this.daftarStaff = res.data.data ? res.data.data : {};
+          console.log(this.daftarStaff);
+          this.daftarStaff.map(e => {
+            this.series[0].data.push(e.total);
+            this.chartOptions.xaxis.categories.push(e.name);
+            this.show = true;
+          });
         })
         .catch(err => {
           console.error(err);
@@ -72,7 +71,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchTopLayanan();
+    this.fetchDaftarStaff();
     this.hotelId = getHotelId();
   }
 };

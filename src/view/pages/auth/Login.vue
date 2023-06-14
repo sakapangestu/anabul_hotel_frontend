@@ -141,7 +141,8 @@ import {
   saveHotelprovince,
   saveHotelCity,
   saveHotelDistrict,
-  saveHotelSubdistrict
+  saveHotelSubdistrict,
+  getRole
 } from "@/service/jwt.service";
 
 export default {
@@ -224,6 +225,7 @@ export default {
               saveHotelSubdistrict(res.data.data.subdistrict_id);
               // localStorage.setItem("token", res.data.data.token);
               localStorage.setItem("isAuthenticated", true);
+
               if (res.data.data.role === "Super Admin") {
                 this.$router.push({ name: "dashboard" });
                 Swal.fire({
@@ -245,6 +247,7 @@ export default {
                   timer: 1500
                 });
               }
+              window.location.reload();
               // this.$store.commit("setAuth", res.data);
             } else {
               this.isError = true;
@@ -280,41 +283,52 @@ export default {
     ...mapState({
       errors: state => state.auth.errors
     })
+  },
+  mounted() {
+    const isAuthenticated = localStorage.getItem("isAuthenticated");
+    if (isAuthenticated) {
+      const role = getRole();
+      if (role === "Super Admin") {
+        this.$router.push({ name: "dashboard" });
+      } else if (role === "Admin") {
+        this.$router.push({ name: "Dashboard-Admin" });
+      }
+    }
   }
 };
 </script>
 <style>
 .btn-orange {
   color: #fff;
-  background-color: #DC822A;
-  border-color: #DC822A;
+  background-color: #dc822a;
+  border-color: #dc822a;
   font-family: sans-serif;
 }
 
 .btn-orange :hover {
   color: #fff;
-  background-color: #DC822A;
-  border-color: #DC822A;
+  background-color: #dc822a;
+  border-color: #dc822a;
 }
 
 .btn-orange :active {
   color: #fff !important;
-  background-color: #DC822A !important;
-  border-color: #DC822A !important;
+  background-color: #dc822a !important;
+  border-color: #dc822a !important;
 }
 
 .btn-orange :focus,
 .btn-orange .focus {
   color: #fff;
-  background-color: #DC822A;
-  border-color: #DC822A;
+  background-color: #dc822a;
+  border-color: #dc822a;
   box-shadow: 0 0 0 0.2rem rgba(238, 179, 90, 0.589);
 }
 
 .btn-orange .disabled,
 .btn-orange :disabled {
   color: #fff;
-  background-color: #DC822A;
-  border-color:#DC822A;
+  background-color: #dc822a;
+  border-color: #dc822a;
 }
 </style>

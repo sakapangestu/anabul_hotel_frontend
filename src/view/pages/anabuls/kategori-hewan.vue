@@ -79,8 +79,8 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Kelas Hewan</b-th>
                   <b-th>Kategori Hewan</b-th>
+                  <b-th>Kelas Hewan</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -89,8 +89,8 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.class.name }}</b-td>
                   <b-td>{{ item.name }}</b-td>
+                  <b-td>{{ item.class.name }}</b-td>
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->

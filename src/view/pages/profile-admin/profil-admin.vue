@@ -305,7 +305,7 @@ import {
   saveImage,
   saveName,
   saveRole,
-  saveToken
+  // saveToken
 } from "@/service/jwt.service";
 
 export default {
@@ -402,9 +402,7 @@ export default {
       });
     },
     featchDistrict(city = this.profiladmin.city_id) {
-      this.$api
-          .get(`district/all?cityId=${city}`)
-          .then(res => {
+      this.$api.get(`district/all?cityId=${city}`).then(res => {
         this.districts = res.data.data.data ? res.data.data.data : [];
       });
     },
@@ -425,14 +423,8 @@ export default {
       this.$api
         .get(`user/profile`)
         .then(res => {
-          // console.log(res)
           this.profiladmin = res.data.data ? res.data.data : {};
-          // this.profiladmin.phone = parseInt(this.profiladmin.phone)
           console.log(this.profiladmin);
-          // this.page = res.data.data.paginate.page;
-          // this.perPage = res.data.data.paginate.perPage;
-          // this.totalData = res.data.data.paginate.totalData;
-          // this.totalPage = res.data.data.paginate.totalPage;
         })
         .catch(err => {
           console.error(err);
@@ -506,7 +498,17 @@ export default {
         .then(res => {
           if (res.status === 200) {
             this.fetchProfilAdmin();
-            saveToken(res.data.data.token);
+            Swal.fire({
+              icon: "success",
+              title: "Edit Berhasil",
+              text: "Data berhasil diedit",
+              width: "28em",
+              showCloseButton: false,
+              showCancelButton: false,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            // saveToken(res.data.data.token);
             saveImage(res.data.data.image);
             saveName(res.data.data.name);
             saveRole(res.data.data.role);
@@ -516,6 +518,7 @@ export default {
             saveHotelCity(res.data.data.city_id);
             saveHotelDistrict(res.data.data.district_id);
             saveHotelSubdistrict(res.data.data.subdistrict_id);
+            window.location.reload();
             // this.$bvModal.hide("modal-category");
             // this.toastAlert("update");
           }
@@ -590,15 +593,7 @@ export default {
       window.location.reload();
     }
   },
-  created() {
-    this.fetchProfilAdmin();
-  },
   mounted() {
-    // this.profiladmin.province_id = getHotelprovince();
-    // this.profiladmin.city_id = getHotelCity();
-    // this.profiladmin.district_id = getHotelDistrict();
-    // this.profiladmin.subdistrict_id = getHotelSubdistrict();
-
     // set the tab from previous
     this.setActivePreviousTab();
 
@@ -612,6 +607,7 @@ export default {
       });
     });
     // await this.fetchProfilAdmin();
+    this.fetchProfilAdmin();
     this.featchProvince();
     this.featchCity(getHotelprovince());
     this.featchDistrict(getHotelCity());

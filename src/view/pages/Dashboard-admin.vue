@@ -130,8 +130,8 @@
             <div class="card col-6">
               <b-col class="card-body" sm="8">
                 <div id="chart">
-                  <a>10 JUMLAH LAYANAN TERBANYAK </a>
-                  <layananTerbanyak></layananTerbanyak>
+                  <a>DAFTAR STAFF </a>
+                  <daftarStaff></daftarStaff>
                 </div>
               </b-col>
             </div>
@@ -170,7 +170,7 @@ import { getHotelId } from "@/service/jwt.service";
 import Jmlhtransaksidate from "@/view/pages/componen-admin/jmltransaksi-date";
 import JmlhtransaksiMountahyear from "@/view/pages/componen-admin/jmlhtransaksi-mountahyear";
 import PeliharaanTerbanyak from "@/view/pages/componen-admin/peliharaan-terbanyak";
-import layananTerbanyak from "@/view/pages/componen-admin/layanan-terbanyak";
+import daftarStaff from "@/view/pages/componen-admin/daftar-staff";
 import produkTerbanyak from "@/view/pages/componen-admin/produk-terbanyak";
 import jmlhkandangStatus from "@/view/pages/componen-admin/jmlhkandang-status";
 export default {
@@ -181,7 +181,7 @@ export default {
     Jmlhtransaksidate,
     JmlhtransaksiMountahyear,
     PeliharaanTerbanyak,
-    layananTerbanyak,
+    daftarStaff,
     produkTerbanyak,
     jmlhkandangStatus
   },

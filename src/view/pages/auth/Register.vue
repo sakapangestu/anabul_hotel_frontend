@@ -28,92 +28,59 @@
       <!--begin::Form-->
       <b-form class="form" @submit.stop.prevent="onSubmit">
         <div class="row">
-          <div class="col-6">
+          <div class="col-4">
             <b-form-group
-              id="example-input-group-0"
-              label=""
-              label-for="example-input-0"
+              label="Name Hotel"
+              label-for="name-input"
+              invalid-feedback="Name Wajib Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
-                id="example-input-0"
-                name="example-input-0"
-                v-model="$v.form.hotel_name.$model"
-                :state="validateState('hotel_name')"
-                aria-describedby="input-0-live-feedback"
-                placeholder="Nama Hotel"
+                id="name-input"
+                type="text"
+                v-model="form.hotel_name"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-0-live-feedback">
-                Nama Hotel Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
-
             <b-form-group
-              id="example-input-group-1"
-              label=""
-              label-for="example-input-1"
+              label="Email Hotel"
+              label-for="name-input"
+              invalid-feedback="Email Hotel Wajib Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
-                id="example-input-1"
-                name="example-input-1"
-                v-model="$v.form.hotel_email.$model"
-                :state="validateState('hotel_email')"
-                aria-describedby="input-1-live-feedback"
-                placeholder="Email"
+                id="name-input"
+                type="email"
+                v-model="form.hotel_email"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-1-live-feedback">
-                Email Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
-
             <b-form-group
-              id="example-input-group-2"
-              label=""
-              label-for="example-input-2"
+              label="No Hp Hotel"
+              label-for="name-input"
+              invalid-feedback="No Hp Wajib Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
                 type="number"
-                id="example-input-2"
-                name="example-input-2"
-                v-model="$v.form.hotel_phone.$model"
-                :state="validateState('hotel_phone')"
-                aria-describedby="input-2-live-feedback"
-                placeholder="No Telepon Hotel"
+                id="name-input"
+                v-model="form.hotel_phone"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-2-live-feedback">
-                No Telepon Hotel Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
-
             <b-form-group
-              id="example-input-group-3"
-              label=""
-              label-for="example-input-3"
+              label="NPWP"
+              label-for="name-input"
+              invalid-feedback="NPWP Wajib Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
                 type="number"
-                id="example-input-3"
-                name="example-input-3"
-                v-model="$v.form.npwp.$model"
-                :state="validateState('npwp')"
-                aria-describedby="input-3-live-feedback"
-                placeholder="NPWP"
+                id="name-input"
+                v-model="form.npwp"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-2-live-feedback">
-                NPWP Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
-              id="example-input-group-4"
-              label=""
-              label-for="example-input-4"
+              label="KTP"
+              label-for="name-input"
+              invalid-feedback="KTP Wajib Di Isi"
             >
               <input
                 type="file"
@@ -122,105 +89,120 @@
                 v-on:change="handleKtp()"
               />
             </b-form-group>
+          </div>
 
+          <div class="col-4">
             <b-form-group
-              id="example-input-group-11"
-              label=""
-              label-for="example-input-11"
+              label="Provinsi Hotel"
+              label-for="name-input"
+              invalid-feedback="Provinsi Wajib Di Isi"
+            >
+              <b-form-select
+                v-model="form.hotel_province"
+                @change="resetProvince"
+                :label-field="provinces.name"
+                value-field="id_province"
+                text-field="name"
+                :options="provinces"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
+              label="Kota Hotel"
+              label-for="name-input"
+              invalid-feedback="Kota Wajib Di Isi"
+            >
+              <b-form-select
+                v-model="form.hotel_city"
+                @change="fetchDistrict"
+                :label-field="cities.name"
+                value-field="id_city"
+                text-field="name"
+                :options="cities"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
+              label="Kecematan Hotel"
+              label-for="name-input"
+              invalid-feedback="Kecamatan Wajin Di Isi"
+            >
+              <b-form-select
+                v-model="form.hotel_district"
+                @change="fetchSubdistrict"
+                :label-field="districts.name"
+                value-field="id_district"
+                text-field="name"
+                :options="districts"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
+              label="Kelurahan Hotel"
+              label-for="name-input"
+              invalid-feedback="Kelurahan Wajib Di Isi"
+            >
+              <b-form-select
+                v-model="form.hotel_subdistrict"
+                :label-field="subdistricts.name"
+                value-field="id_subdistrict"
+                text-field="name"
+                :options="subdistricts"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
+              label="Alamat"
+              label-for="name-input"
+              invalid-feedback="Alamat Wajib Di Isi"
             >
               <b-form-textarea
-                id="example-input-11"
-                name="example-input-11"
-                v-model="$v.form.hotel_address.$model"
-                placeholder="Masukkan Alamat..."
-                :state="validateState('hotel_address')"
-                aria-describedby="input-11-live-feedback"
+                id="textarea"
+                v-model="form.hotel_address"
+                placeholder="Masukkan Alamat Hotel..."
                 rows="3"
                 max-rows="6"
                 required
               ></b-form-textarea>
-              <!--              <b-form-input-->
-              <!--                class="form-control form-control-solid h-auto py-5 px-6"-->
-              <!--                type="number"-->
-              <!--                id="example-input-11"-->
-              <!--                name="example-input-11"-->
-              <!--                v-model="$v.form.hotel_address.$model"-->
-              <!--                :state="validateState('hotel_address')"-->
-              <!--                aria-describedby="input-11-live-feedback"-->
-              <!--                placeholder="Alamat"-->
-              <!--              ></b-form-input>-->
-
-              <b-form-invalid-feedback id="input-11-live-feedback">
-                Alamat Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
           </div>
-
-          <div class="col-6 float-right">
+          <div class="col-4">
             <b-form-group
-              id="example-input-group-5"
-              label=""
-              label-for="example-input-5"
+              label="Name Admin"
+              label-for="name-input"
+              invalid-feedback="Name Admin Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
-                id="example-input-5"
-                name="example-input-5"
-                v-model="$v.form.admin_name.$model"
-                :state="validateState('admin_name')"
-                aria-describedby="input-5-live-feedback"
-                placeholder="Nama Admin"
+                id="name-input"
+                type="text"
+                v-model="form.admin_name"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-5-live-feedback">
-                Nama Admin Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
-
             <b-form-group
-              id="example-input-group-6"
-              label=""
-              label-for="example-input-6"
+              label="No Hp Admin"
+              label-for="name-input"
+              invalid-feedback="No Hp Admin Wajib Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
                 type="number"
-                id="example-input-6"
-                name="example-input-6"
-                v-model="$v.form.admin_phone.$model"
-                :state="validateState('admin_phone')"
-                aria-describedby="input-6-live-feedback"
-                placeholder="No Telepon Admin"
+                id="name-input"
+                v-model="form.admin_phone"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-6-live-feedback">
-                No Telepon Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
-              id="example-input-group-7"
-              label=""
-              label-for="example-input-7"
+              label="NIK Admin"
+              label-for="name-input"
+              invalid-feedback="No Hp Admin Wajib Di Isi"
             >
               <b-form-input
-                class="form-control form-control-solid h-auto py-5 px-6"
                 type="number"
-                id="example-input-7"
-                name="example-input-7"
-                v-model="$v.form.nik.$model"
-                :state="validateState('nik')"
-                aria-describedby="input-7-live-feedback"
-                placeholder="NIK"
+                id="name-input"
+                v-model="form.nik"
+                required
               ></b-form-input>
-
-              <b-form-invalid-feedback id="input-6-live-feedback">
-                NIK Wajib Diisi.
-              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group
-              id="example-input-group-8"
-              label=""
-              label-for="example-input-8"
+              label="Dokumen SIUP/AKTE/NIB"
+              label-for="name-input"
+              invalid-feedback="Dokumen SIUP/AKTE/NIB Wajib Di Isi"
             >
               <input
                 type="file"
@@ -229,11 +211,10 @@
                 v-on:change="handleDocument()"
               />
             </b-form-group>
-
             <b-form-group
-              id="example-input-group-9"
-              label=""
-              label-for="example-input-9"
+              label="Selfie Admin"
+              label-for="name-input"
+              invalid-feedback="Selfie Admin Wajib Di Isi"
             >
               <input
                 type="file"
@@ -243,9 +224,9 @@
               />
             </b-form-group>
             <b-form-group
-              id="example-input-group-10"
-              label=""
-              label-for="example-input-10"
+              label="Foto Hotel"
+              label-for="name-input"
+              invalid-feedback="Foto Hotel Wajib Di Isi"
             >
               <input
                 type="file"
@@ -304,7 +285,7 @@
 import { mapState } from "vuex";
 import { LOGOUT } from "@/core/services/store/auth.module";
 import { validationMixin } from "vuelidate";
-import { email, required, minLength } from "vuelidate/lib/validators";
+// import { email, required, minLength } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 // import { saveToken } from "@/service/jwt.service";
 export default {
@@ -320,6 +301,10 @@ export default {
         hotel_image: null,
         hotel_address: "",
         npwp: "",
+        hotel_province: "",
+        hotel_city: "",
+        hotel_district: "",
+        hotel_subdistrict: "",
         document: null,
         admin_name: "",
         admin_phone: "",
@@ -329,52 +314,74 @@ export default {
       },
       loading: false,
       isError: false,
-      uploadedFiles: []
+      uploadedFiles: [],
+      provinces: [],
+      cities: [],
+      districts: [],
+      subdistricts: []
     };
   },
   components: {
     // Dropzone
   },
-  validations: {
-    form: {
-      hotel_name: {
-        required,
-        minLength: minLength(3)
-      },
-      hotel_email: {
-        required,
-        email
-      },
-      hotel_phone: {
-        required,
-        minLength: minLength(11)
-      },
-      npwp: {
-        required,
-        minLength: minLength(16)
-      },
-      admin_name: {
-        required,
-        minLength: minLength(3)
-      },
-      admin_phone: {
-        required,
-        minLength: minLength(11)
-      },
-      nik: {
-        required,
-        minLength: minLength(16)
-      },
-      hotel_address: {
-        required
-      }
-      // password: {
-      //   required,
-      //   minLength: minLength(3)
-      // }
-    }
-  },
+  // validations: {
+  //   form: {
+  //     hotel_name: {
+  //       required,
+  //       minLength: minLength(3)
+  //     },
+  //     hotel_email: {
+  //       required,
+  //       email
+  //     },
+  //     hotel_phone: {
+  //       required,
+  //       minLength: minLength(11)
+  //     },
+  //     npwp: {
+  //       required,
+  //       minLength: minLength(16)
+  //     },
+  //     admin_name: {
+  //       required,
+  //       minLength: minLength(3)
+  //     },
+  //     admin_phone: {
+  //       required,
+  //       minLength: minLength(11)
+  //     },
+  //     nik: {
+  //       required,
+  //       minLength: minLength(16)
+  //     },
+  //     hotel_address: {
+  //       required
+  //     },
+  //     hotel_province: {
+  //       required
+  //     },
+  //     hotel_city: {
+  //       required
+  //     },
+  //     hotel_district: {
+  //       required
+  //     },
+  //     hotel_subdistrict: {
+  //       required
+  //     }
+  // password: {
+  //   required,
+  //   minLength: minLength(3)
+  // }
+  // }
+  // },
   methods: {
+    resetProvince() {
+      this.form.hotel_city = "";
+      this.form.hotel_subdistrict = "";
+      this.form.hotel_district = "";
+      this.fetchCity(this.form.hotel_province);
+    },
     handleKtp() {
       // console.log("KTP");
       // console.log(this.$refs.ktp.files[0]);
@@ -395,41 +402,98 @@ export default {
       // console.log(this.$refs);
       this.form.hotel_image = this.$refs.hotel_image.files[0];
     },
-    validateState(name) {
-      const { $dirty, $error } = this.$v.form[name];
-      return $dirty ? !$error : null;
-    },
-    resetForm() {
-      this.form = {
-        hotel_name: null,
-        hotel_email: null,
-        hotel_phone: null,
-        hotel_address: null,
-        hotel_image: null,
-        npwp: null,
-        document: null,
-        admin_name: null,
-        admin_phone: null,
-        nik: null,
-        ktp: null,
-        selfie: null
-      };
-
-      this.$nextTick(() => {
-        this.$v.$reset();
-      });
-    },
+    // validateState(name) {
+    //   const { $dirty, $error } = this.$v.form[name];
+    //   return $dirty ? !$error : null;
+    // },
+    // resetForm() {
+    //   this.form = {
+    //     hotel_name: null,
+    //     hotel_email: null,
+    //     hotel_phone: null,
+    //     hotel_address: null,
+    //     hotel_image: null,
+    //     hotel_province: null,
+    //     hotel_subdistrict: null,
+    //     hotel_district: null,
+    //     hotel_city: null,
+    //     npwp: null,
+    //     document: null,
+    //     admin_name: null,
+    //     admin_phone: null,
+    //     nik: null,
+    //     ktp: null,
+    //     selfie: null
+    //   };
+    //
+    //   // this.$nextTick(() => {
+    //   //   // this.$v.$reset();
+    //   // });
+    // },
     cek() {
       console.log(this.form);
+    },
+    fetchProvinces() {
+      this.resetProvince();
+      this.$api
+        .get(`province/all`)
+        .then(res => {
+          this.provinces = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchCity(province = this.form.hotel_province) {
+      this.$api
+        .get(`city/all?provinceId=${province}`)
+        .then(res => {
+          this.cities = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchDistrict(city = this.form.hotel_city) {
+      this.$api
+        .get(`district/all?cityId=${city}`)
+        .then(res => {
+          this.districts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchSubdistrict(district = this.form.hotel_district) {
+      this.$api
+        .get(`subdistrict/all?districtId=${district}`)
+        .then(res => {
+          this.subdistricts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
     },
     onSubmit() {
       this.form.hotel_phone = parseInt(this.form.hotel_phone);
       this.form.admin_phone = parseInt(this.form.admin_phone);
+      this.form.hotel_province = parseInt(this.form.hotel_province);
+      this.form.hotel_city = parseInt(this.form.hotel_city);
+      this.form.hotel_district = parseInt(this.form.hotel_district);
+      this.form.hotel_subdistrict = parseInt(this.form.hotel_subdistrict);
       this.form.nik = parseInt(this.form.nik);
-      this.$v.form.$touch();
-      if (this.$v.form.$anyError) {
-        return;
-      }
+      // this.$v.form.$touch();
+      // if (this.$v.form.$anyError) {
+      //   return;
+      // }
       // clear existing errors
       this.$store.dispatch(LOGOUT);
 
@@ -456,6 +520,10 @@ export default {
           formData.append("document", this.$refs.docs.files[0]);
         formData.append("admin_name", this.form.admin_name);
         formData.append("admin_phone", this.form.admin_phone);
+        formData.append("hotel_province", this.form.hotel_province);
+        formData.append("hotel_city", this.form.hotel_city);
+        formData.append("hotel_district", this.form.hotel_district);
+        formData.append("hotel_subdistrict", this.form.hotel_subdistrict);
         formData.append("nik", this.form.nik);
         if (this.$refs.ktp.files[0] !== undefined)
           formData.append("ktp", this.$refs.ktp.files[0]);
@@ -493,7 +561,7 @@ export default {
             this.loading = false;
             this.isError = true;
             this.form.password = "";
-            this.$v.$reset();
+            // this.$v.$reset();
             if (
               !err.message === "Request failed with status code 404" ||
               !err.message === "Request failed with status code 400"
@@ -513,6 +581,12 @@ export default {
     ...mapState({
       errors: state => state.auth.errors
     })
+  },
+  mounted() {
+    this.fetchProvinces();
+    this.fetchCity();
+    this.fetchDistrict();
+    this.fetchSubdistrict();
   }
 };
 </script>

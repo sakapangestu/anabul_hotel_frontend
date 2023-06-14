@@ -138,7 +138,7 @@
                     :disabled="isDetail"
                     v-model="addForm.subdistrict_id"
                     :label-field="subdistricts.name"
-                    value-field="id_district"
+                    value-field="id_subdistrict"
                     text-field="name"
                     :options="subdistricts"
                   ></b-form-select>
@@ -209,40 +209,40 @@
                     required
                   ></b-form-textarea>
                 </b-form-group>
-                <b-form-group
-                  label="Syarat Penitipan"
-                  label-for="name-input"
-                  invalid-feedback="species is required"
-                  :state="nameState"
-                >
-                  <b-form-textarea
-                    id="textarea"
-                    v-model="addForm.requirement"
-                    placeholder="Enter something..."
-                    :state="nameState"
-                    rows="3"
-                    max-rows="6"
-                    :disabled="isDetail"
-                    required
-                  ></b-form-textarea>
-                </b-form-group>
-                <b-form-group
-                  label="Peraturan"
-                  label-for="name-input"
-                  invalid-feedback="species is required"
-                  :state="nameState"
-                >
-                  <b-form-textarea
-                    id="textarea"
-                    v-model="addForm.regulation"
-                    placeholder="Enter something..."
-                    :state="nameState"
-                    rows="3"
-                    max-rows="6"
-                    :disabled="isDetail"
-                    required
-                  ></b-form-textarea>
-                </b-form-group>
+                <!--                <b-form-group-->
+                <!--                  label="Syarat Penitipan"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="species is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-textarea-->
+                <!--                    id="textarea"-->
+                <!--                    v-model="addForm.requirement"-->
+                <!--                    placeholder="Enter something..."-->
+                <!--                    :state="nameState"-->
+                <!--                    rows="3"-->
+                <!--                    max-rows="6"-->
+                <!--                    :disabled="isDetail"-->
+                <!--                    required-->
+                <!--                  ></b-form-textarea>-->
+                <!--                </b-form-group>-->
+                <!--                <b-form-group-->
+                <!--                  label="Peraturan"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="species is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-textarea-->
+                <!--                    id="textarea"-->
+                <!--                    v-model="addForm.regulation"-->
+                <!--                    placeholder="Enter something..."-->
+                <!--                    :state="nameState"-->
+                <!--                    rows="3"-->
+                <!--                    max-rows="6"-->
+                <!--                    :disabled="isDetail"-->
+                <!--                    required-->
+                <!--                  ></b-form-textarea>-->
+                <!--                </b-form-group>-->
                 <b-form-group
                   label="Gambar Hotel "
                   label-for="name-input"
@@ -301,15 +301,13 @@
                     "
                     :state="nameState"
                     required
-                  ></b-link>
-                  {{
-                    addForm.documentName
-                      ? addForm.documentName
-                      : addForm.document
-                  }}
-                  <!--                  <span v-if="addForm.documentName">-->
-                  <!--                    {{  }}-->
-                  <!--                  </span>-->
+                  >
+                    {{
+                      addForm.documentName
+                        ? addForm.documentName
+                        : addForm.document
+                    }}
+                  </b-link>
                   <br />
                   <input
                     type="file"
@@ -328,30 +326,6 @@
                 >
               </b-form>
             </b-modal>
-            <!--            <b-modal-->
-            <!--              id="modal-prevent-closing"-->
-            <!--              ref="modal"-->
-            <!--              title="Submit Your Name"-->
-            <!--              @show="resetModal"-->
-            <!--              @hidden="resetModal"-->
-            <!--              @ok="handleOk"-->
-            <!--            >-->
-            <!--              <form ref="form" @submit.stop.prevent="handleSubmit">-->
-            <!--                <b-form-group-->
-            <!--                  label="Name"-->
-            <!--                  label-for="name-input"-->
-            <!--                  invalid-feedback="Name is required"-->
-            <!--                  :state="nameState"-->
-            <!--                >-->
-            <!--                  <b-form-input-->
-            <!--                    id="name-input"-->
-            <!--                    v-model="addForm.name"-->
-            <!--                    :state="nameState"-->
-            <!--                    required-->
-            <!--                  ></b-form-input>-->
-            <!--                </b-form-group>-->
-            <!--              </form>-->
-            <!--            </b-modal>-->
           </div>
         </div>
       </div>
@@ -371,6 +345,7 @@
                   <b-th>Provinsi</b-th>
                   <b-th>Kota</b-th>
                   <b-th>Kecamatan</b-th>
+                  <b-th>Kelurahan</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -379,7 +354,7 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>
+                  <b-td v-if="item.image">
                     <div class="table-img">
                       <img
                         :src="
@@ -389,18 +364,25 @@
                       />
                     </div>
                   </b-td>
+                  <b-td v-else>
+                    <div class="table-img">
+                      <img src="@/assets/image/default_pet.png" />
+                    </div>
+                  </b-td>
                   <b-td
                     >{{ item.name }} <br />
                     {{ item.no_hp }}</b-td
                   >
                   <b-td>{{ item.email }}</b-td>
-                  <b-td v-if="item.province">{{
-                    item.province.province_name
-                  }}</b-td>
+                  <b-td v-if="item.province">{{ item.province.name }}</b-td>
                   <b-td v-else>-</b-td>
                   <b-td v-if="item.city">{{ item.city.name }}</b-td>
                   <b-td v-else>-</b-td>
                   <b-td v-if="item.district">{{ item.district.name }} </b-td>
+                  <b-td v-else>-</b-td>
+                  <b-td v-if="item.subdistrict"
+                    >{{ item.subdistrict.name }}
+                  </b-td>
                   <b-td v-else>-</b-td>
                   <b-td class="action-cols">
                     <span class="action-button">
@@ -548,9 +530,9 @@ export default {
         open_time: "",
         close_time: "",
         map_link: "",
-        requirement: "",
-        description: "",
-        regulation: ""
+        // requirement: "",
+        description: ""
+        // regulation: ""
       }
       // validations: {
       //   addForm: {
@@ -564,7 +546,7 @@ export default {
       this.addForm.city_id = "";
       this.addForm.subdistrict_id = "";
       this.addForm.district_id = "";
-      this.featchCity(this.addForm.province_id);
+      this.fetchCity(this.addForm.province_id);
     },
     handleDocument() {
       // console.log("DOKUMEN");
@@ -642,6 +624,7 @@ export default {
       this.$refs["my-modal"].hide();
     },
     fetchHotel(page = 1) {
+      // console.log()
       this.$api
         .get(
           `hotel/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
@@ -667,20 +650,28 @@ export default {
       }
       this.fetchHotel();
     },
-    onDetail(data) {
+    async onDetail(data) {
       this.showModal();
+      await this.fetchProvinces();
+      await this.fetchCity(data.province_id);
+      await this.fetchDistrict(data.city_id);
+      await this.fetchSubdistrict(data.district_id);
       this.isDetail = true;
       this.isEdit = false;
       this.modalTitle = `${data.name} Details`;
       this.addForm = Object.assign({}, data);
     },
-    onEdit(data) {
+    async onEdit(data) {
+      // console.log(data);
       this.showModal();
+      await this.fetchProvinces();
+      await this.fetchCity(data.province_id);
+      await this.fetchDistrict(data.city_id);
+      await this.fetchSubdistrict(data.district_id);
       this.isDetail = false;
       this.isEdit = true;
       this.modalTitle = `Edit ${data.name}`;
       this.addForm = Object.assign({}, data);
-      console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -756,15 +747,16 @@ export default {
       formData.append("province_id", this.addForm.province_id);
       formData.append("city_id", this.addForm.city_id);
       formData.append("district_id", this.addForm.district_id);
+      formData.append("subdistrict_id", this.addForm.subdistrict_id);
       if (this.$refs.image.files[0] !== undefined)
         formData.append("image", this.$refs.image.files[0]);
       formData.append("address", this.addForm.address);
       if (this.$refs.docs.files[0] !== undefined)
         formData.append("document", this.$refs.docs.files[0]);
       formData.append("npwp", this.addForm.npwp);
-      formData.append("requirement", this.addForm.requirement);
+      // formData.append("requirement", this.addForm.requirement);
       formData.append("description", this.addForm.description);
-      formData.append("regulation", this.addForm.regulation);
+      // formData.append("regulation", this.addForm.regulation);
       formData.append("open_time", this.addForm.open_time);
       formData.append("close_time", this.addForm.close_time);
       formData.append("close_time", this.addForm.no_hp);
@@ -877,10 +869,6 @@ export default {
   },
   mounted() {
     this.fetchHotel();
-    this.fetchProvinces();
-    this.fetchCity();
-    this.fetchDistrict();
-    this.fetchSubdistrict();
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Pet Hotel" }]);
   }
 };

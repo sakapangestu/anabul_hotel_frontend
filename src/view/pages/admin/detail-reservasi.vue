@@ -24,16 +24,23 @@
             />
           </div>
         </div>
-        <div class="ml-15 col-6 mt-4">
+        <div class="col-5 mt-4">
           <div>
-            <!--            <b-button-->
-            <!--              id="show-btn"-->
-            <!--              @click="showModal"-->
-            <!--              variant="dark"-->
-            <!--              class="float-right"-->
-            <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create-->
-            <!--              Kategori Kandang Hewan</b-button-->
-            <!--            >-->
+            <date-picker
+              v-model="date_reservation"
+              @input="fetchReservasi"
+              range
+            >
+            </date-picker>
+            <button
+              type="button"
+              class="btn btn-sm btn-secondary ml-5"
+              @click="resetReservasi"
+            >
+              <!--      <i class="fa fa-refresh mr-1" aria-hidden="true"></i>-->
+              <i class="fas fa-redo"></i>
+              Reset
+            </button>
             <b-modal ref="my-modal" size="xl" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <div class="row">
@@ -605,6 +612,15 @@
             </b-modal>
           </div>
         </div>
+        <div class="col mt-4 ">
+          <b-button
+            id="export"
+            @click="handleExport"
+            variant="success"
+            class="float-right"
+            ><i class="fas fa-cloud-download-alt"></i> Export
+          </b-button>
+        </div>
       </div>
       <KTCard ref="preview" v-bind:title="title" v-bind:example="true">
         <template v-slot:body>
@@ -840,6 +856,7 @@ export default {
       // Note 'isActive' is left out and will not appear in the rendered table
       reservasi: [],
       hotel: [],
+      date_reservation: [],
       addForm: {
         user: {},
         user_id: "",
@@ -873,6 +890,14 @@ export default {
     };
   },
   methods: {
+    resetReservasi() {
+      this.date_reservation = [];
+      this.date_reservation.push(
+        new Date(Date.now() - 6 * 24 * 60 * 60 * 1000)
+      );
+      this.date_reservation.push(new Date());
+      this.fetchReservasi();
+    },
     HasilPerhitungan() {
       this.addForm.change = this.addForm.payment - this.addForm.total_cost;
     },
@@ -1067,9 +1092,15 @@ export default {
         });
     },
     fetchReservasi(page = 1) {
+      const startDate = moment(String(this.date_reservation[0]))
+        .locale("id")
+        .format("YYYY-MM-DD");
+      const endDate = moment(String(this.date_reservation[1]))
+        .locale("id")
+        .format("YYYY-MM-DD");
       this.$api
         .get(
-          `reservation/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `reservation/all?perPage=${this.perPage}&page=${page}&startDate=${startDate}&endDate=${endDate}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
           this.reservasi = res.data.data.data ? res.data.data.data : [];
@@ -1193,6 +1224,34 @@ export default {
     // handleSubmit() {
     //   console.log(this.petDetails);
     // },
+    handleExport() {
+      this.$api
+        .get(`reservation/export?hotel_id=${this.hotelId}`, {
+          responseType: "blob"
+        })
+        .then(response => {
+          // const outputFilename = "xyzzzz.xls";
+          // fs.writeFileSync(outputFilename, response.data);
+          // return outputFilename;
+          console.log(response);
+          // Let's create a link in the document that we'll
+          // programmatically 'click'.
+          const link = document.createElement("a");
+
+          // Tell the browser to associate the response data to
+          // the URL of the link we created above.
+          link.href = window.URL.createObjectURL(new Blob([response.data]));
+
+          // Tell the browser to download, not render, the file.
+          link.setAttribute("download", "report.xlsx");
+
+          // Place the link in the DOM.
+          document.body.appendChild(link);
+
+          // Make the magic happen!
+          link.click();
+        }); // Please catch me!
+    },
     handleSubmit() {
       // Exit when the form isn't valid
       // if (!this.checkFormValidity()) {
@@ -1332,6 +1391,9 @@ export default {
     }
   },
   mounted() {
+    this.date_reservation.push(new Date(Date.now() - 6 * 24 * 60 * 60 * 1000));
+    this.date_reservation.push(new Date());
+
     this.fetchReservasi();
     this.hotelId = getHotelId();
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Reservasi Hewan" }]);
@@ -1346,5 +1408,8 @@ export default {
 
 .gutter-b {
   margin-bottom: 10px;
+}
+.btn-icon {
+  font-size: 20px;
 }
 </style>

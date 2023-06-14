@@ -1,5 +1,5 @@
 <template>
-<!--  <div class="d-flex flex-column flex-root">-->
+  <!--  <div class="d-flex flex-column flex-root">-->
   <div class="d-flex flex-column flex-root" v-if="isAuthenticated">
     <!-- begin:: Header Mobile -->
     <KTHeaderMobile></KTHeaderMobile>
@@ -84,10 +84,8 @@ export default {
     Loader
   },
   data: () => ({
-        isAuthenticated: localStorage.getItem("isAuthenticated")
-      }
-
-  ),
+    isAuthenticated: localStorage.getItem("isAuthenticated")
+  }),
   beforeMount() {
     // show page loading
     this.$store.dispatch(ADD_BODY_CLASSNAME, "page-loading");

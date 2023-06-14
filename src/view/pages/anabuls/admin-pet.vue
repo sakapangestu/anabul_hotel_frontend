@@ -95,6 +95,69 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
+                  label="Provinsi Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.province_id"
+                    @change="resetProvince"
+                    :label-field="provinces.name"
+                    value-field="id_province"
+                    text-field="name"
+                    :options="provinces"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kota Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.city_id"
+                    @change="fetchDistrict"
+                    :label-field="cities.name"
+                    value-field="id_city"
+                    text-field="name"
+                    :options="cities"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kecematan Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.district_id"
+                    @change="fetchSubdistrict"
+                    :label-field="districts.name"
+                    value-field="id_district"
+                    text-field="name"
+                    :options="districts"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kelurahan Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.subdistrict_id"
+                    :label-field="subdistricts.name"
+                    value-field="id_subdistrict"
+                    text-field="name"
+                    :options="subdistricts"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
                   label="Alamat"
                   label-for="name-input"
                   invalid-feedback="species is required"
@@ -160,17 +223,12 @@
                 >
                   <b-link
                     target="_blank"
-                    :href="
-                      `http://localhost:8080/user/ktp/` + addForm.ktp
-                    "
+                    :href="`http://localhost:8080/user/ktp/` + addForm.ktp"
                   >
                     <div class="table-img1">
                       <img
                         id="ktpimage"
-                        :src="
-                          `http://localhost:8080/user/ktp/` +
-                            addForm.ktp
-                        "
+                        :src="`http://localhost:8080/user/ktp/` + addForm.ktp"
                         alt="KTP"
                       />
                     </div>
@@ -198,8 +256,7 @@
                       <img
                         id="selfieimage"
                         :src="
-                          `http://localhost:8080/user/selfie/` +
-                            addForm.selfie
+                          `http://localhost:8080/user/selfie/` + addForm.selfie
                         "
                         alt="Selfie"
                       />
@@ -255,22 +312,6 @@
                     :options="hotel"
                   ></b-form-select>
                 </b-form-group>
-
-                <!--                {{ ktghewan }}-->
-                <!--                <b-form-group-->
-                <!--                  label="Kategori Hewan"-->
-                <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="class is required"-->
-                <!--                  :state="nameState"-->
-                <!--                >-->
-                <!--                  <b-form-select-->
-                <!--                    v-model="addForm.category_id"-->
-                <!--                    :label-field="ktghewan.name"-->
-                <!--                    value-field="id_category"-->
-                <!--                    text-field="name"-->
-                <!--                    :options="ktghewan"-->
-                <!--                  ></b-form-select>-->
-                <!--                </b-form-group>-->
                 <b-button
                   class="mt-3"
                   type="submit"
@@ -281,30 +322,6 @@
                 >
               </b-form>
             </b-modal>
-            <!--            <b-modal-->
-            <!--              id="modal-prevent-closing"-->
-            <!--              ref="modal"-->
-            <!--              title="Submit Your Name"-->
-            <!--              @show="resetModal"-->
-            <!--              @hidden="resetModal"-->
-            <!--              @ok="handleOk"-->
-            <!--            >-->
-            <!--              <form ref="form" @submit.stop.prevent="handleSubmit">-->
-            <!--                <b-form-group-->
-            <!--                  label="Name"-->
-            <!--                  label-for="name-input"-->
-            <!--                  invalid-feedback="Name is required"-->
-            <!--                  :state="nameState"-->
-            <!--                >-->
-            <!--                  <b-form-input-->
-            <!--                    id="name-input"-->
-            <!--                    v-model="addForm.name"-->
-            <!--                    :state="nameState"-->
-            <!--                    required-->
-            <!--                  ></b-form-input>-->
-            <!--                </b-form-group>-->
-            <!--              </form>-->
-            <!--            </b-modal>-->
           </div>
         </div>
       </div>
@@ -329,7 +346,7 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>
+                  <b-td v-if="item.image">
                     <div class="table-img">
                       <img
                         :src="
@@ -337,6 +354,11 @@
                         "
                         alt="Admin Pet"
                       />
+                    </div>
+                  </b-td>
+                  <b-td v-else>
+                    <div class="table-img">
+                      <img src="@/assets/image/default_user.png" />
                     </div>
                   </b-td>
                   <b-td
@@ -448,7 +470,7 @@ import "vue2-datepicker/index.css";
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import {SET_BREADCRUMB} from "@/core/services/store/breadcrumbs.module";
+import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
     KTCard,
@@ -472,6 +494,10 @@ export default {
       hotel: [],
       // Note 'isActive' is left out and will not appear in the rendered table
       adminPet: [],
+      provinces: [],
+      cities: [],
+      districts: [],
+      subdistricts: [],
       options: [
         { text: "Laki - laki ", value: "Laki-laki" },
         { text: "Perempuan", value: "Perempuan" }
@@ -483,6 +509,10 @@ export default {
         nik: "",
         ktp: "",
         selfie: "",
+        province_id: "",
+        city_id: "",
+        district_id: "",
+        subdistrict_id: "",
         role: "",
         birth_date: "",
         address: "",
@@ -499,6 +529,12 @@ export default {
     };
   },
   methods: {
+    resetProvince() {
+      this.addForm.city_id = "";
+      this.addForm.subdistrict_id = "";
+      this.addForm.district_id = "";
+      this.fetchCity(this.addForm.province_id);
+    },
     showModal() {
       this.$refs["my-modal"].show();
       this.isEdit = false;
@@ -544,6 +580,55 @@ export default {
         this.addForm.image = this.$refs.image.files[0];
       }
     },
+    fetchProvinces() {
+      this.resetProvince();
+      this.$api
+        .get(`province/all`)
+        .then(res => {
+          this.provinces = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchCity(province = this.addForm.province_id) {
+      this.$api
+        .get(`city/all?provinceId=${province}`)
+        .then(res => {
+          this.cities = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchDistrict(city = this.addForm.city_id) {
+      this.$api
+        .get(`district/all?cityId=${city}`)
+        .then(res => {
+          this.districts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchSubdistrict(district = this.addForm.district_id) {
+      this.$api
+        .get(`subdistrict/all?districtId=${district}`)
+        .then(res => {
+          this.subdistricts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
     fetchHotel() {
       this.$api
         .get(`hotel/all`)
@@ -582,20 +667,27 @@ export default {
       }
       this.fetchRequest();
     },
-    onDetail(data) {
+    async onDetail(data) {
       this.showModal();
+      await this.fetchProvinces();
+      await this.fetchCity(data.province_id);
+      await this.fetchDistrict(data.city_id);
+      await this.fetchSubdistrict(data.district_id);
       this.isDetail = true;
       this.modalTitle = `${data.name} Details`;
       this.isEdit = false;
       this.addForm = Object.assign({}, data);
     },
-    onEdit(data) {
+    async onEdit(data) {
       this.showModal();
+      await this.fetchProvinces();
+      await this.fetchCity(data.province_id);
+      await this.fetchDistrict(data.city_id);
+      await this.fetchSubdistrict(data.district_id);
       this.isEdit = true;
       this.isDetail = false;
       this.addForm = Object.assign({}, data);
       this.modalTitle = `Edit ${data.name}`;
-      console.log(data);
     },
     onDelete(id) {
       Swal.fire({
@@ -614,7 +706,7 @@ export default {
             .then(res => {
               if (res.status === 200) {
                 this.fetchRequest();
-                 Swal.fire({
+                Swal.fire({
                   icon: "warning",
                   title: "Hapus Berhasil",
                   text: "Data berhasil dihapus",
@@ -780,7 +872,7 @@ export default {
   mounted() {
     this.fetchRequest();
     this.fetchHotel();
-     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Admin Pet Hotel" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Admin Pet Hotel" }]);
   }
 };
 </script>

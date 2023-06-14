@@ -13,6 +13,7 @@
           <li class="nav-item">
             <a
               class="nav-link active"
+              v-on:click="setActiveTab"
               data-tab="0"
               data-toggle="tab"
               href="#"
@@ -21,18 +22,18 @@
               Profile
             </a>
           </li>
-          <!--          <li class="nav-item">-->
-          <!--            <a-->
-          <!--              class="nav-link"-->
-          <!--              v-on:click="setActiveTab"-->
-          <!--              data-tab="1"-->
-          <!--              data-toggle="tab"-->
-          <!--              href="#"-->
-          <!--              role="tab"-->
-          <!--            >-->
-          <!--              Change Password-->
-          <!--            </a>-->
-          <!--          </li>-->
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              v-on:click="setActiveTab"
+              data-tab="1"
+              data-toggle="tab"
+              href="#"
+              role="tab"
+            >
+              Album Hotel
+            </a>
+          </li>
         </ul>
       </div>
       <!--begin::Form-->
@@ -267,6 +268,55 @@
               </div>
             </form>
           </b-tab>
+          <b-tab>
+            <form @submit.prevent="submitImage">
+              <div class="p-2 pt-4 d-flex align-items-center overflow-auto">
+                <section
+                  v-for="srcold in imageAlbumOld"
+                  :key="srcold.id"
+                  style="position: relative;"
+                  class="text-right"
+                >
+                  <i class="fas fa-times-circle" @click="onDelete(srcold.id_hotel_album)"></i>
+                  <img
+                    style="height: 260px !important;"
+                    class="imageAlbum ml-5"
+                    :src="`http://localhost:8080/hotel/album/` + srcold.image"
+                  />
+                </section>
+              </div>
+              <hr />
+              <H1> Tambah Album Hotel </H1>
+              <div class="p-2 pt-4 d-flex align-items-center overflow-auto">
+                <img
+                  class="mr-2"
+                  v-for="src in imageURLs"
+                  :key="src.id"
+                  style="width: 260px !important;"
+                  :src="src"
+                  id="uploadalbum"
+                  alt=""
+                />
+              </div>
+              <div>
+                <input
+                  type="file"
+                  id="upload-album"
+                  @change="handleAlbumImage()"
+                  ref="albumhotel"
+                  hidden
+                />
+                <label for="upload-album" class="btn btn-warning text-dark">
+                  Add Picture
+                </label>
+              </div>
+              <div class="mt-5 text-right">
+                <button class="btn btn-primary profile-button" type="submit">
+                  Save Image Hotel
+                </button>
+              </div>
+            </form>
+          </b-tab>
         </b-tabs>
       </div>
       <!--end::Form-->
@@ -293,7 +343,8 @@ import {
   saveHotelSubdistrict,
   saveImage,
   saveName,
-  saveToken
+  getHotelId
+  // saveToken
 } from "@/service/jwt.service";
 
 export default {
@@ -342,10 +393,18 @@ export default {
         close_time: "",
         image: ""
       },
+      // changepas: {
+      //   old_password: "",
+      //   new_password: "",
+      //   confirm_password: ""
+      // },
       provinces: [],
       citys: [],
       districts: [],
-      subdistricts: []
+      subdistricts: [],
+      imageURLs: [],
+      imagesAlbumNew: [],
+      imageAlbumOld: []
       // validations: {
       //   addForm: {
       //     name: { required }
@@ -364,6 +423,42 @@ export default {
     localStorage.removeItem("builderTab");
   },
   methods: {
+    onDelete(id) {
+      Swal.fire({
+        icon: "warning",
+        title: "Hapus data ?",
+        text: "Data yang dihapus tidak dapat dikembalikan",
+        width: "28em",
+        showCancelButton: true,
+        confirmButtonText: "Hapus",
+        confirmButtonColor: "#e63b3b",
+        focusCancel: true
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.$api
+            .delete(`hotelAlbum/delete/${id}`)
+            .then(res => {
+              if (res.status === 200) {
+                this.getAlbumHotel();
+                Swal.fire({
+                  icon: "warning",
+                  title: "Hapus Berhasil",
+                  text: "Data berhasil dihapus",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                // this.toastAlert("menghapus");
+              }
+            })
+            .catch(err => {
+              alert(err);
+            });
+        }
+      });
+    },
     resetProvince() {
       this.profilhotel.city_id = "";
       this.profilhotel.subdistrict_id = "";
@@ -403,10 +498,6 @@ export default {
         .then(res => {
           this.profilhotel = res.data.data ? res.data.data : {};
           // console.log(this.profilhotel.id_hotel);
-          // this.page = res.data.data.paginate.page;
-          // this.perPage = res.data.data.paginate.perPage;
-          // this.totalData = res.data.data.paginate.totalData;
-          // this.totalPage = res.data.data.paginate.totalPage;
         })
         .catch(err => {
           console.error(err);
@@ -416,13 +507,76 @@ export default {
     handleImage() {
       var output = document.getElementById("image");
       const file = this.$refs.image.files[0];
-      console.log(file);
+      // console.log(file);
       if (file) {
         output.src = URL.createObjectURL(file);
       } else {
         this.profilhotel.image = this.$refs.image.files[0];
       }
       // this.profilhotel.image = this.$refs.image.files[0];
+    },
+    handleAlbumImage() {
+      const files = this.$refs.albumhotel.files[0];
+      const src = URL.createObjectURL(files);
+      this.imagesAlbumNew.push(files);
+      this.imageURLs.push(src);
+      console.log(this.imagesAlbumNew);
+      console.log(this.imageURLs);
+    },
+    getAlbumHotel() {
+      this.$api
+        .get(`hotelAlbum/all`)
+        .then(res => {
+          this.imageAlbumOld = res.data.data.data ? res.data.data.data : {};
+          console.log(this.imageAlbumOld);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    submitImage() {
+      const config = {
+        headers: { "content-type": "multipart/form-data" }
+      };
+
+      let formData = new FormData();
+      formData.append("hotel_id", getHotelId());
+      this.imagesAlbumNew.map(image => {
+        formData.append("image", image);
+        this.$api
+          .post("hotelAlbum/add", formData, config)
+          .then(res => {
+            if (res.status === 200) {
+              this.imagesAlbumNew = [];
+              this.imageURLs = [];
+              this.getAlbumHotel();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambah",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
+              // saveToken(res.data.data.token);
+            }
+          })
+          .catch(err => {
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode kategori sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
+          });
+      });
     },
     handleSubmit() {
       this.profilhotel.phone = this.profilhotel.phone.toString();
@@ -463,7 +617,17 @@ export default {
         .then(res => {
           if (res.status === 200) {
             this.fetchProfilHotel();
-            saveToken(res.data.data.token);
+            Swal.fire({
+              icon: "success",
+              title: "Edit Berhasil",
+              text: "Data berhasil diedit",
+              width: "28em",
+              showCloseButton: false,
+              showCancelButton: false,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            // saveToken(res.data.data.token);
             saveImage(res.data.data.image);
             saveName(res.data.data.name);
             saveEmail(res.data.data.email);
@@ -472,6 +636,7 @@ export default {
             saveHotelCity(res.data.data.city_id);
             saveHotelDistrict(res.data.data.district_id);
             saveHotelSubdistrict(res.data.data.subdistrict_id);
+            window.location.reload();
           }
         })
         .catch(err => {
@@ -515,23 +680,23 @@ export default {
      * Set current active on click
      * @param event
      */
-    // setActiveTab(event) {
-    //   const tab = event.target.closest('[role="tablist"]');
-    //   const links = tab.querySelectorAll(".nav-link");
-    //   // remove active tab links
-    //   for (let i = 0; i < links.length; i++) {
-    //     links[i].classList.remove("active");
-    //   }
-    //
-    //   // set clicked tab index to bootstrap tab
-    //   this.tabIndex = parseInt(event.target.getAttribute("data-tab"));
-    //
-    //   // set current active tab
-    //   event.target.classList.add("active");
-    //
-    //   // keep active tab
-    //   localStorage.setItem("builderTab", this.tabIndex);
-    // },
+    setActiveTab(event) {
+      const tab = event.target.closest('[role="tablist"]');
+      const links = tab.querySelectorAll(".nav-link");
+      // remove active tab links
+      for (let i = 0; i < links.length; i++) {
+        links[i].classList.remove("active");
+      }
+
+      // set clicked tab index to bootstrap tab
+      this.tabIndex = parseInt(event.target.getAttribute("data-tab"));
+
+      // set current active tab
+      event.target.classList.add("active");
+
+      // keep active tab
+      localStorage.setItem("builderTab", this.tabIndex);
+    },
 
     /**
      * Submit form
@@ -548,12 +713,6 @@ export default {
     this.fetchProfilHotel();
   },
   mounted() {
-    // this.profilhotel.province_id = getHotelprovince();
-    // // console.log(this.profilhotel.provinceId);
-    // this.profilhotel.city_id = getHotelCity();
-    // this.profilhotel.district_id = getHotelDistrict();
-    // this.profilhotel.subdistrict_id = getHotelSubdistrict();
-
     // set the tab from previous
     this.setActivePreviousTab();
 
@@ -567,6 +726,7 @@ export default {
       });
     });
     // this.fetchProfilHotel();
+    this.getAlbumHotel();
     this.featchProvince();
     this.featchCity(getHotelprovince());
     this.featchDistrict(getHotelCity());
@@ -574,3 +734,14 @@ export default {
   }
 };
 </script>
+<style>
+.close {
+  position: absolute;
+  /*z-index: 1;*/
+  right: 0px;
+}
+/*.imageAlbum {*/
+/*  position: relative;*/
+/*  width: 100%;*/
+/*}*/
+</style>

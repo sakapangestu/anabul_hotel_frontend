@@ -57,7 +57,13 @@
         <!--begin::Header-->
         <div class="d-flex align-items-center mt-5">
           <div class="symbol symbol-100 mr-5">
-            <img class="symbol-label" :src="picture" alt="" />
+            <img v-if="image" class="symbol-label" :src="picture" alt="" />
+            <img
+              v-else
+              class="symbol-label"
+              src="@/assets/image/default_user.png"
+              alt=""
+            />
             <i class="symbol-badge bg-success"></i>
           </div>
           <div class="d-flex flex-column">
@@ -102,38 +108,6 @@
         <div class="separator separator-dashed mt-8 mb-5"></div>
         <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
-          <!--begin::Item-->
-          <router-link
-            to="/builder"
-            @click.native="closeOffcanvas"
-            href="#"
-            class="navi-item"
-          >
-            <div class="navi-link">
-              <div class="symbol symbol-40 bg-light mr-3">
-                <div class="symbol-label">
-                  <span class="svg-icon svg-icon-md svg-icon-success">
-                    <!--begin::Svg Icon-->
-                    <inline-svg
-                      src="media/svg/icons/General/Notification2.svg"
-                    />
-                    <!--end::Svg Icon-->
-                  </span>
-                </div>
-              </div>
-              <div class="navi-text">
-                <div class="font-weight-bold">My Profile</div>
-                <div class="text-muted">
-                  Account settings and more
-                  <span
-                    class="label label-light-danger label-inline font-weight-bold"
-                  >
-                    update
-                  </span>
-                </div>
-              </div>
-            </div>
-          </router-link>
           <!--end:Item-->
           <!--begin::Item-->
           <!--          <router-link-->
@@ -271,7 +245,7 @@
 <script>
 // import { LOGOUT } from "@/core/services/store/auth.module";
 import KTLayoutQuickUser from "@/assets/js/layout/extended/quick-user.js";
-import KTOffcanvas from "@/assets/js/components/offcanvas.js";
+// import KTOffcanvas from "@/assets/js/components/offcanvas.js";
 import { getName, getImage, getRole, getEmail } from "@/service/jwt.service";
 
 export default {
@@ -291,21 +265,45 @@ export default {
     this.image = getImage();
     this.role = getRole();
     this.email = getEmail();
+    this.fetchProfilAdmin();
     console.log(this.image);
   },
   methods: {
     onLogout() {
-      this.$router.push({ name: "login" });
-      this.$api.post("auth/logout").then(res => {
-        console.log(res);
-        localStorage.clear();
-      });
+      this.$api
+        .post("auth/logout")
+        .then(res => {
+          console.log(res);
+          localStorage.clear();
+          this.$router.push({ name: "login" });
+        })
+        .catch(() => {
+          localStorage.clear();
+          this.$router.push({ name: "login" });
+        });
       // this.$store
       //   .dispatch(LOGOUT)
       //   .then(() => this.$router.push({ name: "login" }));
     },
-    closeOffcanvas() {
-      new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();
+    // closeOffcanvas() {
+    //   new KTOffcanvas(KTLayoutQuickUser.getElement()).hide();
+    // }
+    fetchProfilAdmin() {
+      this.$api
+        .get(`user/profile`)
+        .then(res => {
+          // console.log(res)
+          this.image = res.data.data ? res.data.data.image : {};
+          // this.profiladmin.phone = parseInt(this.profiladmin.phone)
+          // this.page = res.data.data.paginate.page;
+          // this.perPage = res.data.data.paginate.perPage;
+          // this.totalData = res.data.data.paginate.totalData;
+          // this.totalPage = res.data.data.paginate.totalPage;
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
     }
   },
   computed: {

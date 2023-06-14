@@ -98,6 +98,69 @@
                   >
                 </b-form-group>
                 <b-form-group
+                  label="Provinsi Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.hotel_province"
+                    @change="resetProvince"
+                    :label-field="provinces.name"
+                    value-field="id_province"
+                    text-field="name"
+                    :options="provinces"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kota Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.hotel_city"
+                    @change="fetchDistrict"
+                    :label-field="cities.name"
+                    value-field="id_city"
+                    text-field="name"
+                    :options="cities"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kecematan Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.hotel_district"
+                    @change="fetchSubdistrict"
+                    :label-field="districts.name"
+                    value-field="id_district"
+                    text-field="name"
+                    :options="districts"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
+                  label="Kelurahan Hotel"
+                  label-for="name-input"
+                  invalid-feedback="class is required"
+                  :state="nameState"
+                >
+                  <b-form-select
+                    :disabled="isDetail"
+                    v-model="addForm.hotel_subdistrict"
+                    :label-field="subdistricts.name"
+                    value-field="id_subdistrict"
+                    text-field="name"
+                    :options="subdistricts"
+                  ></b-form-select>
+                </b-form-group>
+                <b-form-group
                   label="Alamat"
                   label-for="name-input"
                   invalid-feedback="Alamat Harus di Isi"
@@ -117,7 +180,7 @@
                 <b-form-group
                   label="Gambar Hotel "
                   label-for="name-input"
-                  invalid-feedback="Alamat Harus di Isi"
+                  invalid-feedback="Gambar Harus di Isi"
                   :state="nameState"
                 >
                   <b-link
@@ -336,18 +399,6 @@
                         alt="detail"
                       />
                     </span>
-                    <!--                    <b-button variant="primary" @click="onEdit"-->
-                    <!--                      >Detail</b-button-->
-                    <!--                    >-->
-                    <!--                    <span class="action-button">-->
-                    <!--                      <img-->
-                    <!--                        class="pointer"-->
-                    <!--                        style="width: 20px"-->
-                    <!--                        @click="onEdit(item)"-->
-                    <!--                        src="@/assets/icon/button/edit.png"-->
-                    <!--                        alt="edit"-->
-                    <!--                      />-->
-                    <!--                    </span>-->
                     <span class="action-button">
                       <img
                         class="pointer"
@@ -448,12 +499,20 @@ export default {
       modalTitle: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       permintaan: [],
+      provinces: [],
+      cities: [],
+      districts: [],
+      subdistricts: [],
       addForm: {
         hotel_name: "",
         hotel_email: "",
         hotel_phone: "",
         hotel_address: "",
         hotel_image: "",
+        hotel_province: "",
+        hotel_city: "",
+        hotel_district: "",
+        hotel_subdistrict: "",
         npwp: "",
         document: "",
         admin_name: "",
@@ -476,6 +535,12 @@ export default {
       this.isEdit = false;
       this.addForm = {};
     },
+    resetProvince() {
+      this.addForm.hotel_city = "";
+      this.addForm.hotel_subdistrict = "";
+      this.addForm.hotel_district = "";
+      this.fetchCity(this.addForm.hotel_province);
+    },
     hideModal() {
       this.$refs["my-modal"].hide();
     },
@@ -488,6 +553,55 @@ export default {
         })
         .then(() => {
           this.fetchRequest();
+        });
+    },
+    fetchProvinces() {
+      this.resetProvince();
+      this.$api
+        .get(`province/all`)
+        .then(res => {
+          this.provinces = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchCity(province = this.addForm.hotel_province) {
+      this.$api
+        .get(`city/all?provinceId=${province}`)
+        .then(res => {
+          this.cities = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchDistrict(city = this.addForm.hotel_city) {
+      this.$api
+        .get(`district/all?cityId=${city}`)
+        .then(res => {
+          this.districts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    fetchSubdistrict(district = this.addForm.hotel_district) {
+      this.$api
+        .get(`subdistrict/all?districtId=${district}`)
+        .then(res => {
+          this.subdistricts = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.ktghewan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
         });
     },
     fetchRequest(page = 1) {
@@ -516,8 +630,12 @@ export default {
       }
       this.fetchRequest();
     },
-    onDetail(data) {
+    async onDetail(data) {
       this.showModal();
+      await this.fetchProvinces();
+      await this.fetchCity(data.hotel_province);
+      await this.fetchDistrict(data.hotel_city);
+      await this.fetchSubdistrict(data.hotel_district);
       this.isDetail = true;
       this.isEdit = false;
       this.modalTitle = `${data.hotel_name} Details`;

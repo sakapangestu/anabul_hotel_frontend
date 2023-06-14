@@ -276,7 +276,7 @@
       aria-haspopup="true"
       data-menu-toggle="hover"
       class="menu-item menu-item-submenu"
-      v-bind:class="{ 'menu-item-open': hasActiveChildren('/kandang/kandang') }"
+      v-bind:class="{ 'menu-item-open': hasActiveChildren('/kandang') }"
     >
       <a href="#" class="menu-link menu-toggle">
         <i class="menu-icon flaticon2-mail-1"></i>
