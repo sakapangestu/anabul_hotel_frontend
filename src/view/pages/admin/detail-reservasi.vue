@@ -970,7 +970,7 @@ export default {
     fetchPet(id) {
       // console.log(this.addForm.user_id);
       this.$api
-        .get(`pet/all?user_id=${id}`)
+        .get(`pet/all?userId=${id}`)
         .then(res => {
           this.pets = res.data.data.data ? res.data.data.data : [];
         })
