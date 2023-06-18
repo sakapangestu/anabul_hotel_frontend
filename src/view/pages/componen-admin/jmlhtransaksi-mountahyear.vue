@@ -104,23 +104,25 @@
           </div>
         </div>
       </div>
-      <button
-        type="button"
-        class="btn btn-sm btn-primary ml-5"
-        @click="fetchTransaksimounthyear"
-      >
-        <i class="fa fa-eye mr-1" aria-hidden="true"></i>
-        View
-      </button>
-      <button
-        type="button"
-        class="btn btn-sm btn-secondary ml-5"
-        @click="resetTransaksimounthyear"
-      >
-        <!--      <i class="fa fa-refresh mr-1" aria-hidden="true"></i>-->
-        <i class="fas fa-redo"></i>
-        Reset
-      </button>
+      <div class="col">
+        <button
+          type="button"
+          class="btn btn-sm btn-primary ml-5"
+          @click="fetchTransaksimounthyear"
+        >
+          <i class="fa fa-eye mr-1" aria-hidden="true"></i>
+          View
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm btn-secondary ml-5"
+          @click="resetTransaksimounthyear"
+        >
+          <!--      <i class="fa fa-refresh mr-1" aria-hidden="true"></i>-->
+          <i class="fas fa-redo"></i>
+          Reset
+        </button>
+      </div>
     </div>
 
     <div id="chart">

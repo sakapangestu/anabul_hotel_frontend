@@ -106,20 +106,6 @@ export default {
   },
   methods: {
     submitPassword() {
-      // this.$v.form.$touch();
-      // if (this.$v.form.$anyError) {
-      //   return;
-      // }
-
-      // const email = this.$v.form.email.$model;
-      // const password = this.$v.form.password.$model;
-
-      // clear existing errors
-
-      // set spinner to submit button
-      // const submitButton = this.$refs["kt_login_signin_submit"];
-      // submitButton.classList.add("spinner", "spinner-light", "spinner-right");
-
       // dummy delay
       setTimeout(() => {
         // send login request

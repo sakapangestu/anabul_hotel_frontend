@@ -245,7 +245,7 @@ export default {
       hotel: [],
       detailKandang: [],
       options: [
-        { text: " Terisi ", value: "Terisi " },
+        { text: "Terisi", value: "Terisi" },
         { text: "Kosong", value: "Kosong" }
       ],
       addForm: {
@@ -263,7 +263,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Detail Golongan Hewan";
+      this.modalTitle = "Tambah Kandang Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};

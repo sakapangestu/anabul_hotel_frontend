@@ -28,7 +28,7 @@
           <div>
             <date-picker
               v-model="date_reservation"
-              @input="fetchReservasi"
+              @input="fetchReservasi()"
               range
             >
             </date-picker>

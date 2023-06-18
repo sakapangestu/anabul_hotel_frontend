@@ -797,12 +797,22 @@ export default {
 
 <style>
 .table-img img {
-  border-radius: 8px;
-  max-height: 5rem;
+  width: 90px; /* Set the width of the image */
+  height: auto; /* Maintain the aspect ratio */
+  border: 2px solid lightgrey;/* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+  margin: 10px; /* Add some margin around the image */
+  padding: 5px; /* Add padding inside the border */
+  background-color: #ebebeb;
 }
 .table-img1 img {
-  border-radius: 25px;
-  max-height: 18rem;
+  width: 90px; /* Set the width of the image */
+  height: auto; /* Maintain the aspect ratio */
+  border: 2px solid #333; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Add a box shadow */
+  margin: 10px; /* Add some margin around the image */
+  padding: 5px; /* Add padding inside the border */
 }
 
 .table-img-1 {
@@ -814,7 +824,5 @@ export default {
   cursor: pointer;
 }
 
-.gutter-b {
-  margin-bottom: 10px;
-}
+
 </style>

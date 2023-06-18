@@ -137,18 +137,6 @@ export default {
   },
   methods: {
     submitReset() {
-      // this.$v.email.$touch();
-      // if (this.$v.email.$anyError) {
-      //   return;
-      // }
-
-      // const email = this.$v.form.email.$model;
-      // const password = this.$v.form.password.$model;
-
-      // clear existing errors
-      // this.$store.dispatch(LOGOUT);
-
-      // set spinner to submit button
       const loginBtn = document.querySelector("#submit-email");
       loginBtn.classList.add("disabled1");
 
@@ -165,8 +153,7 @@ export default {
               document.querySelector(".forgot-1").style.display = "none";
               document.querySelector(".forgot-2").style.display = "";
               localStorage.setItem("forgotEmail", this.form.email);
-                  console.log(localStorage.getItem("forgotEmail"));
-
+              console.log(localStorage.getItem("forgotEmail"));
             }
           })
           .catch(() => {
@@ -185,94 +172,6 @@ export default {
         loginBtn.classList.remove("spinner", "spinner-light", "spinner-right");
       }, 2000);
     }
-    /*submitReset(e) {*/
-    /*  e.preventDefault();*/
-    /*  this.loading = true;*/
-    /*  const loginBtn = document.querySelector("#submit-email");*/
-    /*  loginBtn.classList.add("disabled1");*/
-    /*  setTimeout(() => {*/
-    /*    return new Promise((resolve, reject) => {*/
-    /*      const result = client.mutate({*/
-    /*        mutation: FORGOT_PASS,*/
-    /*        variables: {*/
-    /*          email: this.email*/
-    /*        }*/
-    /*      });*/
-    /*      if (resolve) {*/
-    /*        resolve(result);*/
-    /*      } else {*/
-    /*        reject(result);*/
-    /*      }*/
-    /*    })*/
-    /*      .then(res => {*/
-    /*        if (res) {*/
-    /*          // this.loading = false;*/
-    /*          // const { data } = result;*/
-    /*          loginBtn.classList.remove("disabled1");*/
-    /*          document.querySelector(".forgot-1").style.display = "none";*/
-    /*          document.querySelector(".forgot-2").style.display = "";*/
-    /*          localStorage.setItem("forgotEmail", this.email);*/
-    /*        }*/
-    /*      })*/
-    /*      .catch(() => {*/
-    /*        // this.loading = false;*/
-    /*        loginBtn.classList.remove("disabled1");*/
-    /*        this.$swal.fire({*/
-    /*          icon: "error",*/
-    /*          title: "Email not found!",*/
-    /*          text: "Make sure you enter the correct email",*/
-    /*          width: 400,*/
-    /*          confirmButtonText: "OK",*/
-    /*          confirmButtonColor: "#fd8833"*/
-    /*        });*/
-    /*      });*/
-    /*    // return new Promise(async resolve => {*/
-    /*    //   // try {*/
-    /*    //   const result = await client*/
-    /*    //     .mutate({*/
-    /*    //       mutation: FORGOT_PASS,*/
-    /*    //       variables: {*/
-    /*    //         email: this.email*/
-    /*    //       }*/
-
-    /*    //     }).then((result) => {*/
-    /*    //       if (result) {*/
-    /*    //         this.loading = false;*/
-    /*    //         // const { data } = result;*/
-    /*    //         resolve(result);*/
-    /*    //         loginBtn.classList.remove('disabled1')*/
-    /*    //         document.querySelector(".forgot-1").style.display = 'none'*/
-    /*    //         document.querySelector(".forgot-2").style.display = ''*/
-    /*    //         localStorage.setItem("forgotEmail", this.email)*/
-    /*    //       }*/
-    /*    //     }).catch(() => {*/
-    /*    //       this.loading = false;*/
-    /*    //       loginBtn.classList.remove('disabled1')*/
-    /*    //       this.$swal.fire({*/
-    /*    //         icon: "error",*/
-    /*    //         title: "Email not found!",*/
-    /*    //         text: "Make sure you enter the correct email",*/
-    /*    //         width: 400,*/
-    /*    //         confirmButtonText: "OK",*/
-    /*    //         confirmButtonColor: "#fd8833"*/
-    /*    //       })*/
-    /*    //     });*/
-    /*    //   // } catch (e) {*/
-    /*    //   //   this.loading = false;*/
-    /*    //   //   // PromiseRejectionEvent(e.message);*/
-
-    /*    //   //   this.$swal.fire({*/
-    /*    //   //     icon: "error",*/
-    /*    //   //     title: "Error!",*/
-    //     //   //     text: e.message,
-    //     //   //     width: 400,
-    //     //   //     confirmButtonText: "OK",
-    //     //   //     confirmButtonColor: "#fd8833"
-    //     //   //   })
-    //     //   // }
-    //     // });
-    //   }, 1000);
-    // }
   }
 };
 </script>

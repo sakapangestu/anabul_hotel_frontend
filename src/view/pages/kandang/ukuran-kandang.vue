@@ -304,7 +304,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Detail Golongan Hewan";
+      this.modalTitle = "Tambah Ukuran Kandang Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};

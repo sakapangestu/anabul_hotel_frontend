@@ -32,7 +32,7 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Detail Kandang</b-button
+              Makanan Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
@@ -267,7 +267,7 @@ export default {
       // Note 'isActive' is left out and will not appear in the rendered table
       produk: [],
       options: [
-        { text: " Tersedia ", value: "Tersedia " },
+        { text: "Tersedia", value: "Tersedia" },
         { text: "Kosong", value: "Kosong" }
       ],
       ktghewan: [],

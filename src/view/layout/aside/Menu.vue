@@ -76,7 +76,7 @@
       >
         <a :href="href" class="menu-link" @click="navigate">
           <i class="menu-icon fa fa-user" aria-hidden="true"></i>
-          <span class="menu-text">Admin Pet</span>
+          <span class="menu-text">Admin Pet Hotel</span>
         </a>
       </li>
     </router-link>

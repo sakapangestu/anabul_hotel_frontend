@@ -260,7 +260,7 @@ export default {
       return `Rp. ${rp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
     showModal() {
-      this.modalTitle = "Tambah Detail Golongan Hewan";
+      this.modalTitle = "Tambah Detail Layanan Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};

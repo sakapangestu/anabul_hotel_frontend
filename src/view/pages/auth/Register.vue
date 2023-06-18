@@ -121,7 +121,7 @@
               ></b-form-select>
             </b-form-group>
             <b-form-group
-              label="Kecematan Hotel"
+              label="Kecamatan Hotel"
               label-for="name-input"
               invalid-feedback="Kecamatan Wajin Di Isi"
             >

@@ -32,7 +32,7 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Kategori Kandang Hewan</b-button
+              Layanan Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
@@ -111,7 +111,7 @@
                   <b-th>No</b-th>
                   <b-th>Nama Layanan</b-th>
                   <b-th>Diskripsi</b-th>
-                  <b-th>Satuan Hari/Jam</b-th>
+                  <b-th>Satuan</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -264,7 +264,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Golongan Hewan";
+      this.modalTitle = "Tambah Layanan Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};

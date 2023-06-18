@@ -25,7 +25,7 @@ export default {
       show: false,
       series: [
         {
-          name: "Jumlah Daftar Staff",
+          name: "Jumlah Hewan",
           data: []
         }
       ],

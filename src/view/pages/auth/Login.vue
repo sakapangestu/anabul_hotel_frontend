@@ -176,16 +176,16 @@ export default {
       const { $dirty, $error } = this.$v.form[name];
       return $dirty ? !$error : null;
     },
-    resetForm() {
-      this.form = {
-        email: null,
-        password: null
-      };
-
-      this.$nextTick(() => {
-        this.$v.$reset();
-      });
-    },
+    // resetForm() {
+    //   this.form = {
+    //     email: null,
+    //     password: null
+    //   };
+    //
+    //   this.$nextTick(() => {
+    //     this.$v.$reset();
+    //   });
+    // },
     onSubmit() {
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
@@ -274,11 +274,6 @@ export default {
       }, 2000);
     }
   },
-  // mounted() {
-  //   if (this.isAuthenticated) {
-  //     this.$router.push({ name: "dashboard" });
-  //   }
-  // },
   computed: {
     ...mapState({
       errors: state => state.auth.errors

@@ -152,7 +152,7 @@
                   <b-th>No</b-th>
                   <b-th>Kategori Kandang</b-th>
                   <b-th>Ukuran Kandang</b-th>
-                  <b-th>Jumlah Barang</b-th>
+                  <b-th>Jumlah Kandang</b-th>
                   <b-th>Harga</b-th>
                   <b-th>Status</b-th>
                   <b-th>Action</b-th>
@@ -310,7 +310,7 @@ export default {
       kategori: [],
       ukuran: [],
       options: [
-        { text: " Tersedia ", value: "Tersedia " },
+        { text: "Tersedia", value: "Tersedia" },
         { text: "Penuh", value: "Penuh" }
       ],
       addForm: {
@@ -333,7 +333,7 @@ export default {
       return `Rp. ${rp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
     showModal() {
-      this.modalTitle = "Tambah Detail Golongan Hewan";
+      this.modalTitle = "Tambah Detail Kandang Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};

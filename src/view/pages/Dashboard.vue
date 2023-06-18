@@ -91,21 +91,25 @@
       <b-row>
         <div class="col">
           <div class="row">
-            <div class="card col-6">
-              <b-col class="card-body" sm="6">
-                <div id="chart">
+            <div class="card col">
+              <div id="chart">
+                <div class="mt-3">
                   <a> JUMLAH PET HOTEL</a>
+                </div>
+                <div class="mt-5">
                   <JmlhHotel></JmlhHotel>
                 </div>
-              </b-col>
+              </div>
             </div>
-            <div class="card col-6">
-              <b-col class="card-body" sm="6">
-                <div id="chart">
+            <div class="card col">
+              <div id="chart">
+                <div class="mt-3">
                   <a> JUMLAH 10 HOTEL TERBAIK </a>
+                </div>
+                <div class="mt-5">
                   <JmlhTerbaik></JmlhTerbaik>
                 </div>
-              </b-col>
+              </div>
             </div>
           </div>
         </div>
@@ -114,12 +118,14 @@
         <div class="col">
           <div class="row">
             <div class="card col-8">
-              <b-col class="card-body" sm="8">
-                <div id="chart">
+              <div id="chart">
+                <div class="mt-3">
                   <a> JUMLAH PET HOTEL BERGABUNG </a>
+                </div>
+                <div class="mt-3">
                   <HotelBergabung></HotelBergabung>
                 </div>
-              </b-col>
+              </div>
             </div>
             <div class="card col-4">
               <p class="pt-10">JUMLAH PERMINTAAN</p>
@@ -218,31 +224,6 @@ export default {
           // alert(err);
         });
     }
-    // setActiveTab1(event) {
-    //   this.tabIndex = this.setActiveTab(event);
-    // },
-    // setActiveTab2(event) {
-    //   this.tabIndex2 = this.setActiveTab(event);
-    // },
-    // /**
-    //  * Set current active on click
-    //  * @param event
-    //  */
-    // setActiveTab(event) {
-    //   // get all tab links
-    //   const tab = event.target.closest('[role="tablist"]');
-    //   const links = tab.querySelectorAll(".nav-link");
-    //   // remove active tab links
-    //   for (let i = 0; i < links.length; i++) {
-    //     links[i].classList.remove("active");
-    //   }
-    //
-    //   // set current active tab
-    //   event.target.classList.add("active");
-    //
-    //   // set clicked tab index to bootstrap tab
-    //   return parseInt(event.target.getAttribute("data-tab"));
-    // }
   },
   mounted() {
     this.featchSpesies();

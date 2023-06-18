@@ -80,7 +80,7 @@
                 <b-tr>
                   <b-th>No</b-th>
                   <b-th>Golongan Hewan</b-th>
-                  <b-th>Hotel</b-th>
+<!--                  <b-th>Hotel</b-th>-->
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -90,7 +90,7 @@
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
                   <b-td>{{ item.name }}</b-td>
-                  <b-td>{{ item.hotel.name }}</b-td>
+<!--                  <b-td>{{ item.hotel.name }}</b-td>-->
                   <b-td class="action-cols">
 <!--                    <span class="action-button">-->
 <!--                      <img-->

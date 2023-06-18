@@ -106,12 +106,14 @@
         <div class="col">
           <div class="row">
             <div class="card col">
-              <b-col class="card-body" sm="6">
-                <div id="chart">
+              <div id="chart">
+                <div class="mt-3">
                   <a> JUMLAH TRANSAKSI BY MOUNTH AND YEAR</a>
+                </div>
+                <div class="mt-3">
                   <JmlhtransaksiMountahyear></JmlhtransaksiMountahyear>
                 </div>
-              </b-col>
+              </div>
             </div>
           </div>
         </div>
@@ -130,7 +132,7 @@
             <div class="card col-6">
               <b-col class="card-body" sm="8">
                 <div id="chart">
-                  <a>DAFTAR STAFF </a>
+                  <a>DAFTAR STAFF SERTA JUMLAH HEWAN YANG DI PEGANG</a>
                   <daftarStaff></daftarStaff>
                 </div>
               </b-col>

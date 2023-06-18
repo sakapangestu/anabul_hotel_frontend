@@ -31,9 +31,8 @@
               @click="showModal"
               variant="dark"
               class="float-right"
-              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Kelas
-              Hewan</b-button
-            >
+              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create Staff
+            </b-button>
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
@@ -504,7 +503,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Kelas Hewan";
+      this.modalTitle = "Tambah Staff Hotel";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -845,8 +844,13 @@ export default {
 
 <style>
 .table-img img {
-  border-radius: 8px;
-  max-height: 5rem;
+  width: 90px; /* Set the width of the image */
+  height: auto; /* Maintain the aspect ratio */
+  border: 2px solid lightgrey; /* Add a border */
+  border-radius: 5px; /* Add rounded corners */
+  margin: 10px; /* Add some margin around the image */
+  padding: 5px; /* Add padding inside the border */
+  background-color: #ebebeb;
 }
 .table-img1 img {
   border-radius: 25px;

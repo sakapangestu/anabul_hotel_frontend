@@ -270,7 +270,7 @@ export default {
       hotel: [],
       // detailKandang: [],
       options: [
-        { text: " Aktif ", value: "Aktif " },
+        { text: "Aktif", value: "Aktif" },
         { text: "NonAktif", value: "NonAktif" }
       ],
       addForm: {
@@ -287,7 +287,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Detail Regulasi Hewan";
+      this.modalTitle = "Tambah Regulasi";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};

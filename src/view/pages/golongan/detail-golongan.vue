@@ -124,9 +124,9 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Spesies</b-th>
                   <b-th>Golongan</b-th>
-                  <b-th>Hotel</b-th>
+                  <b-th>Spesies</b-th>
+                  <!--                  <b-th>Hotel</b-th>-->
                   <b-th>Minimal Berat</b-th>
                   <b-th>Maksimal Berat</b-th>
                   <b-th>Action</b-th>
@@ -137,9 +137,9 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.species.name }}</b-td>
                   <b-td>{{ item.group.name }}</b-td>
-                  <b-td>{{ item.hotel.name }}</b-td>
+                  <b-td>{{ item.species.name }}</b-td>
+                  <!--                  <b-td>{{ item.hotel.name }}</b-td>-->
                   <b-td>{{ item.min_weight }}</b-td>
                   <b-td>{{ item.max_weight }}</b-td>
                   <b-td class="action-cols">
