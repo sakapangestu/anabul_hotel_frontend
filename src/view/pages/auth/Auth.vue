@@ -6,6 +6,7 @@
     >
       <!--begin::Aside-->
       <div
+        v-if="url === '/login'"
         class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat"
         :style="{ backgroundImage: `url(${backgroundImage})` }"
       >
@@ -55,8 +56,17 @@
 import { mapState } from "vuex";
 
 export default {
+  data() {
+    return {
+      url: ""
+    };
+  },
   name: "auth",
   methods: {},
+  mounted() {
+    this.url = window.location.pathname;
+    console.log(this.url)
+  },
   computed: {
     ...mapState({
       errors: state => state.auth.errors

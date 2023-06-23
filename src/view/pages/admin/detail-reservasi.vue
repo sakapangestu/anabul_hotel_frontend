@@ -86,7 +86,6 @@
                         class="w-100"
                       ></date-picker>
                     </b-form-group>
-                    {{ addForm.end_date }}
                     <b-form-group
                       label="Waktu Keluar Hotel"
                       label-for="name-input"
@@ -182,9 +181,9 @@
                       </b-form-select>
                     </b-form-group>
                     <b-form-group
-                      label="Status Masuk"
+                      label="Status Reservasi"
                       label-for="name-input"
-                      invalid-feedback="Status Masuk is required"
+                      invalid-feedback="Status Reservasi is required"
                     >
                       <b-form-select
                         id="name-input"
@@ -196,8 +195,27 @@
                       >
                       </b-form-select>
                     </b-form-group>
+                    <b-form-group
+                      label="Keterangan Penolakan"
+                      label-for="name-input"
+                      invalid-feedback="Keterangan Penolakan is required"
+                      v-if="addForm.reservation_status === 'Ditolak'"
+                    >
+                      <b-form-input
+                        type="text"
+                        id="name-input"
+                        v-model="addForm.reject_reason"
+                      ></b-form-input>
+                    </b-form-group>
+                    <div
+                      class="btn btn-primary"
+                      @click="changeStatusReservasiReject(addForm)"
+                      v-if="addForm.reservation_status === 'Ditolak'"
+                    >
+                      Submit Status
+                    </div>
                     <b-form-checkbox v-model="addForm.agreement" disabled>
-                      Menyetujui syarat dan peraturan penitipan hewan
+                      Menyetujui syarat dan peraturan penitipan ahewan
                     </b-form-checkbox>
                     <!--                    <div class="col">-->
                     <!--                      <inventoris></inventoris>-->
@@ -873,7 +891,8 @@ export default {
         payment_status: "",
         check_in_status: "",
         reservation_status: "",
-        agreement: ""
+        agreement: "",
+        reject_reason: ""
       },
       pets: [],
       layanan: [],
@@ -1066,7 +1085,7 @@ export default {
           payment_status: data.payment_status
         })
         .then(() => {
-          this.fetchRequest();
+          this.fetchReservasi();
         });
     },
     changeStatusMasuk(data) {
@@ -1077,19 +1096,64 @@ export default {
           check_in_status: data.check_in_status
         })
         .then(() => {
-          this.fetchRequest();
+          this.fetchReservasi();
         });
     },
     changeStatusReservasi(data) {
-      console.log(data);
-      this.$api
-        .put(`reservation/reservationStatus`, {
-          id_reservation: data.id_reservation,
-          reservation_status: data.reservation_status
-        })
-        .then(() => {
-          this.fetchRequest();
-        });
+      if (data.reservation_status !== "Ditolak") {
+        this.$api
+          .put(`reservation/reservationStatus`, {
+            id_reservation: data.id_reservation,
+            reservation_status: data.reservation_status,
+            reject_reason: ""
+          })
+          .then(res => {
+            if (res.status === 200) {
+              // this.hideModal();
+              this.fetchReservasi();
+              Swal.fire({
+                icon: "success",
+                title: "Ubah Status Berhasil",
+                text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
+              // this.$bvModal.hide("modal-category");
+              // this.toastAlert("update");
+            }
+          });
+      }
+    },
+    changeStatusReservasiReject(data) {
+      if (data.reservation_status === "Ditolak") {
+        this.$api
+          .put(`reservation/reservationStatus`, {
+            id_reservation: data.id_reservation,
+            reservation_status: data.reservation_status,
+            reject_reason: data.reject_reason
+          })
+          .then(res => {
+            if (res.status === 200) {
+              // this.hideModal();
+              this.fetchReservasi();
+              Swal.fire({
+                icon: "success",
+                title: "Ubah Status Berhasil",
+                text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
+              // this.$bvModal.hide("modal-category");
+              // this.toastAlert("update");
+            }
+          });
+      }
     },
     fetchReservasi(page = 1) {
       const startDate = moment(String(this.date_reservation[0]))

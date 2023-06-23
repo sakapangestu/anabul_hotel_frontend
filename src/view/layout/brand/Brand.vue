@@ -3,8 +3,8 @@
   <div class="brand flex-column-auto" id="kt_brand" ref="kt_brand">
     <div class="brand-logo">
       <router-link to="/">
-        <a class="anabul-brand text-white"> PET HOTEL </a>
-<!--        <img :src="siteLogo()" alt="Logo" />-->
+        <a class="anabul-brand text-white"> {{namaHotel}} </a>
+        <!--        <img :src="siteLogo()" alt="Logo" />-->
       </router-link>
     </div>
     <div class="brand-tools" v-if="allowMinimize">
@@ -29,7 +29,7 @@
 .aside-toggle {
   outline: none;
 }
-.anabul-brand{
+.anabul-brand {
   font-size: 15px;
   width: 10px;
 }
@@ -37,13 +37,23 @@
 
 <script>
 import { mapGetters } from "vuex";
-import objectPath from "object-path";
+// import objectPath from "object-path";
 import KTLayoutBrand from "@/assets/js/layout/base/brand.js";
 import KTLayoutAsideToggle from "@/assets/js/layout/base/aside-toggle.js";
+import { getHotelName } from "@/service/jwt.service";
 
 export default {
   name: "KTBrand",
+  data() {
+    return {
+      namaHotel: getHotelName() ? getHotelName() : "Anabul Hotel"
+    };
+  },
+  // components: {
+  //   getHotelName,
+  // },
   mounted() {
+    console.log(getHotelName());
     // Init Brand Panel For Logo
     KTLayoutBrand.init(this.$refs["kt_brand"]);
 
@@ -51,24 +61,37 @@ export default {
     KTLayoutAsideToggle.init(this.$refs["kt_aside_toggle"]);
   },
   methods: {
-    siteLogo() {
-      const menuAsideLeftSkin = this.layoutConfig("brand.self.theme");
-      // set brand logo
-      const logoObject = this.layoutConfig("self.logo");
-
-      let logo;
-      if (typeof logoObject === "string") {
-        logo = logoObject;
-      }
-      if (typeof logoObject === "object") {
-        logo = objectPath.get(logoObject, menuAsideLeftSkin + "");
-      }
-      if (typeof logo === "undefined") {
-        const logos = this.layoutConfig("self.logo");
-        logo = logos[Object.keys(logos)[0]];
-      }
-      return process.env.BASE_URL + logo;
-    }
+    // fetchHotel() {
+    //   // console.log()
+    //   this.$api
+    //     .get(`hotel/all`)
+    //     .then(res => {
+    //       this.petHotel = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.petHotel);
+    //     })
+    //     .catch(err => {
+    //       console.error(err);
+    //       // alert(err);
+    //     });
+    // }
+    // siteLogo() {
+    //   const menuAsideLeftSkin = this.layoutConfig("brand.self.theme");
+    //   // set brand logo
+    //   const logoObject = this.layoutConfig("self.logo");
+    //
+    //   let logo;
+    //   if (typeof logoObject === "string") {
+    //     logo = logoObject;
+    //   }
+    //   if (typeof logoObject === "object") {
+    //     logo = objectPath.get(logoObject, menuAsideLeftSkin + "");
+    //   }
+    //   if (typeof logo === "undefined") {
+    //     const logos = this.layoutConfig("self.logo");
+    //     logo = logos[Object.keys(logos)[0]];
+    //   }
+    //   return process.env.BASE_URL + logo;
+    // }
   },
   computed: {
     ...mapGetters(["layoutConfig"]),

@@ -1,115 +1,159 @@
 <template>
-  <div class="login-wrapper">
-    <!--begin::Content header-->
+  <div class="d-flex flex-column flex-root">
     <div
-      class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
+      class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white"
+      id="kt_login"
     >
-      <span class="font-weight-bold font-size-3 text-dark-60">
-        Don't have an account yet?
-      </span>
-      <router-link
-        class="font-weight-bold font-size-3 ml-2"
-        :to="{ name: 'register' }"
+      <!--begin::Aside-->
+      <div
+        class="login-aside d-flex flex-row-auto bgi-size-cover bgi-no-repeat"
+        :style="{ backgroundImage: `url(/media/bg/app_logo.png)` }"
       >
-        Sign Up!
-      </router-link>
-    </div>
-    <!--end::Content header-->
-
-    <!--begin::Signin-->
-    <div class="login-form login-signin">
-      <div class="text-center mb-10 mb-lg-20">
-        <h3 class="font-size-h1">Sign In</h3>
-        <p class="text-muted font-weight-semi-bold">
-          Enter your username and password
-        </p>
+        <!--begin: Aside Container -->
+        <div class="d-flex flex-row-fluid flex-column justify-content-between">
+          <!--begin: Aside header -->
+          <!--          <a href="#" class="flex-column-auto">-->
+          <!--            <img src="media/logos/logo-letteZr-1.png" class="h-25" />-->
+          <!--          </a>-->
+          <!--end: Aside header -->
+          <!--begin: Aside content -->
+          <div
+            class="flex-column-fluid d-flex flex-column justify-content-center"
+          >
+            <!--            <h3 class="font-size-h1 mt-10 mb-5 text-white">-->
+            <!--              Welcome to Metronic!-->
+            <!--            </h3>-->
+            <!--            <p class="font-weight-lighter text-white opacity-80">-->
+            <!--              The ultimate Bootstrap, Angular 8, React &amp; VueJS admin theme-->
+            <!--              framework for next generation web apps.-->
+            <!--            </p>-->
+          </div>
+        </div>
+        <!--end: Aside Container -->
       </div>
+      <!--begin::Aside-->
 
-      <!--begin::Form-->
-      <b-form class="form" @submit.stop.prevent="onSubmit">
-        <div role="alert" class="alert alert-danger" v-if="isError">
-          <div class="alert-text">
-            <strong>Login gagal</strong> <br />
-            Pastikan email & password sudah benar!
-          </div>
-        </div>
-
-        <div
-          role="alert"
-          v-bind:class="{ show: errors.length }"
-          class="alert fade alert-danger"
-        >
-          <div class="alert-text" v-for="(error, i) in errors" :key="i">
-            {{ error }}
-          </div>
-        </div>
-
-        <b-form-group
-          id="example-input-group-1"
-          label=""
-          label-for="example-input-1"
-        >
-          <b-form-input
-            class="form-control form-control-solid h-auto py-5 px-6"
-            id="example-input-1"
-            name="example-input-1"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
-            placeholder="Masukkan Email...."
-            aria-describedby="input-1-live-feedback"
-          ></b-form-input>
-
-          <b-form-invalid-feedback id="input-1-live-feedback">
-            Email is required and a valid email address.
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <b-form-group
-          id="example-input-group-2"
-          label=""
-          label-for="example-input-2"
-        >
-          <b-form-input
-            class="form-control form-control-solid h-auto py-5 px-6"
-            type="password"
-            id="example-input-2"
-            name="example-input-2"
-            v-model="$v.form.password.$model"
-            :state="validateState('password')"
-            placeholder="Masukkan Password..."
-            aria-describedby="input-2-live-feedback"
-          ></b-form-input>
-
-          <b-form-invalid-feedback id="input-2-live-feedback">
-            Password is required.
-          </b-form-invalid-feedback>
-        </b-form-group>
-
-        <!--begin::Action-->
-        <div
-          class="form-group d-flex flex-wrap justify-content-between align-items-center"
-        >
-          <router-link :to="{ name: 'email' }"
-            ><a
-              href="#"
-              class="text-dark-60 text-hover-primary my-3 mr-2"
-              id="kt_login_forgot"
+      <!--begin::Content-->
+      <div
+        class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden"
+      >
+        <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
+          <div class="login-wrapper">
+            <!--begin::Content header-->
+            <div
+              class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
             >
-              Forgot Password ?
-            </a></router-link
-          >
-          <button
-            ref="kt_login_signin_submit"
-            class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
-          >
-            Sign In
-          </button>
+              <span class="font-weight-bold font-size-3 text-dark-60">
+                Don't have an account yet?
+              </span>
+              <router-link
+                class="font-weight-bold font-size-3 ml-2"
+                :to="{ name: 'register' }"
+              >
+                Sign Up!
+              </router-link>
+            </div>
+            <!--end::Content header-->
+
+            <!--begin::Signin-->
+            <div class="login-form login-signin">
+              <div class="text-center mb-10 mb-lg-20">
+                <h3 class="font-size-h1">Sign In</h3>
+                <p class="text-muted font-weight-semi-bold">
+                  Enter your username and password
+                </p>
+              </div>
+
+              <!--begin::Form-->
+              <b-form class="form" @submit.stop.prevent="onSubmit">
+                <div role="alert" class="alert alert-danger" v-if="isError">
+                  <div class="alert-text">
+                    <strong>Login gagal</strong> <br />
+                    Pastikan email & password sudah benar!
+                  </div>
+                </div>
+
+                <div
+                  role="alert"
+                  v-bind:class="{ show: errors.length }"
+                  class="alert fade alert-danger"
+                >
+                  <div class="alert-text" v-for="(error, i) in errors" :key="i">
+                    {{ error }}
+                  </div>
+                </div>
+
+                <b-form-group
+                  id="example-input-group-1"
+                  label=""
+                  label-for="example-input-1"
+                >
+                  <b-form-input
+                    class="form-control form-control-solid h-auto py-5 px-6"
+                    id="example-input-1"
+                    name="example-input-1"
+                    v-model="$v.form.email.$model"
+                    :state="validateState('email')"
+                    placeholder="Masukkan Email...."
+                    aria-describedby="input-1-live-feedback"
+                  ></b-form-input>
+
+                  <b-form-invalid-feedback id="input-1-live-feedback">
+                    Email is required and a valid email address.
+                  </b-form-invalid-feedback>
+                </b-form-group>
+
+                <b-form-group
+                  id="example-input-group-2"
+                  label=""
+                  label-for="example-input-2"
+                >
+                  <b-form-input
+                    class="form-control form-control-solid h-auto py-5 px-6"
+                    type="password"
+                    id="example-input-2"
+                    name="example-input-2"
+                    v-model="$v.form.password.$model"
+                    :state="validateState('password')"
+                    placeholder="Masukkan Password..."
+                    aria-describedby="input-2-live-feedback"
+                  ></b-form-input>
+
+                  <b-form-invalid-feedback id="input-2-live-feedback">
+                    Password is required.
+                  </b-form-invalid-feedback>
+                </b-form-group>
+
+                <!--begin::Action-->
+                <div
+                  class="form-group d-flex flex-wrap justify-content-between align-items-center"
+                >
+                  <router-link :to="{ name: 'email' }"
+                    ><a
+                      href="#"
+                      class="text-dark-60 text-hover-primary my-3 mr-2"
+                      id="kt_login_forgot"
+                    >
+                      Forgot Password ?
+                    </a></router-link
+                  >
+                  <button
+                    ref="kt_login_signin_submit"
+                    class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
+                  >
+                    Sign In
+                  </button>
+                </div>
+                <!--end::Action-->
+              </b-form>
+              <!--end::Form-->
+            </div>
+            <!--end::Signin-->
+          </div>
         </div>
-        <!--end::Action-->
-      </b-form>
-      <!--end::Form-->
+      </div>
+      <!--end::Content-->
     </div>
-    <!--end::Signin-->
   </div>
 </template>
 
@@ -142,7 +186,8 @@ import {
   saveHotelCity,
   saveHotelDistrict,
   saveHotelSubdistrict,
-  getRole
+  getRole,
+  saveHotelName
 } from "@/service/jwt.service";
 
 export default {
@@ -223,6 +268,10 @@ export default {
               saveHotelCity(res.data.data.city_id);
               saveHotelDistrict(res.data.data.district_id);
               saveHotelSubdistrict(res.data.data.subdistrict_id);
+              if (res.data.data.role === "Admin") {
+                saveHotelName(res.data.data.hotel.name);
+              }
+              // saveHotelName(res.data.data.hotel.name);
               // localStorage.setItem("token", res.data.data.token);
               localStorage.setItem("isAuthenticated", true);
 
@@ -277,7 +326,10 @@ export default {
   computed: {
     ...mapState({
       errors: state => state.auth.errors
-    })
+    }),
+    backgroundImage() {
+      return process.env.BASE_URL + "media/bg/app_logo.png";
+    }
   },
   mounted() {
     const isAuthenticated = localStorage.getItem("isAuthenticated");
@@ -292,6 +344,9 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+@import "@/assets/sass/pages/login/login-1.scss";
+</style>
 <style>
 .btn-orange {
   color: #fff;

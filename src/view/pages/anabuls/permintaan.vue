@@ -35,7 +35,7 @@
             <!--              Hewan</b-button-->
             <!--            >-->
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
-              <b-form ref="form" @submit.prevent="handleOk">
+              <b-form ref="form" @submit.prevent="changeStatusReject">
                 <b-form-group
                   label="Hotel Name"
                   label-for="name-input"
@@ -318,12 +318,21 @@
                   >
                   </b-form-select>
                 </b-form-group>
-                <b-button
-                  class="mt-3"
-                  type="submit"
-                  v-if="!isDetail"
-                  variant="primary"
-                  block
+                <b-form-group
+                  label="Keterangan Ditolak"
+                  label-for="name-input"
+                  invalid-feedback="Keterangan Ditolak di Isi"
+                  v-if="addForm.status === 'Tolak'"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="addForm.reject_reason"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-button class="mt-3" type="submit" variant="primary" block
                   >Submit</b-button
                 >
               </b-form>
@@ -520,7 +529,8 @@ export default {
         nik: "",
         ktp: "",
         selfie: "",
-        status: ""
+        status: "",
+        reject_reason: ""
       }
       // validations: {
       //   addForm: {
@@ -549,10 +559,52 @@ export default {
       this.$api
         .put(`request/status`, {
           id_request: data.id_request,
-          status: data.status
+          status: data.status,
+          reject_reason: ""
         })
-        .then(() => {
-          this.fetchRequest();
+        .then(res => {
+          if (res.status === 200) {
+            this.hideModal();
+            this.fetchRequest();
+            Swal.fire({
+              icon: "success",
+              title: "Ubah Status Berhasil",
+              text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+              width: "28em",
+              showCloseButton: false,
+              showCancelButton: false,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            // this.$bvModal.hide("modal-category");
+            // this.toastAlert("update");
+          }
+        });
+    },
+    changeStatusReject() {
+      this.$api
+        .put(`request/status`, {
+          id_request: this.addForm.id_request,
+          status: this.addForm.status,
+          reject_reason: this.addForm.reject_reason
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.hideModal();
+            this.fetchRequest();
+            Swal.fire({
+              icon: "success",
+              title: "Ubah Status Berhasil",
+              text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+              width: "28em",
+              showCloseButton: false,
+              showCancelButton: false,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            // this.$bvModal.hide("modal-category");
+            // this.toastAlert("update");
+          }
         });
     },
     fetchProvinces() {
@@ -715,12 +767,6 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchRequest();
-              // this.$bvModal.hide("modal-category");
-              // this.toastAlert("update");
-            }
-          })
-          .catch(err => {
-            if (err.message === "Request failed with status code 409") {
               Swal.fire({
                 icon: "success",
                 title: "Edit Berhasil",
@@ -731,6 +777,20 @@ export default {
                 timer: 1500,
                 showConfirmButton: false
               });
+              // this.$bvModal.hide("modal-category");
+              // this.toastAlert("update");
+            }
+          })
+          .catch(err => {
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode kategori sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
             }
           });
       } else {
@@ -740,6 +800,16 @@ export default {
             if (res.status === 200) {
               this.hideModal();
               this.fetchRequest();
+              Swal.fire({
+                icon: "success",
+                title: "Tambah Berhasil",
+                text: "Data berhasil ditambahkan",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
               // this.toastAlert("tambah");
             }
           })
@@ -799,7 +869,7 @@ export default {
 .table-img img {
   width: 90px; /* Set the width of the image */
   height: auto; /* Maintain the aspect ratio */
-  border: 2px solid lightgrey;/* Add a border */
+  border: 2px solid lightgrey; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
   margin: 10px; /* Add some margin around the image */
   padding: 5px; /* Add padding inside the border */
@@ -823,6 +893,4 @@ export default {
 .pointer {
   cursor: pointer;
 }
-
-
 </style>

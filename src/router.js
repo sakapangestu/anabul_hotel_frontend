@@ -193,22 +193,44 @@ export default new Router({
                 import("@/view/pages/profile-admin/profil-hotel.vue")
             }
           ]
-        },
+        }
       ]
     },
     {
-      path: "/",
-      component: () => import("@/view/pages/auth/Auth"),
+      path: "/login",
+      name: "login",
+      component: () => import("@/view/pages/auth/Login")
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: () => import("@/view/pages/auth/Wizard-1")
+    },
+    // {
+    //   path: "/",
+    //   component: () => import("@/view/pages/auth/Auth"),
+    //   children: [
+    //     {
+    //       name: "login",
+    //       path: "/login",
+    //       component: () => import("@/view/pages/auth/Login")
+    //     },
+    //     {
+    //       name: "register",
+    //       path: "/register",
+    //       component: () => import("@/view/pages/auth/Register")
+    //     }
+    //   ]
+    // },
+    {
+      name: "wizard",
+      path: "/wizard",
+      component: () => import("@/view/pages/wizard/Wizard"),
       children: [
         {
-          name: "login",
-          path: "/login",
-          component: () => import("@/view/pages/auth/Login")
-        },
-        {
-          name: "register",
-          path: "/register",
-          component: () => import("@/view/pages/auth/Register")
+          name: "wizard-1",
+          path: "/wizard-1",
+          component: () => import("@/view/pages/wizard/Wizard-1")
         }
       ]
     },
@@ -226,7 +248,11 @@ export default new Router({
       name: "resetSucces",
       path: "/resetSucces",
       component: () => import("@/view/pages/auth/resetSucces")
+    },
+    {
+      name: "landing-page",
+      path: "/landing-page",
+      component: () => import("@/view/pages/landing-page/landing-page")
     }
-
   ]
 });

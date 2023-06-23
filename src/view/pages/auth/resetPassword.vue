@@ -27,37 +27,66 @@
 
             <div class="mt-2 col-sm-8 mx-auto">
               <div class="form-group">
-                <label for="new-pw" class="auth-forgot-3 float-left"
-                  >New Password</label
-                >
+                <label class="float-left">Password Baru</label>
                 <input
                   type="password"
-                  class="form-control auth-border-clr pt-4 pb-4 pl-3"
+                  class="form-control form-control-solid form-control-lg"
                   id="new-pw"
                   placeholder="Masukkan password baru anda"
                   v-model="form.password"
                   @keyup="validateInput"
                   required
                 />
-                <small class="float-left auth-forgot-2 my-1"
-                  >Must be at least 8 characters.</small
+                <span class="form-text text-muted float-left"
+                  >Masukkan Password Baru</span
                 >
               </div>
-              <br />
+              <!--              <div class="form-group">-->
+              <!--                <label for="new-pw" class="auth-forgot-3 float-left"-->
+              <!--                  >New Password</label-->
+              <!--                >-->
+              <!--                <input-->
+              <!--                  type="password"-->
+              <!--                  class="form-control auth-border-clr pt-4 pb-4 pl-3"-->
+              <!--                  id="new-pw"-->
+              <!--                  placeholder="Masukkan password baru anda"-->
+              <!--                  v-model="form.password"-->
+              <!--                  @keyup="validateInput"-->
+              <!--                  required-->
+              <!--                />-->
+              <!--                <small class="float-left auth-forgot-2 my-1"-->
+              <!--                  >Must be at least 8 characters.</small-->
+              <!--                >-->
+              <!--              </div>-->
               <div class="form-group">
-                <label for="conf-pw" class="auth-forgot-3 float-left">
-                  Confirm New Password</label
-                >
+                <label class="float-left">Konfirmasi Password</label>
                 <input
                   type="password"
-                  class="form-control auth-border-clr pt-4 pb-4 pl-3"
+                  class="form-control form-control-solid form-control-lg"
                   id="conf-pw"
                   placeholder="Masukkan password baru anda"
                   v-model="form.passwordConfirm"
                   @keyup="validateInput"
                   required
                 />
+                <span class="form-text text-muted float-left"
+                  >Masukkan Konfirmasi Password</span
+                >
               </div>
+<!--              <div class="form-group">-->
+<!--                <label for="conf-pw" class="auth-forgot-3 float-left">-->
+<!--                  Confirm New Password</label-->
+<!--                >-->
+<!--                <input-->
+<!--                  type="password"-->
+<!--                  class="form-control auth-border-clr pt-4 pb-4 pl-3"-->
+<!--                  id="conf-pw"-->
+<!--                  placeholder="Masukkan password baru anda"-->
+<!--                  v-model="form.passwordConfirm"-->
+<!--                  @keyup="validateInput"-->
+<!--                  required-->
+<!--                />-->
+<!--              </div>-->
             </div>
 
             <div class="col-sm-8 mx-auto">

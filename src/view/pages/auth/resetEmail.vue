@@ -24,18 +24,31 @@
 
             <div class="mt-2 col-sm-8 mx-auto">
               <div class="form-group">
-                <label for="forgot-email" class="auth-forgot-2 float-left "
-                  >Email</label
-                >
+                <label for="forgot-email" class="float-left">Email Hotel</label>
                 <input
                   type="email"
-                  class="form-control auth-border-clr pt-4 pb-4 pl-3"
                   id="forgot-email"
                   aria-describedby="emailHelp"
+                  class="form-control form-control-solid form-control-lg"
                   placeholder="Masukkan alamat email anda"
                   v-model="form.email"
                   required
                 />
+                <span class="form-text text-muted float-left mb-5"
+                  >Masukkan Email Hotel</span
+                >
+                <!--                <label for="forgot-email" class="auth-forgot-2 float-left "-->
+                <!--                  >Email</label-->
+                <!--                >-->
+                <!--                <input-->
+                <!--                  type="email"-->
+                <!--                  class="form-control auth-border-clr pt-4 pb-4 pl-3"-->
+                <!--                  id="forgot-email"-->
+                <!--                  aria-describedby="emailHelp"-->
+                <!--                  placeholder="Masukkan alamat email anda"-->
+                <!--                  v-model="form.email"-->
+                <!--                  required-->
+                <!--                />-->
               </div>
             </div>
 

@@ -92,9 +92,26 @@
         <div class="col">
           <div class="row">
             <div class="card col">
+              <div id="chart" class="mt-3">
+                <a> MAPPING LOKASIN </a>
+                <div class="mt-3">
+                  <mapping></mapping>
+                </div>
+                <div class="mt-3 mb-3">
+                  <a>Total Pet Hotel Seluruh Indonesia = {{ totalPethotel }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </b-row>
+      <b-row class="mt-3">
+        <div class="col">
+          <div class="row">
+            <div class="card col">
               <div id="chart">
                 <div class="mt-3">
-                  <a> JUMLAH PET HOTEL</a>
+                  <a> JUMLAH PET HOTEL SETIAP DAERAH</a>
                 </div>
                 <div class="mt-5">
                   <JmlhHotel></JmlhHotel>
@@ -104,7 +121,7 @@
             <div class="card col">
               <div id="chart">
                 <div class="mt-3">
-                  <a> JUMLAH 10 HOTEL TERBAIK </a>
+                  <a> 10 PET HOTEL TERLARIS SETIAP DAERAH </a>
                 </div>
                 <div class="mt-5">
                   <JmlhTerbaik></JmlhTerbaik>
@@ -120,7 +137,7 @@
             <div class="card col-8">
               <div id="chart">
                 <div class="mt-3">
-                  <a> JUMLAH PET HOTEL BERGABUNG </a>
+                  <a> JUMLAH PET HOTEL BERGABUNG SETIAP BULAN </a>
                 </div>
                 <div class="mt-3">
                   <HotelBergabung></HotelBergabung>
@@ -128,7 +145,7 @@
               </div>
             </div>
             <div class="card col-4">
-              <p class="pt-10">JUMLAH PERMINTAAN</p>
+              <p class="pt-10">JUMLAH PERMINTAAN PET HOTEL YANG BERGABUNG</p>
               <b-col class="card-body d-flex align-items-center" sm="4">
                 <div id="chart">
                   <permintaan></permintaan>
@@ -150,6 +167,7 @@ import HotelBergabung from "@/view/pages/componen/hotel-bergabung";
 import JmlhTerbaik from "@/view/pages/componen/jmlh-10trbaik";
 import JmlhHotel from "@/view/pages/componen/Jmlh-hotel";
 import Permintaan from "@/view/pages/componen/permintaan";
+import mapping from "@/view/pages/componen/mapping";
 export default {
   name: "dashboard",
   components: {
@@ -158,7 +176,8 @@ export default {
     HotelBergabung,
     JmlhTerbaik,
     JmlhHotel,
-    Permintaan
+    Permintaan,
+    mapping
   },
 
   data() {

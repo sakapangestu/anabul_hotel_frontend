@@ -156,9 +156,15 @@ export const saveHotelSubdistrict = SubdistrictId => {
 export const destroySubdistrict = () => {
   window.localStorage.removeItem("subdistrict_id");
 };
-
-
-
+export const getHotelName = () => {
+  return window.localStorage.getItem("hotel.name");
+};
+export const saveHotelName = HotelName => {
+  window.localStorage.setItem("hotel.name", HotelName);
+};
+export const destroyHotelName = () => {
+  window.localStorage.removeItem("hotel.name");
+};
 export default {
   getToken,
   saveToken,
@@ -207,5 +213,9 @@ export default {
   destroyDistrict,
   getHotelSubdistrict,
   saveHotelSubdistrict,
-  destroySubdistrict
+  destroySubdistrict,
+  getHotelName,
+  saveHotelName,
+  destroyHotelName
+
 };

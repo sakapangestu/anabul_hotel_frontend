@@ -38,7 +38,7 @@
         </b-select>
       </div>
       <div class="col">
-        <br>
+        <br />
         <button
           type="button"
           class="btn btn-sm btn-secondary ml-5"
@@ -50,14 +50,26 @@
         </button>
       </div>
     </div>
-    <apexchart
-      v-if="show"
-      type="bar"
-      height="350"
-      width="550"
-      :options="chartOptions2"
-      :series="series2"
-    ></apexchart>
+    <!--    <apexchart-->
+    <!--      v-if="show"-->
+    <!--      type="bar"-->
+    <!--      height="350"-->
+    <!--      width="550"-->
+    <!--      :options="chartOptions2"-->
+    <!--      :series="series2"-->
+    <!--    ></apexchart>-->
+    <b-list-group>
+      <b-list-group-item
+        class="d-flex justify-content-between align-items-center"
+        v-for="total in totalhotel"
+        :key="total.id"
+      >
+        <div>
+          {{total.name}}
+        </div>
+        <b-badge variant="primary" pill>{{ total.total }}</b-badge>
+      </b-list-group-item>
+    </b-list-group>
   </div>
 </template>
 <script>
@@ -71,37 +83,13 @@ export default {
 
   data() {
     return {
-      show: false,
+      // show: false,
       provinces: [],
       cities: [],
       districts: [],
       province_id: "",
       city_id: "",
       district_id: "",
-      series2: [
-        {
-          name: "Jumlah Hotel",
-          data: []
-        }
-      ],
-      chartOptions2: {
-        chart: {
-          type: "bar",
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 4,
-            horizontal: true
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        xaxis: {
-          categories: []
-        }
-      },
       totalhotel: []
     };
   },
@@ -167,27 +155,6 @@ export default {
         .then(res => {
           this.totalhotel = res.data.data ? res.data.data : {};
           console.log(this.totalhotel);
-          let categories = [];
-          let series = [];
-
-          this.totalhotel.map(e => {
-            // console.log(e);
-            categories.push(e.name);
-            series.push(e.total);
-            // this.series2[0].data.push(e.total);
-            // this.chartOptions2.xaxis.categories.push(e.name);
-          });
-          this.chartOptions2 = {
-            ...this.chartOptions2,
-            xaxis: {
-              categories: categories
-            }
-          };
-          this.series2[0] = {
-            name: "Jumlah Hotel",
-            data: series
-          };
-          this.show = true;
         })
         .catch(err => {
           console.error(err);

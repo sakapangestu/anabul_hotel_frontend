@@ -36,6 +36,12 @@ import "@/core/plugins/apexcharts";
 import "@/core/plugins/treeselect";
 import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
+// import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
+import "leaflet/dist/leaflet.css";
+//maps
+// Vue.component("l-map", LMap);
+// Vue.component("l-tile-layer", LTileLayer);
+// Vue.component("l-marker", LMarker);
 
 // API service init
 ApiService.init();

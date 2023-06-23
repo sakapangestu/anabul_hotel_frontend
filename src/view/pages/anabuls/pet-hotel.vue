@@ -316,6 +316,37 @@
                     v-on:change="handleDocument()"
                   />
                 </b-form-group>
+                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+                  <b-form-radio-group
+                    v-model="addForm.status"
+                    :options="options"
+                    :disabled="isDetail"
+                    @change="changeStatus(addForm)"
+                    :aria-describedby="ariaDescribedby"
+                    name="radios-stacked"
+                    stacked
+                  ></b-form-radio-group>
+                </b-form-group>
+                <b-form-group
+                  label="Keterangan Tidak Aktif"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                  :state="nameState"
+                  v-if="addForm.status === 'Tidak Aktif'"
+                >
+                  <b-form-input
+                    id="name-input"
+                    type="text"
+                    v-model="addForm.inactive_reason"
+                  ></b-form-input>
+                </b-form-group>
+                <div
+                  class="btn btn-primary"
+                  @click="changeStatusReject(addForm)"
+                  v-if="addForm.status === 'Tidak Aktif'"
+                >
+                  Submit Status
+                </div>
                 <b-button
                   class="mt-3"
                   type="submit"
@@ -512,6 +543,10 @@ export default {
       cities: [],
       districts: [],
       subdistricts: [],
+      options: [
+        { text: "Aktif", value: "Aktif" },
+        { text: "Tidak Aktif", value: "Tidak Aktif" }
+      ],
       addForm: {
         id_hotel: "",
         name: "",
@@ -531,7 +566,9 @@ export default {
         close_time: "",
         map_link: "",
         // requirement: "",
-        description: ""
+        description: "",
+        status: "",
+        inactive_reason: ""
         // regulation: ""
       }
       // validations: {
@@ -553,6 +590,62 @@ export default {
       // console.log(this.$refs.docs.files[0]);
       this.addForm.document = this.$refs.docs.files[0];
       this.addForm.documentName = this.$refs.docs.files[0].name;
+    },
+    changeStatus(data) {
+      if (data.status !== "Tidak Aktif") {
+        this.$api
+          .put(`hotel/status`, {
+            id_hotel: data.id_hotel,
+            status: data.status,
+            inactive_reason: ""
+          })
+          .then(res => {
+            if (res.status === 200) {
+              // this.hideModal();
+              this.fetchHotel();
+              Swal.fire({
+                icon: "success",
+                title: "Ubah Status Berhasil",
+                text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
+              // this.$bvModal.hide("modal-category");
+              // this.toastAlert("update");
+            }
+          });
+      }
+    },
+    changeStatusReject(data) {
+      if (data.status === "Tidak Aktif") {
+        this.$api
+          .put(`hotel/status`, {
+            id_hotel: data.id_hotel,
+            status: data.status,
+            inactive_reason: data.inactive_reason
+          })
+          .then(res => {
+            if (res.status === 200) {
+              // this.hideModal();
+              this.fetchHotel();
+              Swal.fire({
+                icon: "success",
+                title: "Ubah Status Berhasil",
+                text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
+              // this.$bvModal.hide("modal-category");
+              // this.toastAlert("update");
+            }
+          });
+      }
     },
     handleImage() {
       // console.log("SELFIE");
@@ -878,7 +971,7 @@ export default {
 .table-img img {
   width: 90px; /* Set the width of the image */
   height: auto; /* Maintain the aspect ratio */
-  border: 2px solid lightgrey;/* Add a border */
+  border: 2px solid lightgrey; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
   margin: 10px; /* Add some margin around the image */
   padding: 5px; /* Add padding inside the border */

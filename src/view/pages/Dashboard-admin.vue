@@ -94,7 +94,7 @@
             <div class="card col">
               <b-col class="card-body" sm="6">
                 <div id="chart">
-                  <a> JUMLAH TRANSAKSI BY DATE</a>
+                  <a> JUMLAH TRANSAKSI SETIAP HARINYA</a>
                   <Jmlhtransaksidate></Jmlhtransaksidate>
                 </div>
               </b-col>
@@ -108,7 +108,7 @@
             <div class="card col">
               <div id="chart">
                 <div class="mt-3">
-                  <a> JUMLAH TRANSAKSI BY MOUNTH AND YEAR</a>
+                  <a> JUMLAH TRANSAKSI SETIAP BULANNYA</a>
                 </div>
                 <div class="mt-3">
                   <JmlhtransaksiMountahyear></JmlhtransaksiMountahyear>
@@ -124,7 +124,7 @@
             <div class="card col-6">
               <b-col class="card-body" sm="8">
                 <div id="chart">
-                  <a>10 JUMLAH PELIHARAAN TERBANYAK </a>
+                  <a>10 JUMLAH PELIHARAAN TERBANYAK MASUK </a>
                   <PeliharaanTerbanyak></PeliharaanTerbanyak>
                 </div>
               </b-col>
@@ -132,7 +132,7 @@
             <div class="card col-6">
               <b-col class="card-body" sm="8">
                 <div id="chart">
-                  <a>DAFTAR STAFF SERTA JUMLAH HEWAN YANG DI PEGANG</a>
+                  <a>DAFTAR STAFF DAN JUMLAH HEWAN YANG DIPEGANG HARI INI</a>
                   <daftarStaff></daftarStaff>
                 </div>
               </b-col>
@@ -146,13 +146,13 @@
             <div class="card col-6">
               <b-col class="card-body" sm="8">
                 <div id="chart">
-                  <a>10 JUMLAH PRODUK TERBANYAK </a>
+                  <a>10 JUMLAH PRODUK TERLARIS </a>
                   <produkTerbanyak></produkTerbanyak>
                 </div>
               </b-col>
             </div>
             <div class="card col-6">
-              <p class="pt-10">JUMLAH KANDANG STATUS</p>
+              <p class="pt-10">STATUS JUMLAH KANDANG</p>
               <b-col class="card-body d-flex align-items-center" sm="4">
                 <jmlhkandangStatus></jmlhkandangStatus>
               </b-col>

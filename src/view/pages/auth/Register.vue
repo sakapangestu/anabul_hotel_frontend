@@ -1,264 +1,273 @@
 <template>
-  <div>
-    <!--begin::Content header-->
+  <div class="d-flex flex-column flex-root">
     <div
-      class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
+      class="flex-row-fluid d-flex flex-column position-relative p-7 overflow-hidden"
     >
-      <span class="font-weight-bold font-size-3 text-dark-60">
-        Already have an account?
-      </span>
-      <router-link
-        class="font-weight-bold font-size-3 ml-2"
-        :to="{ name: 'login' }"
-      >
-        Sign In!
-      </router-link>
-    </div>
-    <!--end::Content header-->
+      <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
+        <div>
+          <!--begin::Content header-->
+          <div
+            class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
+          >
+            <span class="font-weight-bold font-size-3 text-dark-60">
+              Already have an account?
+            </span>
+            <router-link
+              class="font-weight-bold font-size-3 ml-2"
+              :to="{ name: 'login' }"
+            >
+              Sign In!
+            </router-link>
+          </div>
+          <!--end::Content header-->
 
-    <!--begin::Signup-->
-    <div class="login-form login-signin">
-      <div class="text-center mb-10 mb-lg-20">
-        <h3 class="font-size-h1" @click="cek()">Sign Up</h3>
-        <p class="text-muted font-weight-semi-bold">
-          Enter your details to create your account
-        </p>
+          <!--begin::Signup-->
+          <div class="login-form login-signin">
+            <div class="text-center mb-10 mb-lg-20">
+              <h3 class="font-size-h1" @click="cek()">Sign Up</h3>
+              <p class="text-muted font-weight-semi-bold">
+                Enter your details to create your account
+              </p>
+            </div>
+
+            <!--begin::Form-->
+            <b-form class="form" @submit.stop.prevent="onSubmit">
+              <div class="row">
+                <div class="col-4">
+                  <b-form-group
+                    label="Name Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Name Wajib Di Isi"
+                  >
+                    <b-form-input
+                      id="name-input"
+                      type="text"
+                      v-model="form.hotel_name"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="Email Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Email Hotel Wajib Di Isi"
+                  >
+                    <b-form-input
+                      id="name-input"
+                      type="email"
+                      v-model="form.hotel_email"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="No Hp Hotel"
+                    label-for="name-input"
+                    invalid-feedback="No Hp Wajib Di Isi"
+                  >
+                    <b-form-input
+                      type="number"
+                      id="name-input"
+                      v-model="form.hotel_phone"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="NPWP"
+                    label-for="name-input"
+                    invalid-feedback="NPWP Wajib Di Isi"
+                  >
+                    <b-form-input
+                      type="number"
+                      id="name-input"
+                      v-model="form.npwp"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="KTP"
+                    label-for="name-input"
+                    invalid-feedback="KTP Wajib Di Isi"
+                  >
+                    <input
+                      type="file"
+                      id="file"
+                      ref="ktp"
+                      v-on:change="handleKtp()"
+                    />
+                  </b-form-group>
+                </div>
+
+                <div class="col-4">
+                  <b-form-group
+                    label="Provinsi Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Provinsi Wajib Di Isi"
+                  >
+                    <b-form-select
+                      v-model="form.hotel_province"
+                      @change="resetProvince"
+                      :label-field="provinces.name"
+                      value-field="id_province"
+                      text-field="name"
+                      :options="provinces"
+                    ></b-form-select>
+                  </b-form-group>
+                  <b-form-group
+                    label="Kota Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Kota Wajib Di Isi"
+                  >
+                    <b-form-select
+                      v-model="form.hotel_city"
+                      @change="fetchDistrict"
+                      :label-field="cities.name"
+                      value-field="id_city"
+                      text-field="name"
+                      :options="cities"
+                    ></b-form-select>
+                  </b-form-group>
+                  <b-form-group
+                    label="Kecamatan Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Kecamatan Wajin Di Isi"
+                  >
+                    <b-form-select
+                      v-model="form.hotel_district"
+                      @change="fetchSubdistrict"
+                      :label-field="districts.name"
+                      value-field="id_district"
+                      text-field="name"
+                      :options="districts"
+                    ></b-form-select>
+                  </b-form-group>
+                  <b-form-group
+                    label="Kelurahan Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Kelurahan Wajib Di Isi"
+                  >
+                    <b-form-select
+                      v-model="form.hotel_subdistrict"
+                      :label-field="subdistricts.name"
+                      value-field="id_subdistrict"
+                      text-field="name"
+                      :options="subdistricts"
+                    ></b-form-select>
+                  </b-form-group>
+                  <b-form-group
+                    label="Alamat"
+                    label-for="name-input"
+                    invalid-feedback="Alamat Wajib Di Isi"
+                  >
+                    <b-form-textarea
+                      id="textarea"
+                      v-model="form.hotel_address"
+                      placeholder="Masukkan Alamat Hotel..."
+                      rows="3"
+                      max-rows="6"
+                      required
+                    ></b-form-textarea>
+                  </b-form-group>
+                </div>
+                <div class="col-4">
+                  <b-form-group
+                    label="Name Admin"
+                    label-for="name-input"
+                    invalid-feedback="Name Admin Di Isi"
+                  >
+                    <b-form-input
+                      id="name-input"
+                      type="text"
+                      v-model="form.admin_name"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="No Hp Admin"
+                    label-for="name-input"
+                    invalid-feedback="No Hp Admin Wajib Di Isi"
+                  >
+                    <b-form-input
+                      type="number"
+                      id="name-input"
+                      v-model="form.admin_phone"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="NIK Admin"
+                    label-for="name-input"
+                    invalid-feedback="No Hp Admin Wajib Di Isi"
+                  >
+                    <b-form-input
+                      type="number"
+                      id="name-input"
+                      v-model="form.nik"
+                      required
+                    ></b-form-input>
+                  </b-form-group>
+                  <b-form-group
+                    label="Dokumen SIUP/AKTE/NIB"
+                    label-for="name-input"
+                    invalid-feedback="Dokumen SIUP/AKTE/NIB Wajib Di Isi"
+                  >
+                    <input
+                      type="file"
+                      id="file"
+                      ref="docs"
+                      v-on:change="handleDocument()"
+                    />
+                  </b-form-group>
+                  <b-form-group
+                    label="Selfie Admin"
+                    label-for="name-input"
+                    invalid-feedback="Selfie Admin Wajib Di Isi"
+                  >
+                    <input
+                      type="file"
+                      id="file"
+                      ref="selfie"
+                      v-on:change="handleSelfie()"
+                    />
+                  </b-form-group>
+                  <b-form-group
+                    label="Foto Hotel"
+                    label-for="name-input"
+                    invalid-feedback="Foto Hotel Wajib Di Isi"
+                  >
+                    <input
+                      type="file"
+                      id="file"
+                      ref="hotel_image"
+                      v-on:change="handleImageHotel()"
+                    />
+                  </b-form-group>
+                </div>
+              </div>
+
+              <!--begin::Action-->
+              <div class="form-group d-flex flex-wrap float-right">
+                <button
+                  v-on:click="$router.push('login')"
+                  class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  ref="kt_login_signup_submit"
+                  class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
+                >
+                  Submit
+                </button>
+              </div>
+              <!--end::Action-->
+            </b-form>
+            <!--end::Form-->
+          </div>
+          <!--end::Signup-->
+        </div>
       </div>
-
-      <!--begin::Form-->
-      <b-form class="form" @submit.stop.prevent="onSubmit">
-        <div class="row">
-          <div class="col-4">
-            <b-form-group
-              label="Name Hotel"
-              label-for="name-input"
-              invalid-feedback="Name Wajib Di Isi"
-            >
-              <b-form-input
-                id="name-input"
-                type="text"
-                v-model="form.hotel_name"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="Email Hotel"
-              label-for="name-input"
-              invalid-feedback="Email Hotel Wajib Di Isi"
-            >
-              <b-form-input
-                id="name-input"
-                type="email"
-                v-model="form.hotel_email"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="No Hp Hotel"
-              label-for="name-input"
-              invalid-feedback="No Hp Wajib Di Isi"
-            >
-              <b-form-input
-                type="number"
-                id="name-input"
-                v-model="form.hotel_phone"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="NPWP"
-              label-for="name-input"
-              invalid-feedback="NPWP Wajib Di Isi"
-            >
-              <b-form-input
-                type="number"
-                id="name-input"
-                v-model="form.npwp"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="KTP"
-              label-for="name-input"
-              invalid-feedback="KTP Wajib Di Isi"
-            >
-              <input
-                type="file"
-                id="file"
-                ref="ktp"
-                v-on:change="handleKtp()"
-              />
-            </b-form-group>
-          </div>
-
-          <div class="col-4">
-            <b-form-group
-              label="Provinsi Hotel"
-              label-for="name-input"
-              invalid-feedback="Provinsi Wajib Di Isi"
-            >
-              <b-form-select
-                v-model="form.hotel_province"
-                @change="resetProvince"
-                :label-field="provinces.name"
-                value-field="id_province"
-                text-field="name"
-                :options="provinces"
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
-              label="Kota Hotel"
-              label-for="name-input"
-              invalid-feedback="Kota Wajib Di Isi"
-            >
-              <b-form-select
-                v-model="form.hotel_city"
-                @change="fetchDistrict"
-                :label-field="cities.name"
-                value-field="id_city"
-                text-field="name"
-                :options="cities"
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
-              label="Kecamatan Hotel"
-              label-for="name-input"
-              invalid-feedback="Kecamatan Wajin Di Isi"
-            >
-              <b-form-select
-                v-model="form.hotel_district"
-                @change="fetchSubdistrict"
-                :label-field="districts.name"
-                value-field="id_district"
-                text-field="name"
-                :options="districts"
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
-              label="Kelurahan Hotel"
-              label-for="name-input"
-              invalid-feedback="Kelurahan Wajib Di Isi"
-            >
-              <b-form-select
-                v-model="form.hotel_subdistrict"
-                :label-field="subdistricts.name"
-                value-field="id_subdistrict"
-                text-field="name"
-                :options="subdistricts"
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
-              label="Alamat"
-              label-for="name-input"
-              invalid-feedback="Alamat Wajib Di Isi"
-            >
-              <b-form-textarea
-                id="textarea"
-                v-model="form.hotel_address"
-                placeholder="Masukkan Alamat Hotel..."
-                rows="3"
-                max-rows="6"
-                required
-              ></b-form-textarea>
-            </b-form-group>
-          </div>
-          <div class="col-4">
-            <b-form-group
-              label="Name Admin"
-              label-for="name-input"
-              invalid-feedback="Name Admin Di Isi"
-            >
-              <b-form-input
-                id="name-input"
-                type="text"
-                v-model="form.admin_name"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="No Hp Admin"
-              label-for="name-input"
-              invalid-feedback="No Hp Admin Wajib Di Isi"
-            >
-              <b-form-input
-                type="number"
-                id="name-input"
-                v-model="form.admin_phone"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="NIK Admin"
-              label-for="name-input"
-              invalid-feedback="No Hp Admin Wajib Di Isi"
-            >
-              <b-form-input
-                type="number"
-                id="name-input"
-                v-model="form.nik"
-                required
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group
-              label="Dokumen SIUP/AKTE/NIB"
-              label-for="name-input"
-              invalid-feedback="Dokumen SIUP/AKTE/NIB Wajib Di Isi"
-            >
-              <input
-                type="file"
-                id="file"
-                ref="docs"
-                v-on:change="handleDocument()"
-              />
-            </b-form-group>
-            <b-form-group
-              label="Selfie Admin"
-              label-for="name-input"
-              invalid-feedback="Selfie Admin Wajib Di Isi"
-            >
-              <input
-                type="file"
-                id="file"
-                ref="selfie"
-                v-on:change="handleSelfie()"
-              />
-            </b-form-group>
-            <b-form-group
-              label="Foto Hotel"
-              label-for="name-input"
-              invalid-feedback="Foto Hotel Wajib Di Isi"
-            >
-              <input
-                type="file"
-                id="file"
-                ref="hotel_image"
-                v-on:change="handleImageHotel()"
-              />
-            </b-form-group>
-          </div>
-        </div>
-
-        <!--begin::Action-->
-        <div class="form-group d-flex flex-wrap float-right">
-          <button
-            v-on:click="$router.push('login')"
-            class="btn btn-light-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            ref="kt_login_signup_submit"
-            class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3 mx-4"
-          >
-            Submit
-          </button>
-        </div>
-        <!--end::Action-->
-      </b-form>
-      <!--end::Form-->
     </div>
-    <!--end::Signup-->
+    <!--end::Content-->
   </div>
 </template>
 
@@ -584,9 +593,9 @@ export default {
   },
   mounted() {
     this.fetchProvinces();
-    this.fetchCity();
-    this.fetchDistrict();
-    this.fetchSubdistrict();
+    // this.fetchCity();
+    // this.fetchDistrict();
+    // this.fetchSubdistrict();
   }
 };
 </script>
