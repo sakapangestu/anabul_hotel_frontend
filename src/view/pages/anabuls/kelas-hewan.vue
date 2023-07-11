@@ -90,8 +90,8 @@
                   <b-th>No</b-th>
                   <b-th
                     >Kelas Hewan
-                    <i class="fas fa-sort ml-3" @click="fetchSort"></i
-                  ></b-th>
+<!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                  </b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -210,7 +210,7 @@ export default {
     return {
       search: "",
       sortBy: "name",
-      orderBy: "desc",
+      orderBy: "asc",
       page: 1,
       title: "",
       modalVisible: false,
@@ -268,14 +268,14 @@ export default {
           // alert(err);
         });
     },
-    fetchSort() {
-      if (this.orderBy === "desc") {
-        this.orderBy = "asc";
-      } else {
-        this.orderBy = "desc";
-      }
-      this.fetchClass();
-    },
+    // fetchSort() {
+    //   if (this.orderBy === "desc") {
+    //     this.orderBy = "asc";
+    //   } else {
+    //     this.orderBy = "desc";
+    //   }
+    //   this.fetchClass();
+    // },
     onDetail(data) {
       alert("DETAIL");
       console.log(data);
@@ -383,7 +383,7 @@ export default {
         this.$api
           .post("class/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchClass();
               Swal.fire({

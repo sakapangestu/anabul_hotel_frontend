@@ -18,7 +18,7 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name kelas hewan"
+              placeholder="Search name staff"
               v-model="search"
               @input="fetchStaff()"
             />
@@ -226,7 +226,7 @@
                   />
                 </b-form-group>
                 <b-form-group
-                  label="Selfie "
+                  label="Selfie Beserta Ktp"
                   label-for="name-input"
                   invalid-feedback="Selfie Harus di Isi"
                   :state="nameState"
@@ -305,8 +305,7 @@
                   <b-th>No</b-th>
                   <b-th>Image</b-th>
                   <b-th
-                    >Nama <i class="fas fa-sort ml-3" @click="fetchSort"></i
-                  ></b-th>
+                    >Nama</b-th>
                   <b-th>Email</b-th>
                   <b-th>Alamat</b-th>
                   <b-th>Action</b-th>
@@ -623,14 +622,14 @@ export default {
           // alert(err);
         });
     },
-    fetchSort() {
-      if (this.orderBy === "desc") {
-        this.orderBy = "asc";
-      } else {
-        this.orderBy = "desc";
-      }
-      this.fetchStaff();
-    },
+    // fetchSort() {
+    //   if (this.orderBy === "desc") {
+    //     this.orderBy = "asc";
+    //   } else {
+    //     this.orderBy = "desc";
+    //   }
+    //   this.fetchStaff();
+    // },
     async onDetail(data) {
       this.showModal();
       await this.fetchProvinces();
@@ -706,6 +705,13 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
+      this.addForm.phone = parseInt(this.addForm.phone);
+      this.addForm.nik = parseInt(this.addForm.nik);
+      this.addForm.province_id = parseInt(this.addForm.province_id);
+      this.addForm.city_id = parseInt(this.addForm.city_id);
+      this.addForm.district_id = parseInt(this.addForm.district_id);
+      this.addForm.subdistrict_id = parseInt(this.addForm.subdistrict_id);
+
       const config = {
         headers: { "content-type": "multipart/form-data" }
       };
@@ -716,6 +722,10 @@ export default {
       formData.append("email", this.addForm.email);
       formData.append("phone", this.addForm.phone);
       formData.append("nik", this.addForm.nik);
+      formData.append("province_id", this.addForm.province_id);
+      formData.append("city_id", this.addForm.city_id);
+      formData.append("district_id", this.addForm.district_id);
+      formData.append("subdistrict_id", this.addForm.subdistrict_id);
       formData.append("birth_date", this.addForm.birth_date);
       formData.append("gender", this.addForm.gender);
       if (this.$refs.ktp.files[0] !== undefined)
@@ -773,7 +783,7 @@ export default {
         this.$api
           .post("staff/add", formData, config)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchStaff();
               Swal.fire({
@@ -836,6 +846,7 @@ export default {
   },
   mounted() {
     this.fetchStaff();
+    this.fetchProvinces();
     this.hotelId = getHotelId();
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Staff Hotel" }]);
   }

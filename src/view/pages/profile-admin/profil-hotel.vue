@@ -269,6 +269,31 @@
             </form>
           </b-tab>
           <b-tab>
+            <label class="mt-3">Kategori Album</label>
+            <div class="row">
+              <div class="col-9">
+                <b-form-select
+                  v-model="serviceId"
+                  :label-field="layanan.name"
+                  value-field="id_service"
+                  text-field="name"
+                  :options="layanan"
+                  @change="getAlbumHotel()"
+                ></b-form-select>
+              </div>
+              <div class="col-3">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary ml-5"
+                  @click="resetLayanan"
+                >
+                  <!--      <i class="fa fa-refresh mr-1" aria-hidden="true"></i>-->
+                  <i class="fas fa-redo"></i>
+                  Reset
+                </button>
+              </div>
+            </div>
+
             <form @submit.prevent="submitImage">
               <div class="p-2 pt-4 d-flex align-items-center overflow-auto">
                 <section
@@ -277,7 +302,10 @@
                   style="position: relative;"
                   class="text-right"
                 >
-                  <i class="fas fa-times-circle" @click="onDelete(srcold.id_hotel_album)"></i>
+                  <i
+                    class="fas fa-times-circle"
+                    @click="onDelete(srcold.id_hotel_album)"
+                  ></i>
                   <img
                     style="height: 260px !important;"
                     class="imageAlbum ml-5"
@@ -299,6 +327,19 @@
                 />
               </div>
               <div>
+                <b-form-group
+                  label="Kategori Album"
+                  label-for="name-input"
+                  invalid-feedback="Kategori Album is required"
+                >
+                  <b-form-select
+                    v-model="service_id"
+                    :label-field="layanan.name"
+                    value-field="id_service"
+                    text-field="name"
+                    :options="layanan"
+                  ></b-form-select>
+                </b-form-group>
                 <input
                   type="file"
                   id="upload-album"
@@ -374,6 +415,8 @@ export default {
       cityId: "",
       districtId: "",
       subdistrictId: "",
+      service_id: "",
+      serviceId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       profilhotel: {
         id_hotel: "",
@@ -402,6 +445,7 @@ export default {
       citys: [],
       districts: [],
       subdistricts: [],
+      layanan: [],
       imageURLs: [],
       imagesAlbumNew: [],
       imageAlbumOld: []
@@ -459,6 +503,10 @@ export default {
         }
       });
     },
+    resetLayanan() {
+      this.serviceId = "";
+      this.getAlbumHotel();
+    },
     resetProvince() {
       this.profilhotel.city_id = "";
       this.profilhotel.subdistrict_id = "";
@@ -492,6 +540,18 @@ export default {
         this.subdistricts = res.data.data.data ? res.data.data.data : [];
       });
     },
+    fetchLayanan() {
+      this.$api
+        .get(`service/all`)
+        .then(res => {
+          this.layanan = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.layanan);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
     fetchProfilHotel() {
       this.$api
         .get(`hotel/profile`)
@@ -524,8 +584,11 @@ export default {
       console.log(this.imageURLs);
     },
     getAlbumHotel() {
+      this.hotelId = getHotelId();
       this.$api
-        .get(`hotelAlbum/all`)
+        .get(
+          `hotelAlbum/all?serviceId=${this.serviceId}&hotel_id=${this.hotelId}`
+        )
         .then(res => {
           this.imageAlbumOld = res.data.data.data ? res.data.data.data : {};
           console.log(this.imageAlbumOld);
@@ -542,12 +605,14 @@ export default {
 
       let formData = new FormData();
       formData.append("hotel_id", getHotelId());
+      formData.append("service_id", this.service_id);
+      console.log(this.service_id);
       this.imagesAlbumNew.map(image => {
         formData.append("image", image);
         this.$api
           .post("hotelAlbum/add", formData, config)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.imagesAlbumNew = [];
               this.imageURLs = [];
               this.getAlbumHotel();
@@ -718,6 +783,16 @@ export default {
 
     this.$store.dispatch(SET_BREADCRUMB, [{ title: "Profil Hotel" }]);
 
+
+    // this.fetchProfilHotel();
+    this.hotelId = getHotelId();
+    this.featchProvince();
+    this.featchCity(getHotelprovince());
+    this.featchDistrict(getHotelCity());
+    this.featchSubdistrict(getHotelDistrict());
+    this.getAlbumHotel();
+    this.fetchLayanan();
+
     this.$nextTick(() => {
       const hljs = this.$el.querySelectorAll(".hljs");
       hljs.forEach(hl => {
@@ -725,12 +800,6 @@ export default {
         hl.classList.add(`language-${hl.classList[1]}`);
       });
     });
-    // this.fetchProfilHotel();
-    this.getAlbumHotel();
-    this.featchProvince();
-    this.featchCity(getHotelprovince());
-    this.featchDistrict(getHotelCity());
-    this.featchSubdistrict(getHotelDistrict());
   }
 };
 </script>

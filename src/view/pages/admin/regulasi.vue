@@ -136,7 +136,7 @@
                       >Aktif</b-badge
                     >
                     <!--                    {{ item }}-->
-                    <b-badge variant="warning" v-if="item.status === 'NonAktif'"
+                    <b-badge variant="danger" v-if="item.status === 'NonAktif'"
                       >Non Aktif</b-badge
                     >
                   </b-td>
@@ -470,7 +470,7 @@ export default {
         this.$api
           .post("regulation/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchRegulation();
               Swal.fire({

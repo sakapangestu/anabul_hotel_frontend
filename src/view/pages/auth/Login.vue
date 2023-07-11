@@ -44,13 +44,13 @@
               class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
             >
               <span class="font-weight-bold font-size-3 text-dark-60">
-                Don't have an account yet?
+                Belum memiliki akun?
               </span>
               <router-link
                 class="font-weight-bold font-size-3 ml-2"
                 :to="{ name: 'register' }"
               >
-                Sign Up!
+                Registrasi!
               </router-link>
             </div>
             <!--end::Content header-->
@@ -58,9 +58,9 @@
             <!--begin::Signin-->
             <div class="login-form login-signin">
               <div class="text-center mb-10 mb-lg-20">
-                <h3 class="font-size-h1">Sign In</h3>
+                <h3 class="font-size-h1">Login</h3>
                 <p class="text-muted font-weight-semi-bold">
-                  Enter your username and password
+                  Masukkan nama pengguna dan kata sandi Anda
                 </p>
               </div>
 
@@ -134,14 +134,14 @@
                       class="text-dark-60 text-hover-primary my-3 mr-2"
                       id="kt_login_forgot"
                     >
-                      Forgot Password ?
+                      Lupa Password ?
                     </a></router-link
                   >
                   <button
                     ref="kt_login_signin_submit"
                     class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
                   >
-                    Sign In
+                    Login
                   </button>
                 </div>
                 <!--end::Action-->

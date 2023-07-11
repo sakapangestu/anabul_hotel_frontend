@@ -280,7 +280,7 @@
                   </b-link>
                 </b-form-group>
                 <b-form-group
-                  label="Selfie "
+                  label="Selfie Beserta Ktp"
                   label-for="name-input"
                   invalid-feedback="Selfie Harus di Isi"
                   :state="nameState"
@@ -313,15 +313,14 @@
                     v-model="addForm.status"
                     :options="['Proses', 'Terima', 'Tolak']"
                     class="per-page"
-                    @change="changeStatus(addForm)"
                     required
                   >
                   </b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Keterangan Ditolak"
+                  label="Alasan Penolakan"
                   label-for="name-input"
-                  invalid-feedback="Keterangan Ditolak di Isi"
+                  invalid-feedback="KAlasan Penolakan harus di Isi"
                   v-if="addForm.status === 'Tolak'"
                   :state="nameState"
                 >
@@ -332,7 +331,12 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <b-button class="mt-3" type="submit" variant="primary" block
+                <b-button
+                  class="mt-3"
+                  type="submit"
+                  variant="primary"
+                  block
+                  ref="kt_login_signup_submit"
                   >Submit</b-button
                 >
               </b-form>
@@ -349,8 +353,8 @@
                   <b-th>No</b-th>
                   <b-th
                     >Hotel Nama
-                    <i class="fas fa-sort ml-3" @click="fetchSort"></i
-                  ></b-th>
+<!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                  </b-th>
                   <b-th>Hotel Email</b-th>
                   <b-th>NPWP</b-th>
                   <b-th>Admin Name</b-th>
@@ -504,6 +508,7 @@ export default {
       nameState: null,
       isEdit: null,
       isDetail: null,
+      loading: false,
       submittedNames: [],
       modalTitle: "",
       // Note 'isActive' is left out and will not appear in the rendered table
@@ -564,48 +569,97 @@ export default {
         })
         .then(res => {
           if (res.status === 200) {
-            this.hideModal();
+            // this.hideModal();
             this.fetchRequest();
-            Swal.fire({
-              icon: "success",
-              title: "Ubah Status Berhasil",
-              text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
-              width: "28em",
-              showCloseButton: false,
-              showCancelButton: false,
-              timer: 1500,
-              showConfirmButton: false
-            });
+            // Swal.fire({
+            //   icon: "success",
+            //   title: "Ubah Status Berhasil",
+            //   text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+            //   width: "28em",
+            //   showCloseButton: false,
+            //   showCancelButton: false,
+            //   timer: 1500,
+            //   showConfirmButton: false
+            // });
             // this.$bvModal.hide("modal-category");
             // this.toastAlert("update");
           }
         });
     },
     changeStatusReject() {
-      this.$api
-        .put(`request/status`, {
-          id_request: this.addForm.id_request,
-          status: this.addForm.status,
-          reject_reason: this.addForm.reject_reason
-        })
-        .then(res => {
-          if (res.status === 200) {
-            this.hideModal();
-            this.fetchRequest();
-            Swal.fire({
-              icon: "success",
-              title: "Ubah Status Berhasil",
-              text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
-              width: "28em",
-              showCloseButton: false,
-              showCancelButton: false,
-              timer: 1500,
-              showConfirmButton: false
+      const submitButton = this.$refs["kt_login_signup_submit"];
+      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
+
+      setTimeout(() => {
+        if (this.addForm.status === "Tolak") {
+          this.$api
+            .put(`request/status`, {
+              id_request: this.addForm.id_request,
+              status: this.addForm.status,
+              reject_reason: this.addForm.reject_reason
+            })
+            .then(res => {
+              if (res.status === 200) {
+                // console.log(res.status);
+                this.loading = false;
+                this.hideModal();
+                this.fetchRequest();
+                Swal.fire({
+                  icon: "success",
+                  title: "Ubah Status Berhasil",
+                  text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                submitButton.classList.remove(
+                  "spinner",
+                  "spinner-light",
+                  "spinner-right"
+                );
+                // this.$bvModal.hide("modal-category");
+                // this.toastAlert("update");
+              } else {
+                this.loading = false;
+              }
             });
-            // this.$bvModal.hide("modal-category");
-            // this.toastAlert("update");
-          }
-        });
+        } else {
+          this.$api
+            .put(`request/status`, {
+              id_request: this.addForm.id_request,
+              status: this.addForm.status
+            })
+            .then(res => {
+              if (res.status === 200) {
+                // console.log(res.status);
+                this.loading = false;
+                this.hideModal();
+                this.fetchRequest();
+                Swal.fire({
+                  icon: "success",
+                  title: "Ubah Status Berhasil",
+                  text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                submitButton.classList.remove(
+                  "spinner",
+                  "spinner-light",
+                  "spinner-right"
+                );
+                // this.$bvModal.hide("modal-category");
+                // this.toastAlert("update");
+              } else {
+                this.loading = false;
+              }
+            });
+        }
+      }, 2000);
     },
     fetchProvinces() {
       this.resetProvince();
@@ -674,14 +728,14 @@ export default {
           // alert(err);
         });
     },
-    fetchSort() {
-      if (this.orderBy === "desc") {
-        this.orderBy = "asc";
-      } else {
-        this.orderBy = "desc";
-      }
-      this.fetchRequest();
-    },
+    // fetchSort() {
+    //   if (this.orderBy === "desc") {
+    //     this.orderBy = "asc";
+    //   } else {
+    //     this.orderBy = "desc";
+    //   }
+    //   this.fetchRequest();
+    // },
     async onDetail(data) {
       this.showModal();
       await this.fetchProvinces();

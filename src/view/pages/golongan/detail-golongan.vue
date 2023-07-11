@@ -127,8 +127,8 @@
                   <b-th>Golongan</b-th>
                   <b-th>Spesies</b-th>
                   <!--                  <b-th>Hotel</b-th>-->
-                  <b-th>Minimal Berat</b-th>
-                  <b-th>Maksimal Berat</b-th>
+                  <b-th>Minimal Berat (Kg)</b-th>
+                  <b-th>Maksimal Berat (Kg)</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -168,7 +168,7 @@
                       <img
                         class="pointer"
                         style="width: 20px"
-                        @click="onDelete(item.id_groupDetail)"
+                        @click="onDelete(item.id_group_detail)"
                         src="@/assets/icon/button/delete.png"
                         alt="del"
                       />
@@ -237,19 +237,32 @@
           </div>
         </div>
       </template>
+      <div class="mt-3">
+        <b-badge
+          ><a style="font-size: larger"
+            > <a>Informasi :</a> Tambahkan permintaan species baru jika belum terdaftar didalam
+            detail golongan!!!</a
+          ></b-badge
+        >
+      </div>
+      <div class="mt-15">
+        <spesiesBaru></spesiesBaru>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import KTCard from "@/view/content/Card.vue";
+import spesiesBaru from "@/view/pages/componen-golongan/spesies-baru";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 import { getHotelId } from "@/service/jwt.service";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
-    KTCard
+    KTCard,
+    spesiesBaru
   },
   data() {
     return {
@@ -468,7 +481,7 @@ export default {
         this.$api
           .post("groupDetail/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchdetailGroup();
               Swal.fire({

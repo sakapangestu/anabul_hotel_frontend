@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="verified"
     class="container-fluid bg-white"
     style="height: 100vh; padding-top: 90px;"
   >
@@ -14,17 +15,17 @@
           <img src="@/assets/icon/button/app_logo.png" style="width: 300px" />
           <form class="text-center text-mantra-dark">
             <h3 class="text-center auth-forgot-1 mt-4 mb-3">
-              Berhasil mengatur ulang password!
+              Email telah diverifikasi
             </h3>
 
-             <p class="auth-forgot-2">
-              Kata sandi Anda telah berhasil diatur ulang. <br />
-              Klik tautan di bawah untuk masuk halaman login.
+            <p class="auth-forgot-2">
+              Terimakasih sudah melakukan pendaftaran akun.<br />
+              Silahkan kembali ke aplikasi untuk melakukan login.
             </p>
 
             <div class="col-sm-8 mx-auto">
               <router-link
-                :to="{ name: 'login' }"
+                :to="{ name: '' }"
                 id="login-button"
                 class="w-100 outline-none mt-4 login-btn d-flex justify-content-center"
               >
@@ -49,10 +50,26 @@
 export default {
   name: "reset-pass",
   data() {
-    return {};
+    return {
+      verified: false,
+      token: this.$route.query.token ? this.$route.query.token : null
+    };
   },
   components: {},
   methods: {
+    getVerifyAccount() {
+      this.$api
+        .put(`auth/verify?token=${this.token}`)
+        .then(res => {
+          if (res.status === 200) {
+            this.verified = true;
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
     // page1() {
     //   document.querySelector(".forgot-1").style.display = "none";
     //   document.querySelector(".forgot-2").style.display = "";
@@ -62,7 +79,9 @@ export default {
     //   document.querySelector(".forgot-2").style.display = "none";
     // }
   },
-  mounted() {}
+  mounted() {
+    this.getVerifyAccount();
+  }
 };
 </script>
 

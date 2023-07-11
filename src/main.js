@@ -38,6 +38,7 @@ import "@/core/plugins/metronic";
 import "@mdi/font/css/materialdesignicons.css";
 // import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import "leaflet/dist/leaflet.css";
+import "@/assets/css/style.css";
 //maps
 // Vue.component("l-map", LMap);
 // Vue.component("l-tile-layer", LTileLayer);

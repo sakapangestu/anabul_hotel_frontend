@@ -4,13 +4,13 @@
       class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
     >
       <span class="font-weight-bold font-size-3 text-dark-60">
-        Already have an account?
+        Sudah memiliki akun?
       </span>
       <router-link
         class="font-weight-bold font-size-3 ml-2"
         :to="{ name: 'login' }"
       >
-        Sign In!
+        Login!
       </router-link>
     </div>
     <div class="card-body p-0">
@@ -81,6 +81,9 @@
                 <h3 class="mb-10 font-weight-bold text-dark">
                   Masukkan Profil Hotel Anda!
                 </h3>
+                <b-badge variant="danger"
+                  >Informasi : Wajib mengisi semua form!!</b-badge
+                >
                 <div class="form-group">
                   <label>Nama Hotel</label>
                   <input
@@ -109,7 +112,7 @@
                     type="number"
                     class="form-control form-control-solid form-control-lg"
                     placeholder="Email Hotel"
-                    v-model="form.hotel_email"
+                    v-model="form.hotel_phone"
                   />
                   <span class="form-text text-muted"
                     >Masukkan No Hp Hotel Hotel</span
@@ -121,7 +124,7 @@
                     type="number"
                     class="form-control form-control-solid form-control-lg"
                     placeholder="NPWP"
-                    v-model="form.hotel_email"
+                    v-model="form.npwp"
                   />
                   <span class="form-text text-muted">Masukkan NPWP</span>
                 </div>
@@ -210,140 +213,183 @@
                     >Masukkan Alamat Hotel</span
                   >
                 </div>
-                <div class="row">
-                  <div class="col">
-                    <div
-                      v-for="(layanan, index) in petLayanan"
-                      :key="layanan.id"
-                    >
-                      <b-button v-b-toggle="'collapse' + index">
-                        Layanan {{ index + 1 }}
-                      </b-button>
-                      <b-button
-                        v-if="index === petLayanan.length - 1 && index !== 0"
-                        @click="deleteLayanan"
-                      >
-                        X
-                      </b-button>
-                      <b-collapse :id="'collapse' + index">
-                        <b-card>
-                          <b-form-group
-                            label="Nama Layanan"
-                            label-for="name-input"
-                            invalid-feedback="Nama Layanan is required"
-                          >
-                            <b-form-input
-                              type="text"
-                              id="name-input"
-                              v-model="layanan.name"
-                            ></b-form-input>
-                          </b-form-group>
-                        </b-card>
-                      </b-collapse>
-                    </div>
-                    <b-button variant="primary" @click="addLayanan">
-                      Tambah Layanan
-                    </b-button>
-                  </div>
-                  <div class="col">
-                    <div
-                      v-for="(kategori, index) in petKategori"
-                      :key="kategori.id"
-                    >
-                      <b-button v-b-toggle="'collapse1' + index">
-                        Kategori Kandang {{ index + 1 }}
-                      </b-button>
-                      <b-button
-                        v-if="index === petKategori.length - 1 && index !== 0"
-                        @click="deleteKategori"
-                      >
-                        X
-                      </b-button>
-                      <b-collapse :id="'collapse1' + index">
-                        <b-card>
-                          <b-form-group
-                            label="Kategori Kandang"
-                            label-for="name-input"
-                            invalid-feedback="Kategori Kandang is required"
-                          >
-                            <b-form-input
-                              type="text"
-                              id="name-input"
-                              v-model="kategori.name"
-                            ></b-form-input>
-                          </b-form-group>
-                        </b-card>
-                      </b-collapse>
-                    </div>
-                    <b-button variant="primary" @click="addKategori">
-                      Tambah Kategori Kandang
-                    </b-button>
-                  </div>
-                  <div class="col">
-                    <div v-for="(ukuran, index) in petUkuran" :key="ukuran.id">
-                      <b-button v-b-toggle="'collapse2' + index">
-                        Ukuran Kandang {{ index + 1 }}
-                      </b-button>
-                      <b-button
-                        v-if="index === petUkuran.length - 1 && index !== 0"
-                        @click="deleteUkuran"
-                      >
-                        X
-                      </b-button>
-                      <b-collapse :id="'collapse2' + index">
-                        <b-card>
-                          <b-form-group
-                            label="Nama Ukuran"
-                            label-for="name-input"
-                            invalid-feedback="Kategori Kandang is required"
-                          >
-                            <b-form-input
-                              type="text"
-                              id="name-input"
-                              v-model="ukuran.name"
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            label="Panjang Kandang"
-                            label-for="name-input"
-                            invalid-feedback="Panjang Kandang is required"
-                          >
-                            <b-form-input
-                              type="number"
-                              id="name-input"
-                              v-model="ukuran.long"
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            label="Lebar Kandang"
-                            label-for="name-input"
-                            invalid-feedback="Lebar Kandang is required"
-                          >
-                            <b-form-input
-                              type="number"
-                              id="name-input"
-                              v-model="ukuran.wide"
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            label="Tinggi Kandang"
-                            label-for="name-input"
-                            invalid-feedback="Tinggi Kandang is required"
-                          >
-                            <b-form-input
-                              type="number"
-                              id="name-input"
-                              v-model="ukuran.tall"
-                            ></b-form-input>
-                          </b-form-group>
-                        </b-card>
-                      </b-collapse>
-                    </div>
-                    <b-button variant="primary" @click="addUkuran">
-                      Tambah Ukuran Kandang
-                    </b-button>
-                  </div>
+                <div class="form-group">
+                  <label>Diskripsi Hotel</label>
+                  <b-form-textarea
+                    class="form-control form-control-solid form-control-lg"
+                    v-model="form.hotel_description"
+                    placeholder="Masukkan Diskripsi Hotel..."
+                    rows="3"
+                    max-rows="6"
+                    required
+                  ></b-form-textarea>
+                  <span class="form-text text-muted"
+                    >Masukkan Diskripsi Hotel</span
+                  >
                 </div>
+                <div class="form-group">
+                  <label>Kategori dan Ukuran Kandang</label>
+                  <b-form-textarea
+                    class="form-control form-control-solid form-control-lg"
+                    v-model="form.hotel_cage"
+                    placeholder="Masukkan Kategori dan Ukuran Kandang..."
+                    rows="3"
+                    max-rows="6"
+                    required
+                  ></b-form-textarea>
+                  <span class="form-text text-muted"
+                    >Masukkan Kategori dan Ukuran Kandang</span
+                  >
+                </div>
+                <div class="form-group">
+                  <label>Layanan Hotel</label>
+                  <b-form-textarea
+                    class="form-control form-control-solid form-control-lg"
+                    v-model="form.hotel_service"
+                    placeholder="Masukkan Layanan Hotel..."
+                    rows="3"
+                    max-rows="6"
+                    required
+                  ></b-form-textarea>
+                  <span class="form-text text-muted"
+                    >Masukkan Layanan Hotel</span
+                  >
+                </div>
+
+                <!--                <div class="row">-->
+                <!--                  <div class="col">-->
+                <!--                    <div-->
+                <!--                      v-for="(layanan, index) in petLayanan"-->
+                <!--                      :key="layanan.id"-->
+                <!--                    >-->
+                <!--                      <b-button v-b-toggle="'collapse' + index">-->
+                <!--                        Layanan {{ index + 1 }}-->
+                <!--                      </b-button>-->
+                <!--                      <b-button-->
+                <!--                        v-if="index === petLayanan.length - 1 && index !== 0"-->
+                <!--                        @click="deleteLayanan"-->
+                <!--                      >-->
+                <!--                        X-->
+                <!--                      </b-button>-->
+                <!--                      <b-collapse :id="'collapse' + index">-->
+                <!--                        <b-card>-->
+                <!--                          <b-form-group-->
+                <!--                            label="Nama Layanan"-->
+                <!--                            label-for="name-input"-->
+                <!--                            invalid-feedback="Nama Layanan is required"-->
+                <!--                          >-->
+                <!--                            <b-form-input-->
+                <!--                              type="text"-->
+                <!--                              id="name-input"-->
+                <!--                              v-model="layanan.name"-->
+                <!--                            ></b-form-input>-->
+                <!--                          </b-form-group>-->
+                <!--                        </b-card>-->
+                <!--                      </b-collapse>-->
+                <!--                    </div>-->
+                <!--                    <b-button variant="primary" @click="addLayanan">-->
+                <!--                      Tambah Layanan-->
+                <!--                    </b-button>-->
+                <!--                  </div>-->
+                <!--                  <div class="col">-->
+                <!--                    <div-->
+                <!--                      v-for="(kategori, index) in petKategori"-->
+                <!--                      :key="kategori.id"-->
+                <!--                    >-->
+                <!--                      <b-button v-b-toggle="'collapse1' + index">-->
+                <!--                        Kategori Kandang {{ index + 1 }}-->
+                <!--                      </b-button>-->
+                <!--                      <b-button-->
+                <!--                        v-if="index === petKategori.length - 1 && index !== 0"-->
+                <!--                        @click="deleteKategori"-->
+                <!--                      >-->
+                <!--                        X-->
+                <!--                      </b-button>-->
+                <!--                      <b-collapse :id="'collapse1' + index">-->
+                <!--                        <b-card>-->
+                <!--                          <b-form-group-->
+                <!--                            label="Kategori Kandang"-->
+                <!--                            label-for="name-input"-->
+                <!--                            invalid-feedback="Kategori Kandang is required"-->
+                <!--                          >-->
+                <!--                            <b-form-input-->
+                <!--                              type="text"-->
+                <!--                              id="name-input"-->
+                <!--                              v-model="kategori.name"-->
+                <!--                            ></b-form-input>-->
+                <!--                          </b-form-group>-->
+                <!--                        </b-card>-->
+                <!--                      </b-collapse>-->
+                <!--                    </div>-->
+                <!--                    <b-button variant="primary" @click="addKategori">-->
+                <!--                      Tambah Kategori Kandang-->
+                <!--                    </b-button>-->
+                <!--                  </div>-->
+                <!--                  <div class="col">-->
+                <!--                    <div v-for="(ukuran, index) in petUkuran" :key="ukuran.id">-->
+                <!--                      <b-button v-b-toggle="'collapse2' + index">-->
+                <!--                        Ukuran Kandang {{ index + 1 }}-->
+                <!--                      </b-button>-->
+                <!--                      <b-button-->
+                <!--                        v-if="index === petUkuran.length - 1 && index !== 0"-->
+                <!--                        @click="deleteUkuran"-->
+                <!--                      >-->
+                <!--                        X-->
+                <!--                      </b-button>-->
+                <!--                      <b-collapse :id="'collapse2' + index">-->
+                <!--                        <b-card>-->
+                <!--                          <b-form-group-->
+                <!--                            label="Nama Ukuran"-->
+                <!--                            label-for="name-input"-->
+                <!--                            invalid-feedback="Kategori Kandang is required"-->
+                <!--                          >-->
+                <!--                            <b-form-input-->
+                <!--                              type="text"-->
+                <!--                              id="name-input"-->
+                <!--                              v-model="ukuran.name"-->
+                <!--                            ></b-form-input>-->
+                <!--                          </b-form-group>-->
+                <!--                          <b-form-group-->
+                <!--                            label="Panjang Kandang"-->
+                <!--                            label-for="name-input"-->
+                <!--                            invalid-feedback="Panjang Kandang is required"-->
+                <!--                          >-->
+                <!--                            <b-form-input-->
+                <!--                              type="number"-->
+                <!--                              id="name-input"-->
+                <!--                              v-model="ukuran.long"-->
+                <!--                            ></b-form-input>-->
+                <!--                          </b-form-group>-->
+                <!--                          <b-form-group-->
+                <!--                            label="Lebar Kandang"-->
+                <!--                            label-for="name-input"-->
+                <!--                            invalid-feedback="Lebar Kandang is required"-->
+                <!--                          >-->
+                <!--                            <b-form-input-->
+                <!--                              type="number"-->
+                <!--                              id="name-input"-->
+                <!--                              v-model="ukuran.wide"-->
+                <!--                            ></b-form-input>-->
+                <!--                          </b-form-group>-->
+                <!--                          <b-form-group-->
+                <!--                            label="Tinggi Kandang"-->
+                <!--                            label-for="name-input"-->
+                <!--                            invalid-feedback="Tinggi Kandang is required"-->
+                <!--                          >-->
+                <!--                            <b-form-input-->
+                <!--                              type="number"-->
+                <!--                              id="name-input"-->
+                <!--                              v-model="ukuran.tall"-->
+                <!--                            ></b-form-input>-->
+                <!--                          </b-form-group>-->
+                <!--                        </b-card>-->
+                <!--                      </b-collapse>-->
+                <!--                    </div>-->
+                <!--                    <b-button variant="primary" @click="addUkuran">-->
+                <!--                      Tambah Ukuran Kandang-->
+                <!--                    </b-button>-->
+                <!--                  </div>-->
+                <!--                </div>-->
               </div>
 
               <!--end: Wizard Step 1-->
@@ -368,7 +414,7 @@
                   <input
                     type="number"
                     class="form-control form-control-solid form-control-lg"
-                    placeholder="Masukkan No Hp Hotel"
+                    placeholder="Masukkan No Hp Admin"
                     v-model="form.admin_phone"
                   />
                   <span class="form-text text-muted">Masukkan No Hp Admin</span>
@@ -416,7 +462,7 @@
                   <span class="form-text text-muted">Masukkan Foto KTP</span>
                 </div>
                 <div class="form-group">
-                  <label>Selfie Admin</label>
+                  <label>Selfie + KTP Admin</label>
                   <input
                     class="form-control form-control-solid form-control-lg"
                     type="file"
@@ -452,12 +498,13 @@
                     class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
                     data-wizard-type="action-prev"
                   >
-                    Previous
+                    Sebelumnya
                   </button>
                 </div>
                 <div>
                   <button
-                    v-on:click="onSubmit"
+                    @click="onSubmit"
+                    ref="loading_submit"
                     class="btn btn-success font-weight-bold text-uppercase px-9 py-4"
                     data-wizard-type="action-submit"
                   >
@@ -467,7 +514,7 @@
                     class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
                     data-wizard-type="action-next"
                   >
-                    Next Step
+                    Selanjutnya
                   </button>
                 </div>
               </div>
@@ -509,10 +556,13 @@ export default {
         hotel_city: "",
         hotel_district: "",
         hotel_subdistrict: "",
+        hotel_description: "",
         document: null,
         admin_name: "",
         admin_phone: "",
         nik: "",
+        hotel_service: "",
+        hotel_cage: "",
         ktp: null,
         selfie: null
       },
@@ -522,25 +572,25 @@ export default {
       provinces: [],
       cities: [],
       districts: [],
-      subdistricts: [],
-      petLayanan: [{}],
-      petKategori: [{}],
-      petUkuran: [{}]
+      subdistricts: []
+      // petLayanan: [{}],
+      // petKategori: [{}],
+      // petUkuran: [{}]
     };
   },
   methods: {
-    deleteLayanan() {
-      this.petLayanan.pop();
-    },
+    // deleteLayanan() {
+    //   this.petLayanan.pop();
+    // },
     deleteKategori() {
       this.petKategori.pop();
     },
     deleteUkuran() {
       this.petUkuran.pop();
     },
-    addLayanan() {
-      this.petLayanan.push({});
-    },
+    // addLayanan() {
+    //   this.petLayanan.push({});
+    // },
     addKategori() {
       this.petKategori.push({});
     },
@@ -669,7 +719,7 @@ export default {
       // this.$store.dispatch(LOGOUT);
 
       // set spinner to submit button
-      const submitButton = this.$refs["kt_login_signup_submit"];
+      const submitButton = this.$refs["loading_submit"];
       submitButton.classList.add("spinner", "spinner-light", "spinner-right");
 
       // dummy delay
@@ -684,6 +734,7 @@ export default {
         formData.append("hotel_email", this.form.hotel_email);
         formData.append("hotel_phone", this.form.hotel_phone);
         formData.append("hotel_address", this.form.hotel_address);
+        formData.append("hotel_description", this.form.hotel_description);
         if (this.$refs.hotel_image.files[0] !== undefined)
           formData.append("hotel_image", this.$refs.hotel_image.files[0]);
         formData.append("npwp", this.form.npwp);
@@ -695,6 +746,8 @@ export default {
         formData.append("hotel_city", this.form.hotel_city);
         formData.append("hotel_district", this.form.hotel_district);
         formData.append("hotel_subdistrict", this.form.hotel_subdistrict);
+        formData.append("hotel_service", this.form.hotel_service);
+        formData.append("hotel_cage", this.form.hotel_cage);
         formData.append("nik", this.form.nik);
         if (this.$refs.ktp.files[0] !== undefined)
           formData.append("ktp", this.$refs.ktp.files[0]);
@@ -706,7 +759,7 @@ export default {
           .then(res => {
             // console.log(res.data.data.token)
             console.log(res);
-            if (res.status === 200) {
+            if (res.status === 201) {
               // console.log(res.data.data.role);
 
               this.isError = false;
@@ -721,6 +774,11 @@ export default {
                   // confirmButtonClass: "btn btn-secondary",
                   timer: 4000
                 });
+                submitButton.classList.remove(
+                  "spinner",
+                  "spinner-light",
+                  "spinner-right"
+                );
               }
               // this.$store.commit("setAuth", res.data);
             } else {
@@ -729,22 +787,31 @@ export default {
             }
           })
           .catch(err => {
+            console.log(err);
             this.loading = false;
             this.isError = true;
-            this.form.password = "";
             // this.$v.$reset();
-            if (
-              !err.message === "Request failed with status code 404" ||
-              !err.message === "Request failed with status code 400"
-            )
-              alert(err.message);
-          });
 
-        submitButton.classList.remove(
-          "spinner",
-          "spinner-light",
-          "spinner-right"
-        );
+            if (err.message === "Request failed with status code 400 ")
+              submitButton.classList.remove(
+                "spinner",
+                "spinner-light",
+                "spinner-right"
+              );
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "Semua data wajib diisi!",
+              showConfirmButton: false,
+              width: "25em",
+              timer: 2500
+            });
+            submitButton.classList.remove(
+              "spinner",
+              "spinner-light",
+              "spinner-right"
+            );
+          });
       }, 2000);
     }
     // submit: function(e) {

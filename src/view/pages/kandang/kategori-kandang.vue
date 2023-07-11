@@ -413,7 +413,7 @@ export default {
         this.$api
           .post("cageCategory/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchcageCategory();
               Swal.fire({

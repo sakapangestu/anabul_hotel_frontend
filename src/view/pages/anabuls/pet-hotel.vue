@@ -74,7 +74,7 @@
                   <b-form-input
                     type="number"
                     id="name-input"
-                    v-model="addForm.no_hp"
+                    v-model="addForm.phone"
                     :state="nameState"
                     :disabled="isDetail"
                     required
@@ -321,7 +321,6 @@
                     v-model="addForm.status"
                     :options="options"
                     :disabled="isDetail"
-                    @change="changeStatus(addForm)"
                     :aria-describedby="ariaDescribedby"
                     name="radios-stacked"
                     stacked
@@ -343,9 +342,9 @@
                 <div
                   class="btn btn-primary"
                   @click="changeStatusReject(addForm)"
-                  v-if="addForm.status === 'Tidak Aktif'"
+                  ref="kt_login_signup_submit"
                 >
-                  Submit Status
+                  Kirim Email
                 </div>
                 <b-button
                   class="mt-3"
@@ -370,13 +369,14 @@
                   <b-th>Image</b-th>
                   <b-th
                     >Hotel Nama
-                    <i class="fas fa-sort ml-3" @click="fetchSort"></i
-                  ></b-th>
+                    <!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                  </b-th>
                   <b-th>Hotel Email</b-th>
                   <b-th>Provinsi</b-th>
                   <b-th>Kota</b-th>
                   <b-th>Kecamatan</b-th>
                   <b-th>Kelurahan</b-th>
+                  <b-th>Status</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -402,7 +402,7 @@
                   </b-td>
                   <b-td
                     >{{ item.name }} <br />
-                    {{ item.no_hp }}</b-td
+                    {{ item.phone }}</b-td
                   >
                   <b-td>{{ item.email }}</b-td>
                   <b-td v-if="item.province">{{ item.province.name }}</b-td>
@@ -415,6 +415,14 @@
                     >{{ item.subdistrict.name }}
                   </b-td>
                   <b-td v-else>-</b-td>
+                  <b-td>
+                    <b-badge variant="success" v-if="item.status === 'Aktif'">
+                      Aktif</b-badge
+                    >
+                    <b-badge variant="success" v-if="item.status === 'Tidak Aktif'">
+                      Tidak Aktif</b-badge
+                    >
+                  </b-td>
                   <b-td class="action-cols">
                     <span class="action-button">
                       <img
@@ -525,8 +533,8 @@ export default {
   data() {
     return {
       search: "",
-      sortBy: "name",
-      orderBy: "desc",
+      sortBy: "",
+      orderBy: "",
       page: 1,
       title: "",
       perPage: 10,
@@ -536,6 +544,7 @@ export default {
       isEdit: null,
       isDetail: null,
       submittedNames: [],
+      loading: false,
       modalTitle: "",
       // Note 'isActive' is left out and will not appear in the rendered table
       petHotel: [],
@@ -556,7 +565,7 @@ export default {
         district_id: "",
         subdistrict_id: "",
         address: "",
-        no_hp: "",
+        phone: "",
         image: null,
         document: null,
         npwp: null,
@@ -591,62 +600,137 @@ export default {
       this.addForm.document = this.$refs.docs.files[0];
       this.addForm.documentName = this.$refs.docs.files[0].name;
     },
-    changeStatus(data) {
-      if (data.status !== "Tidak Aktif") {
-        this.$api
-          .put(`hotel/status`, {
-            id_hotel: data.id_hotel,
-            status: data.status,
-            inactive_reason: ""
-          })
-          .then(res => {
-            if (res.status === 200) {
-              // this.hideModal();
-              this.fetchHotel();
-              Swal.fire({
-                icon: "success",
-                title: "Ubah Status Berhasil",
-                text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
-                width: "28em",
-                showCloseButton: false,
-                showCancelButton: false,
-                timer: 1500,
-                showConfirmButton: false
-              });
-              // this.$bvModal.hide("modal-category");
-              // this.toastAlert("update");
-            }
-          });
-      }
+    // changeStatus(data) {
+    //   if (data.status !== "Tidak Aktif") {
+    //     this.$api
+    //       .put(`hotel/status`, {
+    //         id_hotel: data.id_hotel,
+    //         status: data.status,
+    //         inactive_reason: ""
+    //       })
+    //       .then(res => {
+    //         if (res.status === 200) {
+    //           // this.hideModal();
+    //           this.fetchHotel();
+    //           Swal.fire({
+    //             icon: "success",
+    //             title: "Ubah Status Berhasil",
+    //             text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+    //             width: "28em",
+    //             showCloseButton: false,
+    //             showCancelButton: false,
+    //             timer: 1500,
+    //             showConfirmButton: false
+    //           });
+    //           // this.$bvModal.hide("modal-category");
+    //           // this.toastAlert("update");
+    //         }
+    //       });
+    //   }
+    // },
+    changeStatusReject() {
+      const submitButton = this.$refs["kt_login_signup_submit"];
+      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
+      console.log(this.addForm.status);
+      setTimeout(() => {
+        if (this.addForm.status === "Tidak Aktif") {
+          this.$api
+            .put(`hotel/status`, {
+              id_hotel: this.addForm.id_hotel,
+              status: this.addForm.status,
+              inactive_reason: this.addForm.inactive_reason
+            })
+            .then(res => {
+              if (res.status === 200) {
+                // console.log(res.status);
+                this.loading = false;
+                this.hideModal();
+                this.fetchHotel();
+                Swal.fire({
+                  icon: "success",
+                  title: "Ubah Status Berhasil",
+                  text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                submitButton.classList.remove(
+                  "spinner",
+                  "spinner-light",
+                  "spinner-right"
+                );
+                // this.$bvModal.hide("modal-category");
+                // this.toastAlert("update");
+              } else {
+                this.loading = false;
+              }
+            });
+        } else {
+          this.$api
+            .put(`hotel/status`, {
+              id_hotel: this.addForm.id_hotel,
+              status: this.addForm.status
+            })
+            .then(res => {
+              if (res.status === 200) {
+                // console.log(res.status);
+                this.loading = false;
+                this.hideModal();
+                this.fetchHotel();
+                Swal.fire({
+                  icon: "success",
+                  title: "Ubah Status Berhasil",
+                  text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                  width: "28em",
+                  showCloseButton: false,
+                  showCancelButton: false,
+                  timer: 1500,
+                  showConfirmButton: false
+                });
+                submitButton.classList.remove(
+                  "spinner",
+                  "spinner-light",
+                  "spinner-right"
+                );
+                // this.$bvModal.hide("modal-category");
+                // this.toastAlert("update");
+              } else {
+                this.loading = false;
+              }
+            });
+        }
+      }, 2000);
     },
-    changeStatusReject(data) {
-      if (data.status === "Tidak Aktif") {
-        this.$api
-          .put(`hotel/status`, {
-            id_hotel: data.id_hotel,
-            status: data.status,
-            inactive_reason: data.inactive_reason
-          })
-          .then(res => {
-            if (res.status === 200) {
-              // this.hideModal();
-              this.fetchHotel();
-              Swal.fire({
-                icon: "success",
-                title: "Ubah Status Berhasil",
-                text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
-                width: "28em",
-                showCloseButton: false,
-                showCancelButton: false,
-                timer: 1500,
-                showConfirmButton: false
-              });
-              // this.$bvModal.hide("modal-category");
-              // this.toastAlert("update");
-            }
-          });
-      }
-    },
+    // changeStatusReject(data) {
+    //   if (data.status === "Tidak Aktif") {
+    //     this.$api
+    //       .put(`hotel/status`, {
+    //         id_hotel: data.id_hotel,
+    //         status: data.status,
+    //         inactive_reason: data.inactive_reason
+    //       })
+    //       .then(res => {
+    //         if (res.status === 200) {
+    //           // this.hideModal();
+    //           this.fetchHotel();
+    //           Swal.fire({
+    //             icon: "success",
+    //             title: "Ubah Status Berhasil",
+    //             text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
+    //             width: "28em",
+    //             showCloseButton: false,
+    //             showCancelButton: false,
+    //             timer: 1500,
+    //             showConfirmButton: false
+    //           });
+    //           // this.$bvModal.hide("modal-category");
+    //           // this.toastAlert("update");
+    //         }
+    //       });
+    //   }
+    // },
     handleImage() {
       // console.log("SELFIE");
       // console.log(this.$refs);
@@ -735,14 +819,14 @@ export default {
           // alert(err);
         });
     },
-    fetchSort() {
-      if (this.orderBy === "desc") {
-        this.orderBy = "asc";
-      } else {
-        this.orderBy = "desc";
-      }
-      this.fetchHotel();
-    },
+    // fetchSort() {
+    //   if (this.orderBy === "desc") {
+    //     this.orderBy = "asc";
+    //   } else {
+    //     this.orderBy = "desc";
+    //   }
+    //   this.fetchHotel();
+    // },
     async onDetail(data) {
       this.showModal();
       await this.fetchProvinces();
@@ -818,7 +902,7 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
-      this.addForm.no_hp = parseInt(this.addForm.no_hp);
+      this.addForm.phone = parseInt(this.addForm.phone);
       this.addForm.npwp = parseInt(this.addForm.npwp);
       this.addForm.province_id = parseInt(this.addForm.province_id);
       this.addForm.city_id = parseInt(this.addForm.city_id);
@@ -852,7 +936,7 @@ export default {
       // formData.append("regulation", this.addForm.regulation);
       formData.append("open_time", this.addForm.open_time);
       formData.append("close_time", this.addForm.close_time);
-      formData.append("close_time", this.addForm.no_hp);
+      formData.append("close_time", this.addForm.phone);
       formData.append("close_time", this.addForm.npwp);
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {

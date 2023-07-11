@@ -50,14 +50,15 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Satuan"
+                  label="Stok"
                   label-for="name-input"
-                  invalid-feedback="Satuan is required"
+                  invalid-feedback="Stok is required"
                   :state="nameState"
                 >
                   <b-form-input
+                      type="number"
                     id="name-input"
-                    v-model="addForm.unit_type"
+                    v-model="addForm.stock"
                     :state="nameState"
                     required
                   ></b-form-input>
@@ -118,7 +119,7 @@
                   <b-th>No</b-th>
                   <b-th>Nama Produk</b-th>
                   <b-th>Kategori Hewan</b-th>
-                  <b-th>Satuan</b-th>
+                  <b-th>Stok</b-th>
                   <b-th>Harga</b-th>
                   <b-th>Status</b-th>
                   <b-th>Action</b-th>
@@ -131,13 +132,13 @@
                   </b-td>
                   <b-td>{{ item.name }}</b-td>
                   <b-td>{{ item.category.name }}</b-td>
-                  <b-td>{{ item.unit_type }}</b-td>
+                  <b-td>{{ item.stock }}</b-td>
                   <b-td>{{ Rp(item.price) }}</b-td>
                   <b-td>
                     <b-badge variant="success" v-if="item.status === 'Tersedia'"
                       >Tersedia</b-badge
                     >
-                    <b-badge variant="warning" v-if="item.status === 'Kosong'"
+                    <b-badge variant="danger" v-if="item.status === 'Kosong'"
                       >Kosong</b-badge
                     >
                   </b-td>
@@ -274,7 +275,7 @@ export default {
       addForm: {
         name: "",
         hotel_id: "",
-        unit_type: "",
+        stock: 0,
         category_id: "",
         price: "",
         status: ""
@@ -391,7 +392,7 @@ export default {
       this.handleSubmit();
     },
     handleSubmit() {
-      this.addForm.quantity = parseInt(this.addForm.quantity);
+      this.addForm.stock = this.addForm.stock >>> 0;
       // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
@@ -443,7 +444,7 @@ export default {
         this.$api
           .post("product/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchProduk();
               Swal.fire({

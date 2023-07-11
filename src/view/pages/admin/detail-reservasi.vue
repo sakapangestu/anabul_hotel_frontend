@@ -46,9 +46,9 @@
                 <div class="row">
                   <div class="col">
                     <b-form-group
-                      label="Kategori Kandang"
+                      label="Nama"
                       label-for="name-input"
-                      invalid-feedback="Kategori Kandang is required"
+                      invalid-feedback="Nama is required"
                     >
                       <b-form-input
                         id="name-input"
@@ -141,7 +141,7 @@
                     <b-form-group
                       label="Kembalian Pembayaran"
                       label-for="name-input"
-                      invalid-feedback="Dp Pembayaran is required"
+                      invalid-feedback="Kembalian Pembayaran is required"
                     >
                       <b-form-input
                         type="number"
@@ -149,6 +149,21 @@
                         :disabled="isDetail"
                         v-model="addForm.change"
                       ></b-form-input>
+                    </b-form-group>
+                    <b-form-group
+                      label="Status Reservasi"
+                      label-for="name-input"
+                      invalid-feedback="Status Reservasi is required"
+                    >
+                      <b-form-select
+                        id="name-input"
+                        :disabled="isDetail"
+                        v-model="addForm.reservation_status"
+                        :options="['Proses', 'Diterima', 'Ditolak', 'Selesai']"
+                        class="per-page"
+                        @change="changeStatusReservasi(addForm)"
+                      >
+                      </b-form-select>
                     </b-form-group>
                     <b-form-group
                       label="Status Pembayaran"
@@ -180,21 +195,7 @@
                       >
                       </b-form-select>
                     </b-form-group>
-                    <b-form-group
-                      label="Status Reservasi"
-                      label-for="name-input"
-                      invalid-feedback="Status Reservasi is required"
-                    >
-                      <b-form-select
-                        id="name-input"
-                        :disabled="isDetail"
-                        v-model="addForm.reservation_status"
-                        :options="['Proses', 'Diterima', 'Ditolak', 'Selesai']"
-                        class="per-page"
-                        @change="changeStatusReservasi(addForm)"
-                      >
-                      </b-form-select>
-                    </b-form-group>
+
                     <b-form-group
                       label="Keterangan Penolakan"
                       label-for="name-input"
@@ -215,7 +216,7 @@
                       Submit Status
                     </div>
                     <b-form-checkbox v-model="addForm.agreement" disabled>
-                      Menyetujui syarat dan peraturan penitipan ahewan
+                      Menyetujui syarat dan peraturan penitipan hewan
                     </b-form-checkbox>
                     <!--                    <div class="col">-->
                     <!--                      <inventoris></inventoris>-->
@@ -304,6 +305,7 @@
                             label-for="name-input"
                             invalid-feedback="Kandang Hewan is required"
                           >
+                            <!--                            {{ pet.cage_id }}-->
                             <b-form-select
                               v-model="pet.cage_id"
                               :label-field="kandang.name"
@@ -652,9 +654,10 @@
                   <b-th>Masuk Hotel</b-th>
                   <b-th>Keluar Hotel</b-th>
                   <b-th>Total Pembayaran</b-th>
+                  <b-th>Status Reservasi</b-th>
                   <b-th>Status Pembayaran</b-th>
                   <b-th>Status Masuk</b-th>
-                  <b-th>Status Reservasi</b-th>
+
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -671,15 +674,39 @@
                   <b-td>{{ Rp(item.total_cost) }}</b-td>
                   <b-td>
                     <b-badge
+                      variant="warning"
+                      v-if="item.reservation_status === 'Proses'"
+                      >Diproses</b-badge
+                    >
+                    <b-badge
+                      variant="success"
+                      v-else-if="item.reservation_status === 'Diterima'"
+                      >Diterima</b-badge
+                    >
+                    <b-badge
+                      variant="danger"
+                      v-else-if="item.reservation_status === 'Ditolak'"
+                      >Ditolak</b-badge
+                    >
+                    <b-badge
+                      variant="primary"
+                      v-else-if="item.reservation_status === 'Selesai'"
+                      >Selesai</b-badge
+                    >
+                    <div v-else>-</div>
+                  </b-td>
+                  <b-td>
+                    <b-badge
                       variant="success"
                       v-if="item.payment_status === 'Dibayar'"
                       >Dibayar</b-badge
                     >
                     <b-badge
                       variant="warning"
-                      v-if="item.payment_status === 'Belum Dibayar'"
+                      v-else-if="item.payment_status === 'Belum Dibayar'"
                       >Belum Dibayar</b-badge
                     >
+                    <div v-else>-</div>
                   </b-td>
                   <b-td>
                     <b-badge
@@ -689,32 +716,12 @@
                     >
                     <b-badge
                       variant="warning"
-                      v-if="item.check_in_status === 'Keluar'"
+                      v-else-if="item.check_in_status === 'Keluar'"
                       >Keluar</b-badge
                     >
+                    <div v-else>-</div>
                   </b-td>
-                  <b-td>
-                    <b-badge
-                      variant="warning"
-                      v-if="item.reservation_status === 'Proses'"
-                      >Diproses</b-badge
-                    >
-                    <b-badge
-                      variant="success"
-                      v-if="item.reservation_status === 'Diterima'"
-                      >Diterima</b-badge
-                    >
-                    <b-badge
-                      variant="danger"
-                      v-if="item.reservation_status === 'Ditolak'"
-                      >Ditolak</b-badge
-                    >
-                    <b-badge
-                      variant="primary"
-                      v-if="item.reservation_status === 'Selesai'"
-                      >Selesai</b-badge
-                    >
-                  </b-td>
+
                   <b-td class="action-cols-1">
                     <div>
                       <button
@@ -923,7 +930,7 @@ export default {
     fetchCageByCageDetailID(cageDetailID) {
       console.log(cageDetailID);
       this.$api
-        .get(`cage/all?cageDetailId=${cageDetailID}`)
+        .get(`cage/all?statusCage=Kosong&cageDetailId=${cageDetailID}`)
         .then(res => {
           this.kandang = res.data.data.data ? res.data.data.data : [];
         })
@@ -1037,7 +1044,7 @@ export default {
     fetchKandang(id) {
       // console.log(this.addForm.user_id);
       this.$api
-        .get(`cage/all?hotel_id=${id}`)
+        .get(`cage/all?statusCage=Kosong&hotel_id=${id}`)
         .then(res => {
           this.kandang = res.data.data.data ? res.data.data.data : [];
         })

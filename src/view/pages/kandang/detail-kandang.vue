@@ -51,9 +51,9 @@
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Tipe Kandang"
+                  label="Ukuran Kandang"
                   label-for="name-input"
-                  invalid-feedback="Tipe Kandang is required"
+                  invalid-feedback="Ukuran Kandang is required"
                   :state="nameState"
                 >
                   <b-form-select
@@ -64,20 +64,20 @@
                     :options="ukuran"
                   ></b-form-select>
                 </b-form-group>
-                <b-form-group
-                  label="Jumlah Kandang"
-                  label-for="name-input"
-                  invalid-feedback="Jumlah Kandang is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    type="number"
-                    id="name-input"
-                    v-model="addForm.quantity"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
+<!--                <b-form-group-->
+<!--                  label="Jumlah Kandang"-->
+<!--                  label-for="name-input"-->
+<!--                  invalid-feedback="Jumlah Kandang is required"-->
+<!--                  :state="nameState"-->
+<!--                >-->
+<!--                  <b-form-input-->
+<!--                    type="number"-->
+<!--                    id="name-input"-->
+<!--                    v-model="addForm.quantity"-->
+<!--                    :state="nameState"-->
+<!--                    required-->
+<!--                  ></b-form-input>-->
+<!--                </b-form-group>-->
                 <b-form-group
                   label="Harga"
                   label-for="name-input"
@@ -110,16 +110,16 @@
                 <!--                  >-->
                 <!--                  </b-form-select>-->
                 <!--                </b-form-group>-->
-                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
-                  <b-form-radio-group
-                    v-model="addForm.status"
-                    :options="options"
-                    :disabled="isDetail"
-                    :aria-describedby="ariaDescribedby"
-                    name="radios-stacked"
-                    stacked
-                  ></b-form-radio-group>
-                </b-form-group>
+<!--                <b-form-group label="Status" v-slot="{ ariaDescribedby }">-->
+<!--                  <b-form-radio-group-->
+<!--                    v-model="addForm.status"-->
+<!--                    :options="options"-->
+<!--                    :disabled="isDetail"-->
+<!--                    :aria-describedby="ariaDescribedby"-->
+<!--                    name="radios-stacked"-->
+<!--                    stacked-->
+<!--                  ></b-form-radio-group>-->
+<!--                </b-form-group>-->
                 <!--                {{ spesies }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Hotel"-->
@@ -152,9 +152,9 @@
                   <b-th>No</b-th>
                   <b-th>Kategori Kandang</b-th>
                   <b-th>Ukuran Kandang</b-th>
-                  <b-th>Jumlah Kandang</b-th>
+<!--                  <b-th>Jumlah Kandang</b-th>-->
                   <b-th>Harga</b-th>
-                  <b-th>Status</b-th>
+<!--                  <b-th>Status</b-th>-->
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -163,21 +163,20 @@
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-
                   <b-td>{{
                     item.cage_category ? item.cage_category.name : "-"
                   }}</b-td>
                   <b-td>{{ item.cage_type ? item.cage_type.name : "-" }}</b-td>
-                  <b-td>{{ item.quantity }}</b-td>
+<!--                  <b-td>{{ item.quantity }}</b-td>-->
                   <b-td>{{ Rp(item.price) }}</b-td>
-                  <b-td>
-                    <b-badge variant="success" v-if="item.status === 'Tersedia'"
-                      >Tersedia</b-badge
-                    >
-                    <b-badge variant="warning" v-if="item.status === 'Penuh'"
-                      >Penuh</b-badge
-                    >
-                  </b-td>
+<!--                  <b-td>-->
+<!--                    <b-badge variant="success" v-if="item.status === 'Tersedia'"-->
+<!--                      >Tersedia</b-badge-->
+<!--                    >-->
+<!--                    <b-badge variant="danger" v-if="item.status === 'Penuh'"-->
+<!--                      >Penuh</b-badge-->
+<!--                    >-->
+<!--                  </b-td>-->
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -204,7 +203,7 @@
                       <img
                         class="pointer"
                         style="width: 20px"
-                        @click="onDelete(item.id_cage_detai)"
+                        @click="onDelete(item.id_cage_detail)"
                         src="@/assets/icon/button/delete.png"
                         alt="del"
                       />
@@ -309,17 +308,17 @@ export default {
       hotel: [],
       kategori: [],
       ukuran: [],
-      options: [
-        { text: "Tersedia", value: "Tersedia" },
-        { text: "Penuh", value: "Penuh" }
-      ],
+      // options: [
+      //   { text: "Tersedia", value: "Tersedia" },
+      //   { text: "Penuh", value: "Penuh" }
+      // ],
       addForm: {
         cage_category_id: "",
         hotel_id: "",
         cage_type_id: "",
-        quantity: "",
+        // quantity: "",
         price: "",
-        status: ""
+        // status: ""
       }
       // validations: {
       //   addForm: {
@@ -389,13 +388,13 @@ export default {
         });
     },
     fetchDetailCage(page = 1) {
+      this.detailKandang = []
       this.$api
         .get(
           `cageDetail/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
           this.detailKandang = res.data.data.data ? res.data.data.data : [];
-          console.log(this.detailKandang);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -434,7 +433,7 @@ export default {
               if (res.status === 200) {
                 this.fetchDetailCage();
                 Swal.fire({
-                  icon: "warning",
+                  icon: "success",
                   title: "Hapus Berhasil",
                   text: "Data berhasil dihapus",
                   width: "28em",
@@ -520,7 +519,7 @@ export default {
         this.$api
           .post("cageDetail/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchDetailCage();
               Swal.fire({

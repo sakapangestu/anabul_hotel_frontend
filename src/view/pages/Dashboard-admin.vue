@@ -14,7 +14,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-calendar fa-2x text-primary"></i>
+             <i class="fas fa-hotel fa-2x text-primary"></i>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-shopping-cart fa-2x text-success"></i>
+              <i class="far fa-newspaper fa-2x text-success"></i>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-users fa-2x text-info"></i>
+              <i class="fas fa-trailer fa-2x text-info"></i>
             </div>
           </div>
         </div>
@@ -92,12 +92,14 @@
         <div class="col">
           <div class="row">
             <div class="card col">
-              <b-col class="card-body" sm="6">
-                <div id="chart">
+              <div id="chart">
+                <div class="mt-5">
                   <a> JUMLAH TRANSAKSI SETIAP HARINYA</a>
+                </div>
+                <div class="mt-3">
                   <Jmlhtransaksidate></Jmlhtransaksidate>
                 </div>
-              </b-col>
+              </div>
             </div>
           </div>
         </div>
@@ -122,20 +124,24 @@
         <div class="col">
           <div class="row">
             <div class="card col-6">
-              <b-col class="card-body" sm="8">
-                <div id="chart">
+              <div id="chart">
+                <div class="mt-5">
                   <a>10 JUMLAH PELIHARAAN TERBANYAK MASUK </a>
+                </div>
+                <div class="mt-3">
                   <PeliharaanTerbanyak></PeliharaanTerbanyak>
                 </div>
-              </b-col>
+              </div>
             </div>
             <div class="card col-6">
-              <b-col class="card-body" sm="8">
-                <div id="chart">
-                  <a>DAFTAR STAFF DAN JUMLAH HEWAN YANG DIPEGANG HARI INI</a>
+              <div id="chart">
+                <div class="mt-5">
+                  <a>DAFTAR STAFF DAN JUMLAH HEWAN YANG DITANGANI</a>
+                </div>
+                <div class="mt-3">
                   <daftarStaff></daftarStaff>
                 </div>
-              </b-col>
+              </div>
             </div>
           </div>
         </div>
@@ -144,18 +150,22 @@
         <div class="col">
           <div class="row">
             <div class="card col-6">
-              <b-col class="card-body" sm="8">
-                <div id="chart">
+              <div id="chart">
+                <div class="mt-5">
                   <a>10 JUMLAH PRODUK TERLARIS </a>
+                </div>
+                <div class="mt-3">
                   <produkTerbanyak></produkTerbanyak>
                 </div>
-              </b-col>
+              </div>
             </div>
             <div class="card col-6">
-              <p class="pt-10">STATUS JUMLAH KANDANG</p>
-              <b-col class="card-body d-flex align-items-center" sm="4">
+              <div class="mt-5">
+                <a>STATUS JUMLAH KANDANG</a>
+              </div>
+              <div class="mt-3">
                 <jmlhkandangStatus></jmlhkandangStatus>
-              </b-col>
+              </div>
             </div>
           </div>
         </div>
@@ -254,31 +264,6 @@ export default {
           // alert(err);
         });
     }
-    // setActiveTab1(event) {
-    //   this.tabIndex = this.setActiveTab(event);
-    // },
-    // setActiveTab2(event) {
-    //   this.tabIndex2 = this.setActiveTab(event);
-    // },
-    // /**
-    //  * Set current active on click
-    //  * @param event
-    //  */
-    // setActiveTab(event) {
-    //   // get all tab links
-    //   const tab = event.target.closest('[role="tablist"]');
-    //   const links = tab.querySelectorAll(".nav-link");
-    //   // remove active tab links
-    //   for (let i = 0; i < links.length; i++) {
-    //     links[i].classList.remove("active");
-    //   }
-    //
-    //   // set current active tab
-    //   event.target.classList.add("active");
-    //
-    //   // set clicked tab index to bootstrap tab
-    //   return parseInt(event.target.getAttribute("data-tab"));
-    // }
   },
   mounted() {
     this.hotel_id = getHotelId();

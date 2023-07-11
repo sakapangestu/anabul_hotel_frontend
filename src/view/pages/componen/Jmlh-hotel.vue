@@ -29,7 +29,7 @@
         <a>Kecamatan</a>
         <b-select
           v-model="district_id"
-          @change="fetchTotalHotelArea"
+          @change="fetchHotelByDistrict"
           :label-field="districts.name"
           value-field="id_district"
           text-field="name"
@@ -58,18 +58,46 @@
     <!--      :options="chartOptions2"-->
     <!--      :series="series2"-->
     <!--    ></apexchart>-->
-    <b-list-group>
-      <b-list-group-item
-        class="d-flex justify-content-between align-items-center"
-        v-for="total in totalhotel"
-        :key="total.id"
-      >
-        <div>
-          {{total.name}}
-        </div>
-        <b-badge variant="primary" pill>{{ total.total }}</b-badge>
-      </b-list-group-item>
-    </b-list-group>
+    <b-table-simple class="mt-4">
+      <b-thead>
+        <b-tr>
+          <b-th class="text-center">No</b-th>
+          <b-th class="text-center">Nama {{ daerah }}</b-th>
+          <b-th class="text-center">Total Pet Hotel</b-th>
+        </b-tr>
+      </b-thead>
+      <b-tbody>
+        <b-tr v-for="(total, index) in totalhotel" :key="total.id">
+          <b-td style="width: 6em" class="text-center">
+            {{ ++index }}
+          </b-td>
+          <b-td class="text-center">{{ total.name }}</b-td>
+          <b-td class="text-center">{{ total.total }}</b-td>
+        </b-tr>
+      </b-tbody>
+    </b-table-simple>
+    <!--    <b-list-group class="mt-4">-->
+    <!--      <b-list-group-item-->
+    <!--        class="d-flex justify-content-between align-items-center"-->
+    <!--      >-->
+    <!--        <div>-->
+    <!--          <h6>NAMA {{ daerah }}</h6>-->
+    <!--        </div>-->
+    <!--        <div>-->
+    <!--          <h6>TOTAL</h6>-->
+    <!--        </div>-->
+    <!--      </b-list-group-item>-->
+    <!--      <b-list-group-item-->
+    <!--        class="d-flex justify-content-between align-items-center"-->
+    <!--        v-for="total in totalhotel"-->
+    <!--        :key="total.id"-->
+    <!--      >-->
+    <!--        <div>-->
+    <!--          {{ total.name }}-->
+    <!--        </div>-->
+    <!--        <b-badge variant="primary" pill>{{ total.total }}</b-badge>-->
+    <!--      </b-list-group-item>-->
+    <!--    </b-list-group>-->
   </div>
 </template>
 <script>
@@ -90,7 +118,8 @@ export default {
       province_id: "",
       city_id: "",
       district_id: "",
-      totalhotel: []
+      totalhotel: [],
+      daerah: ""
     };
   },
   methods: {
@@ -98,9 +127,11 @@ export default {
       this.province_id = "";
       this.city_id = "";
       this.district_id = "";
+      this.daerah = "Provinsi";
       this.fetchTotalHotelArea();
     },
     resetProvince() {
+      this.daerah = "Kota";
       this.city_id = "";
       this.district_id = "";
       this.fetchTotalHotelArea();
@@ -134,6 +165,7 @@ export default {
         });
     },
     fetchDistrict(city = this.city_id) {
+      this.daerah = "Kecamatan";
       this.district_id = "";
       this.fetchTotalHotelArea();
       this.$api
@@ -146,6 +178,10 @@ export default {
           console.error(err);
           // alert(err);
         });
+    },
+    fetchHotelByDistrict() {
+      this.daerah = "Kelurahan";
+      this.fetchTotalHotelArea();
     },
     fetchTotalHotelArea() {
       this.$api
@@ -165,6 +201,7 @@ export default {
   mounted() {
     this.fetchTotalHotelArea();
     this.fetchProvinces();
+    this.daerah = "Provinsi";
   }
 };
 </script>

@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name ukuran kandang hewan"
+              placeholder="Search name golongan hewan"
               v-model="search"
-              @input="fetchCageType()"
+              @input="fetchGroup()"
             />
           </div>
         </div>
@@ -32,14 +32,14 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Ukuran Kandang</b-button
+              Golongan Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Ukuran Kandang"
+                  label="Golongan Hewan"
                   label-for="name-input"
-                  invalid-feedback="Ukuran Kandang is required"
+                  invalid-feedback="group is required"
                   :state="nameState"
                 >
                   <b-form-input
@@ -49,69 +49,7 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <b-form-group
-                  label="Lebar Kadang"
-                  label-for="name-input"
-                  invalid-feedback="group is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    step="0.01"
-                    type="number"
-                    id="name-input"
-                    v-model="addForm.width"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Panjang Kandang"
-                  label-for="name-input"
-                  invalid-feedback="group is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    step="0.01"
-                    type="number"
-                    id="name-input"
-                    v-model="addForm.length"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Tinggi Kandang"
-                  label-for="name-input"
-                  invalid-feedback="group is required"
-                  :state="nameState"
-                >
-                  <b-form-input
-                    step="0.01"
-                    type="number"
-                    id="name-input"
-                    v-model="addForm.height"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
-                  label="Diskripsi"
-                  label-for="name-input"
-                  invalid-feedback="Diskripsi is required"
-                  :state="nameState"
-                >
-                  <b-form-textarea
-                    id="textarea"
-                    v-model="addForm.description"
-                    placeholder="Enter something..."
-                    :state="nameState"
-                    rows="3"
-                    max-rows="6"
-                    :disabled="isDetail"
-                    required
-                  ></b-form-textarea>
-                </b-form-group>
-                <!--                {{ spesies }}-->
+                <!--                {{ ktghewan }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Hotel"-->
                 <!--                  label-for="name-input"-->
@@ -141,24 +79,18 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Ukuran Kandang</b-th>
-                  <b-th>Panjang (cm)</b-th>
-                  <b-th>Lebar (cm)</b-th>
-                  <b-th>Tinggi (cm)</b-th>
-                  <b-th>Diskripsi</b-th>
+                  <b-th>Golongan Hewan</b-th>
+                  <!--                  <b-th>Hotel</b-th>-->
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in ukuranKandang" :key="item.id">
+                <b-tr v-for="(item, index) in golongan" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
                   <b-td>{{ item.name }}</b-td>
-                  <b-td>{{ item.length }}</b-td>
-                  <b-td>{{ item.width }}</b-td>
-                  <b-td>{{ item.height }}</b-td>
-                  <b-td>{{ item.description }}</b-td>
+                  <!--                  <b-td>{{ item.hotel.name }}</b-td>-->
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -185,7 +117,7 @@
                       <img
                         class="pointer"
                         style="width: 20px"
-                        @click="onDelete(item.id_cage_type)"
+                        @click="onDelete(item.id_group)"
                         src="@/assets/icon/button/delete.png"
                         alt="del"
                       />
@@ -204,7 +136,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchCageType()"
+              @change="fetchGroup()"
             >
             </b-form-select>
           </div>
@@ -225,7 +157,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchCageType(page - 1)"
+                    @click="fetchGroup(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -236,13 +168,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchCageType(pg)">{{
+                  <a class="page-link" href="#" @click="fetchGroup(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchCageType(page + 1)"
+                  <a class="page-link" href="#" @click="fetchGroup(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -283,17 +215,11 @@ export default {
       modalTitle: "",
       hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      ukuranKandang: [],
-      hotel: [],
       golongan: [],
-      spesies: [],
+      hotel: [],
       addForm: {
         name: "",
-        hotel_id: "",
-        length: "",
-        width: "",
-        height: "",
-        description: ""
+        hotel_id: ""
       }
       // validations: {
       //   addForm: {
@@ -304,7 +230,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Ukuran Kandang Hewan";
+      this.modalTitle = "Tambah Golongan Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -324,38 +250,26 @@ export default {
     //       // alert(err);
     //     });
     // },
-    // fetchSpesies() {
+    // fetchCategory() {
     //   this.$api
-    //     .get(`species/all`)
+    //     .get(`category/all`)
     //     .then(res => {
-    //       this.spesies = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.spesies);
+    //       this.ktghewan = res.data.data.data ? res.data.data.data : [];
+    //       // console.log(this.ktghewan);
     //     })
     //     .catch(err => {
     //       console.error(err);
     //       // alert(err);
     //     });
     // },
-    // fetchGroup() {
-    //   this.$api
-    //     .get(`group/all`)
-    //     .then(res => {
-    //       this.golongan = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.spesies);
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //       // alert(err);
-    //     });
-    // },
-    fetchCageType(page = 1) {
+    fetchGroup(page = 1) {
       this.$api
         .get(
-          `cageType/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `group/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
-          this.ukuranKandang = res.data.data.data ? res.data.data.data : [];
-          console.log(this.ukuranKandang);
+          this.golongan = res.data.data.data ? res.data.data.data : [];
+          console.log(this.golongan);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -389,10 +303,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`cageType/delete/${id}`)
+            .delete(`group/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchCageType();
+                this.fetchGroup();
                 Swal.fire({
                   icon: "warning",
                   title: "Hapus Berhasil",
@@ -436,24 +350,14 @@ export default {
       // if (!this.$v.addForm.$error) {
       //
       // }
-      if (this.addForm.width) {
-        this.addForm.width = parseFloat(this.addForm.width);
-      }
-      if (this.addForm.length) {
-        this.addForm.length = parseFloat(this.addForm.length);
-      }
-      if (this.addForm.height) {
-        this.addForm.height = parseFloat(this.addForm.height);
-      }
-      console.log(this.addForm);
       if (this.isEdit) {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("cageType/update", this.addForm)
+          .put("group/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchCageType();
+              this.fetchGroup();
               Swal.fire({
                 icon: "success",
                 title: "Edit Berhasil",
@@ -473,7 +377,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode Spesies sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -483,11 +387,11 @@ export default {
       } else {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("cageType/add", this.addForm)
+          .post("group/add", this.addForm)
           .then(res => {
-            if (res.status === 201) {
+            if (res.status === 200) {
               this.hideModal();
-              this.fetchCageType();
+              this.fetchGroup();
               Swal.fire({
                 icon: "success",
                 title: "Tambah Berhasil",
@@ -502,7 +406,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode Spesies sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },
@@ -534,25 +447,22 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.ukuranKandang.length === this.perPage) {
+        if (this.golongan.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage -
-            (this.perPage - this.ukuranKandang.length);
-          meta.startSection = meta.endSection - (this.ukuranKandang.length - 1);
+            this.page * this.perPage - (this.perPage - this.golongan.length);
+          meta.startSection = meta.endSection - (this.golongan.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchCageType();
-    // this.fetchSpesies();
-    // this.fetchGroup();
+    this.fetchGroup();
     this.hotelId = getHotelId();
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Ukuran Kandang Hewan" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Spesies Baru" }]);
   }
 };
 </script>

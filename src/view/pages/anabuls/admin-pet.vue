@@ -241,7 +241,7 @@
                   />
                 </b-form-group>
                 <b-form-group
-                  label="Selfie "
+                  label="Selfie Beserta Ktp"
                   label-for="name-input"
                   invalid-feedback="Selfie Harus di Isi"
                   :state="nameState"
@@ -334,9 +334,11 @@
                   <b-th>No</b-th>
                   <b-th>Image</b-th>
                   <b-th
-                    >Nama <i class="fas fa-sort ml-3" @click="fetchSort"></i
-                  ></b-th>
+                    >Nama
+<!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                  </b-th>
                   <b-th>Email</b-th>
+                  <b-th>Nama Hotel</b-th>
                   <b-th>Alamat</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
@@ -366,6 +368,7 @@
                     {{ item.phone }}</b-td
                   >
                   <b-td>{{ item.email }} </b-td>
+                  <b-td>{{item.hotel.name}}</b-td>
                   <b-td>{{ item.address }}</b-td>
                   <!--                  <b-td>{{ item.role }} </b-td>-->
                   <b-td class="action-cols">
@@ -659,14 +662,14 @@ export default {
           // alert(err);
         });
     },
-    fetchSort() {
-      if (this.orderBy === "desc") {
-        this.orderBy = "asc";
-      } else {
-        this.orderBy = "desc";
-      }
-      this.fetchRequest();
-    },
+    // fetchSort() {
+    //   if (this.orderBy === "desc") {
+    //     this.orderBy = "asc";
+    //   } else {
+    //     this.orderBy = "desc";
+    //   }
+    //   this.fetchRequest();
+    // },
     async onDetail(data) {
       this.showModal();
       await this.fetchProvinces();
@@ -743,6 +746,10 @@ export default {
     handleSubmit() {
       this.addForm.phone = parseInt(this.addForm.phone);
       this.addForm.nik = parseInt(this.addForm.nik);
+      this.addForm.province_id = parseInt(this.addForm.province_id);
+      this.addForm.city_id = parseInt(this.addForm.city_id);
+      this.addForm.district_id = parseInt(this.addForm.district_id);
+      this.addForm.subdistrict_id = parseInt(this.addForm.subdistrict_id);
       const config = {
         headers: { "content-type": "multipart/form-data" }
       };
@@ -754,6 +761,10 @@ export default {
       formData.append("email", this.addForm.email);
       formData.append("birth_date", this.addForm.birth_date);
       formData.append("gender", this.addForm.gender);
+      formData.append("province_id", this.addForm.province_id);
+      formData.append("city_id", this.addForm.city_id);
+      formData.append("district_id", this.addForm.district_id);
+      formData.append("subdistrict_id", this.addForm.subdistrict_id);
       if (this.$refs.ktp.files[0] !== undefined)
         formData.append("ktp", this.$refs.ktp.files[0]);
       if (this.$refs.selfie.files[0] !== undefined)

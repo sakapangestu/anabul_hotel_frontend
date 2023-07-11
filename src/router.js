@@ -8,7 +8,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      redirect: "/dashboard",
+      redirect: "/landing-page",
       component: () => import("@/view/layout/Layout"),
       children: [
         {
@@ -107,7 +107,25 @@ export default new Router({
             {
               path: "spesies-hewan",
               name: "SpesiesHewan",
-              component: () => import("@/view/pages/anabuls/spesies-hewan.vue")
+              component: () => import("@/view/pages/spesies/spesies-hewan.vue")
+            }
+          ]
+        },
+        {
+          path: "/spesies",
+          name: "spesies",
+          component: () => import("@/view/pages/spesies/spesies.vue"),
+          children: [
+            {
+              path: "spesies-hewan",
+              name: "spesies-hewan",
+              component: () => import("@/view/pages/spesies/spesies-hewan.vue")
+            },
+            {
+              path: "temporary-spesies",
+              name: "temporary-spesies",
+              component: () =>
+                import("@/view/pages/spesies/temporary-spesies.vue")
             }
           ]
         },
@@ -127,7 +145,13 @@ export default new Router({
               name: "golongan-hewan",
               component: () =>
                 import("@/view/pages/golongan/golongan-hewan.vue")
-            }
+            },
+            // {
+            //   path: "spesies-baru",
+            //   name: "spesies-baru",
+            //   component: () =>
+            //     import("@/view/pages/golongan/spesies-baru.vue")
+            // }
           ]
         },
         {
@@ -253,6 +277,11 @@ export default new Router({
       name: "landing-page",
       path: "/landing-page",
       component: () => import("@/view/pages/landing-page/landing-page")
+    },
+    {
+      name: "verifySuccess",
+      path: "/verifySuccess",
+      component: () => import("@/view/pages/auth/verifySucces")
     }
   ]
 });

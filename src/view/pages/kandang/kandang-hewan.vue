@@ -107,11 +107,11 @@
                     {{ item.cage_detail.cage_type.name }}</b-td
                   >
                   <b-td>
-                    <b-badge variant="success" v-if="item.status === 'Kosong'"
+                    <b-badge variant="danger" v-if="item.status === 'Kosong'"
                       >Kosong</b-badge
                     >
                     <!--                    {{ item }}-->
-                    <b-badge variant="warning" v-if="item.status === 'Terisi'"
+                    <b-badge variant="success" v-if="item.status === 'Terisi'"
                       >Terisi</b-badge
                     >
                   </b-td>
@@ -456,7 +456,7 @@ export default {
         this.$api
           .post("cage/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchCage();
               Swal.fire({

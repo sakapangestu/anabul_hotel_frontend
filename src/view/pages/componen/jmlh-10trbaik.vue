@@ -50,7 +50,7 @@
         </b-select>
       </div>
       <div class="col">
-        <br>
+        <br />
         <button
           type="button"
           class="btn btn-sm btn-secondary ml-5"
@@ -62,6 +62,13 @@
         </button>
       </div>
     </div>
+    <div class="mt-4">
+      <b-badge variant="primary" pill> Sumbu X : Jumlah transaksi </b-badge>
+      <b-badge class="m-lg-3" variant="primary" pill>
+        Sumbu Y : Nama Hotel
+      </b-badge>
+    </div>
+
     <apexchart
       v-if="show"
       type="bar"
@@ -208,6 +215,14 @@ export default {
           this.chartOptions2 = {
             ...this.chartOptions2,
             xaxis: {
+              labels: {
+                formatter: function(value) {
+                  // console.log(value);
+                  if (Number.isInteger(value)) {
+                    return value;
+                  }
+                }
+              },
               categories: categories
             }
           };

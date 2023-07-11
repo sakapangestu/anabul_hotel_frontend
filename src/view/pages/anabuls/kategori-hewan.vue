@@ -372,7 +372,7 @@ export default {
         this.$api
           .post("category/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchCategory();
               Swal.fire({

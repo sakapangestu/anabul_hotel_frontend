@@ -17,7 +17,7 @@
             class="text-center text-mantra-dark"
           >
             <h3 class="text-center auth-forgot-1 mt-2 mb-2">
-              Set new password
+              Atur password baru
             </h3>
 
             <p class="auth-forgot-2">
@@ -73,37 +73,38 @@
                   >Masukkan Konfirmasi Password</span
                 >
               </div>
-<!--              <div class="form-group">-->
-<!--                <label for="conf-pw" class="auth-forgot-3 float-left">-->
-<!--                  Confirm New Password</label-->
-<!--                >-->
-<!--                <input-->
-<!--                  type="password"-->
-<!--                  class="form-control auth-border-clr pt-4 pb-4 pl-3"-->
-<!--                  id="conf-pw"-->
-<!--                  placeholder="Masukkan password baru anda"-->
-<!--                  v-model="form.passwordConfirm"-->
-<!--                  @keyup="validateInput"-->
-<!--                  required-->
-<!--                />-->
-<!--              </div>-->
+              <!--              <div class="form-group">-->
+              <!--                <label for="conf-pw" class="auth-forgot-3 float-left">-->
+              <!--                  Confirm New Password</label-->
+              <!--                >-->
+              <!--                <input-->
+              <!--                  type="password"-->
+              <!--                  class="form-control auth-border-clr pt-4 pb-4 pl-3"-->
+              <!--                  id="conf-pw"-->
+              <!--                  placeholder="Masukkan password baru anda"-->
+              <!--                  v-model="form.passwordConfirm"-->
+              <!--                  @keyup="validateInput"-->
+              <!--                  required-->
+              <!--                />-->
+              <!--              </div>-->
             </div>
 
             <div class="col-sm-8 mx-auto">
               <button
                 id="submit-password"
+                ref="loading_submit"
                 class="btn btn-orange w-100 outline-none mt-4 reset-btn"
                 type="submit"
                 disabled
               >
-                Reset Password
+                Submit
               </button>
             </div>
 
             <div class="col-sm-8 mt-3 mx-auto">
               <router-link :to="{ name: 'login' }" class="auth-forgot-2">
                 <i class="ri-arrow-left-line ri-mid mr-2 ri-lg"></i>
-                Back to log in
+                Kembali ke Login
               </router-link>
             </div>
           </form>
@@ -121,6 +122,7 @@ export default {
   data() {
     return {
       error: "",
+      loading: false,
       form: {
         password: "",
         passwordConfirm: "",
@@ -135,6 +137,8 @@ export default {
   },
   methods: {
     submitPassword() {
+      const submitButton = this.$refs["loading_submit"];
+      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
       // dummy delay
       setTimeout(() => {
         // send login request
@@ -148,10 +152,20 @@ export default {
               this.loading = false;
               // localStorage.setItem("token", res.data.data.token);
               this.$router.push({ name: "resetSucces" });
+              submitButton.classList.remove(
+                "spinner",
+                "spinner-light",
+                "spinner-right"
+              );
               // this.$store.commit("setAuth", res.data);
             } else {
               this.isError = true;
               this.loading = false;
+              submitButton.classList.remove(
+                "spinner",
+                "spinner-light",
+                "spinner-right"
+              );
             }
           })
           .catch(err => {
@@ -164,13 +178,12 @@ export default {
               !err.message === "Request failed with status code 400"
             )
               alert(err.message);
+            submitButton.classList.remove(
+              "spinner",
+              "spinner-light",
+              "spinner-right"
+            );
           });
-
-        // submitButton.classList.remove(
-        //   "spinner",
-        //   "spinner-light",
-        //   "spinner-right"
-        // );
       }, 2000);
     },
     validateInput() {
@@ -179,9 +192,9 @@ export default {
       const validPass = /^.{8,64}$/;
 
       if (
-        pass == confPw &&
-        pass != "" &&
-        confPw != "" &&
+        pass === confPw &&
+        pass !== "" &&
+        confPw !== "" &&
         validPass.test(pass)
       ) {
         document.querySelector("#submit-password").removeAttribute("disabled");

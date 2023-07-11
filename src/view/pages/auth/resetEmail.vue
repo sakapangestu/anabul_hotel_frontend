@@ -13,7 +13,7 @@
             @submit.prevent="submitReset"
           >
             <h3 class="font-weight-bold font-size-3 ml-2">
-              Forgot Password?
+              Lupa Password?
             </h3>
 
             <p class="text-muted font-weight-semi-bold mr-5 ml-5">
@@ -55,7 +55,7 @@
             <div class="col-sm-8 mx-auto">
               <button
                 type="submit"
-                id="submit-email"
+                ref="loading_submit"
                 class="btn-orange w-100 reset-btn"
               >
                 <!--                <div class="spinner d-inline">-->
@@ -67,7 +67,7 @@
                 <!--                  ></span>-->
                 <!--                </div>-->
                 <span class="ml-2 d-inline">
-                  Reset Password
+                  Kirim
                 </span>
               </button>
             </div>
@@ -75,7 +75,7 @@
             <div class="col-sm-8 mt-3 mx-auto">
               <router-link :to="{ name: 'login' }" class="auth-forgot-2">
                 <i class="ri-arrow-left-line ri-mid mr-2 ri-lg"></i>
-                Back to log in
+                Kembali ke Login
               </router-link>
             </div>
           </form>
@@ -89,11 +89,11 @@
           <img src="@/assets/icon/button/app_logo.png" style="width: 350px" />
           <div class="text-center">
             <h3 class="text-center auth-forgot-1 mt-4 mb-2">
-              Check your email
+              Check your email!!
             </h3>
 
             <p class="auth-forgot-2">
-              We sent a password reset link to <br />
+              Kami mengirim tautan setel ulang kata sandi ke <br />
               <strong>{{ form.email }}</strong>
             </p>
 
@@ -103,19 +103,19 @@
                 target="_blank"
                 class="btn btn-orange w-100 reset-btn"
               >
-                Open email app
+                Buka aplikasi email
               </a>
             </div>
 
             <p class="auth-forgot-2 mt-3">
-              Didn’t receive the email?
-              <span class="orange pointer">Click to resend</span>
+              Tidak menerima email?
+              <span class="orange pointer">Klik untuk mengirim ulang</span>
             </p>
 
             <div class="col-sm-8 mt-4 mx-auto">
               <router-link :to="{ name: 'login' }" class="auth-forgot-2">
                 <i class="ri-arrow-left-line ri-mid ri-lg"></i>
-                Back to log in
+                Kembali ke Login
               </router-link>
             </div>
           </div>
@@ -150,8 +150,9 @@ export default {
   },
   methods: {
     submitReset() {
-      const loginBtn = document.querySelector("#submit-email");
-      loginBtn.classList.add("disabled1");
+      // set spinner to submit button
+      const submitButton = this.$refs["loading_submit"];
+      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
 
       // dummy delay
       setTimeout(() => {
@@ -160,18 +161,33 @@ export default {
         this.$api
           .post(`auth/forgotpass`, this.form)
           .then(res => {
-            if (res) {
+            if (res.status === 200) {
+              console.log("succes");
+              if (res.data.status === "success") {
+                // loginBtn.classList.remove("disabled1");
+                document.querySelector(".forgot-1").style.display = "none";
+                document.querySelector(".forgot-2").style.display = "";
+                localStorage.setItem("forgotEmail", this.form.email);
+                this.loading = false;
+                submitButton.classList.remove(
+                  "spinner",
+                  "spinner-light",
+                  "spinner-right"
+                );
+                // console.log(localStorage.getItem("forgotEmail"));
+              }
+            } else {
               this.loading = false;
-              loginBtn.classList.remove("disabled1");
-              document.querySelector(".forgot-1").style.display = "none";
-              document.querySelector(".forgot-2").style.display = "";
-              localStorage.setItem("forgotEmail", this.form.email);
-              console.log(localStorage.getItem("forgotEmail"));
+              submitButton.classList.remove(
+                "spinner",
+                "spinner-light",
+                "spinner-right"
+              );
             }
           })
           .catch(() => {
             this.loading = false;
-            loginBtn.classList.remove("disabled1");
+            // loginBtn.classList.remove("disabled1");
             Swal.fire({
               icon: "error",
               title: "Email not found!",
@@ -180,9 +196,14 @@ export default {
               confirmButtonText: "OK",
               confirmButtonColor: "#164875"
             });
+            submitButton.classList.remove(
+              "spinner",
+              "spinner-light",
+              "spinner-right"
+            );
           });
 
-        loginBtn.classList.remove("spinner", "spinner-light", "spinner-right");
+        // loginBtn.classList.remove("spinner", "spinner-light", "spinner-right");
       }, 2000);
     }
   }

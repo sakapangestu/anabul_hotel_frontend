@@ -37,9 +37,9 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Kategori Kandang"
+                  label="Nama Layanan"
                   label-for="name-input"
-                  invalid-feedback="Kategori Kandang is required"
+                  invalid-feedback="Nama Layanan is required"
                   :state="nameState"
                 >
                   <b-form-input
@@ -423,7 +423,7 @@ export default {
         this.$api
           .post("service/add", this.addForm)
           .then(res => {
-            if (res.status === 200) {
+            if (res.status === 201) {
               this.hideModal();
               this.fetchService();
               Swal.fire({

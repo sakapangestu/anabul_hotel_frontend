@@ -1,11 +1,71 @@
 <template>
   <div id="chart">
-    <apexchart
-      type="pie"
-      width="350"
-      :options="chartOptions"
-      :series="series"
-    ></apexchart>
+    <div class="col">
+      <apexchart
+        type="pie"
+        width="350"
+        :options="chartOptions"
+        :series="series"
+      ></apexchart>
+    </div>
+    <div class="col">
+      <b-table-simple>
+        <b-thead>
+          <b-tr>
+            <b-th>No</b-th>
+            <b-th>Nama Kandang</b-th>
+            <b-th>Total Isi</b-th>
+            <b-th>Total Kosong</b-th>
+            <b-th>Antrian</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="(total, index) in listTotalKategori" :key="total.id">
+            <b-td style="width: 6em">
+              {{ ++index }}
+            </b-td>
+            <b-td>{{ total.cage_category }}-{{ total.cage_type }}</b-td>
+            <b-td>{{ total.total_filled_cage }}</b-td>
+            <b-td>{{ total.total_unfilled_cage }}</b-td>
+            <b-td>{{ total.total_whish_cage_detail }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
+      <!--      <b-list-group>-->
+      <!--        <b-list-group-item-->
+      <!--          class="d-flex justify-content-between align-items-center"-->
+      <!--        >-->
+      <!--          <div>-->
+      <!--            <h6>NAMA KANDANG</h6>-->
+      <!--          </div>-->
+      <!--          <div>-->
+      <!--            <h6>TOTAL ISI</h6>-->
+      <!--          </div>-->
+      <!--          <div>-->
+      <!--            <h6>TOTAL KOSONG</h6>-->
+      <!--          </div>-->
+      <!--          <div>-->
+      <!--            <h6>ANTRIAN</h6>-->
+      <!--          </div>-->
+      <!--        </b-list-group-item>-->
+      <!--        <b-list-group-item-->
+      <!--          class="d-flex justify-content-between align-items-center"-->
+      <!--          v-for="total in listTotalKategori"-->
+      <!--          :key="total.id"-->
+      <!--        >-->
+      <!--          <div>{{ total.cage_category }}-{{ total.cage_type }}</div>-->
+      <!--          <b-badge variant="primary" class="text-center" pill>{{-->
+      <!--            total.total_filled_cage-->
+      <!--          }}</b-badge>-->
+      <!--          <b-badge variant="primary" class="text-center" pill>{{-->
+      <!--            total.total_unfilled_cage-->
+      <!--          }}</b-badge>-->
+      <!--          <b-badge variant="primary" class="text-center" pill>{{-->
+      <!--            total.total_whish_cage_detail-->
+      <!--          }}</b-badge>-->
+      <!--        </b-list-group-item>-->
+      <!--      </b-list-group>-->
+    </div>
   </div>
 </template>
 <script>
@@ -48,6 +108,7 @@ export default {
         // request_process: 0,
         // request_reject: 0
       },
+      listTotalKategori: [],
       hotelId: ""
     };
   },
@@ -58,11 +119,11 @@ export default {
         .get(`dashboard/cage/total?hotel_id=${getHotelId()}`)
         .then(res => {
           this.kandang = res.data.data ? res.data.data : {};
-          console.log(this.kandang);
           this.series.push(this.kandang.cage_filled);
           this.series.push(this.kandang.cage_unfilled);
           // this.series.push(this.kandang.request_reject);
-          // console.log(this.kandang);
+          this.listTotalKategori = this.kandang.TotalCageByDetail;
+          console.log(this.listTotalKategori);
         })
         .catch(err => {
           console.error(err);

@@ -60,8 +60,8 @@
                       <img
                         v-else
                         class="rounded-circle mt-5"
-                        width="150px"
-                        src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                        width="200"
+                        src="@/assets/image/default_user.png"
                       />
                       <span class="font-weight-bold">{{
                         profiladmin.name
@@ -304,7 +304,7 @@ import {
   saveHotelSubdistrict,
   saveImage,
   saveName,
-  saveRole,
+  saveRole
   // saveToken
 } from "@/service/jwt.service";
 
@@ -436,6 +436,20 @@ export default {
         .put(`user/changepass`, this.changepas)
         .then(res => {
           this.changepas = res.data.data ? res.data.data : {};
+          if (res.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Edit Berhasil",
+              text: "Passowrd berhasil diubah",
+              width: "28em",
+              showCloseButton: false,
+              showCancelButton: false,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            // this.$bvModal.hide("modal-service");
+            // this.toastAlert("update");
+          }
         })
         .catch(err => {
           console.error(err);

@@ -100,29 +100,29 @@
     <!--end: Quick panel toggle -->
 
     <!--begin: Language bar -->
-    <div class="topbar-item">
-      <b-dropdown
-        size="sm"
-        variant="link"
-        toggle-class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1 text-decoration-none"
-        no-caret
-        right
-        no-flip
-      >
-        <template v-slot:button-content>
-          <img
-            class="h-20px w-20px rounded-sm"
-            :src="languageFlag || getLanguageFlag"
-            alt=""
-          />
-        </template>
-        <b-dropdown-text tag="div" class="min-w-md-175px">
-          <KTDropdownLanguage
-            v-on:language-changed="onLanguageChanged"
-          ></KTDropdownLanguage>
-        </b-dropdown-text>
-      </b-dropdown>
-    </div>
+<!--    <div class="topbar-item">-->
+<!--      <b-dropdown-->
+<!--        size="sm"-->
+<!--        variant="link"-->
+<!--        toggle-class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1 text-decoration-none"-->
+<!--        no-caret-->
+<!--        right-->
+<!--        no-flip-->
+<!--      >-->
+<!--        <template v-slot:button-content>-->
+<!--          <img-->
+<!--            class="h-20px w-20px rounded-sm"-->
+<!--            :src="languageFlag || getLanguageFlag"-->
+<!--            alt=""-->
+<!--          />-->
+<!--        </template>-->
+<!--        <b-dropdown-text tag="div" class="min-w-md-175px">-->
+<!--          <KTDropdownLanguage-->
+<!--            v-on:language-changed="onLanguageChanged"-->
+<!--          ></KTDropdownLanguage>-->
+<!--        </b-dropdown-text>-->
+<!--      </b-dropdown>-->
+<!--    </div>-->
     <!--end: Language bar -->
 
     <!--begin: User Bar -->
@@ -163,7 +163,7 @@
 // import KTDropdownNotification from "@/view/layout/extras/dropdown/DropdownNotification.vue";
 // import KTDropdownQuickAction from "@/view/layout/extras/dropdown/DropdownQuickAction.vue";
 // import KTDropdownMyCart from "@/view/layout/extras/dropdown/DropdownMyCart.vue";
-import KTDropdownLanguage from "@/view/layout/extras/dropdown/DropdownLanguage.vue";
+// import KTDropdownLanguage from "@/view/layout/extras/dropdown/DropdownLanguage.vue";
 import KTQuickUser from "@/view/layout/extras/offcanvas/QuickUser.vue";
 // import KTQuickPanel from "@/view/layout/extras/offcanvas/QuickPanel.vue";
 import i18nService from "@/core/services/i18n.service.js";
@@ -181,21 +181,21 @@ export default {
     // KTDropdownNotification,
     // KTDropdownQuickAction,
     // KTDropdownMyCart,
-    KTDropdownLanguage,
+    // KTDropdownLanguage,
     KTQuickUser,
     // KTQuickPanel
   },
   methods: {
-    onLanguageChanged() {
-      this.languageFlag = this.languages.find(val => {
-        return val.lang === i18nService.getActiveLanguage();
-      }).flag;
-    }
+    // onLanguageChanged() {
+    //   this.languageFlag = this.languages.find(val => {
+    //     return val.lang === i18nService.getActiveLanguage();
+    //   }).flag;
+    // }
   },
   computed: {
-    getLanguageFlag() {
-      return this.onLanguageChanged();
-    }
+    // getLanguageFlag() {
+    //   return this.onLanguageChanged();
+    // }
   }
 };
 </script>

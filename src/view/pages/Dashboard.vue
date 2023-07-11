@@ -14,7 +14,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-calendar fa-2x text-primary"></i>
+              <i class="fas fa-file-signature fa-2x text-primary"></i>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-shopping-cart fa-2x text-success"></i>
+              <i class="fas fa-file-contract fa-2x text-success"></i>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-users fa-2x text-info"></i>
+              <i class="fas fa-file-invoice fa-2x text-info"></i>
             </div>
           </div>
         </div>
@@ -80,7 +80,7 @@
               <!--              </div>-->
             </div>
             <div class="col-auto">
-              <i class="fas fa-comments fa-2x text-warning"></i>
+              <i class="fas fa-fax fa-2x text-warning"></i>
             </div>
           </div>
         </div>
@@ -145,12 +145,16 @@
               </div>
             </div>
             <div class="card col-4">
-              <p class="pt-10">JUMLAH PERMINTAAN PET HOTEL YANG BERGABUNG</p>
-              <b-col class="card-body d-flex align-items-center" sm="4">
-                <div id="chart">
+              <div id="chart">
+                <div class="mt-3">
+                  <p class="pt-10">
+                    JUMLAH PERMINTAAN PET HOTEL YANG BERGABUNG
+                  </p>
+                </div>
+                <div class="mt-3 center">
                   <permintaan></permintaan>
                 </div>
-              </b-col>
+              </div>
             </div>
           </div>
         </div>

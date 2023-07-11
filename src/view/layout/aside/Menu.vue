@@ -35,8 +35,8 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon fas fa-address-card"></i>
-          <span class="menu-text">Permintaan</span>
+          <i class="menu-icon fas fa-clipboard"></i>
+          <span class="menu-text">Permintaan Pet Hotel</span>
         </a>
       </li>
     </router-link>
@@ -95,7 +95,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon fas fa-dog"></i>
+          <i class="menu-icon fas fa-clipboard-check"></i>
           <span class="menu-text">Kelas Hewan</span>
         </a>
       </li>
@@ -120,26 +120,96 @@
         </a>
       </li>
     </router-link>
-    <router-link
+    <!--    <router-link-->
+    <!--      v-if="role === 'Super Admin'"-->
+    <!--      :to="{ name: 'SpesiesHewan' }"-->
+    <!--      v-slot="{ href, navigate, isActive, isExactActive }"-->
+    <!--    >-->
+    <!--      <li-->
+    <!--        aria-haspopup="true"-->
+    <!--        data-menu-toggle="hover"-->
+    <!--        class="menu-item"-->
+    <!--        :class="[-->
+    <!--          isActive && 'menu-item-active',-->
+    <!--          isExactActive && 'menu-item-active'-->
+    <!--        ]"-->
+    <!--      >-->
+    <!--        <a :href="href" class="menu-link" @click="navigate">-->
+    <!--          <i class="menu-icon fab fa-yarn"></i>-->
+    <!--          <span class="menu-text">Spesies Hewan</span>-->
+    <!--        </a>-->
+    <!--      </li>-->
+    <!--    </router-link>-->
+    <li
       v-if="role === 'Super Admin'"
-      :to="{ name: 'SpesiesHewan' }"
-      v-slot="{ href, navigate, isActive, isExactActive }"
+      aria-haspopup="true"
+      data-menu-toggle="hover"
+      class="menu-item menu-item-submenu"
+      v-bind:class="{
+        'menu-item-open': hasActiveChildren('/spesies')
+      }"
     >
-      <li
-        aria-haspopup="true"
-        data-menu-toggle="hover"
-        class="menu-item"
-        :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon fab fa-yarn"></i>
-          <span class="menu-text">Spesies Hewan</span>
-        </a>
-      </li>
-    </router-link>
+      <a href="#" class="menu-link menu-toggle">
+        <i class="menu-icon fas fa-clipboard-list"></i>
+        <span class="menu-text">Spesies Hewan</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="menu-submenu">
+        <span class="menu-arrow"></span>
+        <ul class="menu-subnav">
+          <li aria-haspopup="true" class="menu-item menu-item-parent">
+            <span class="menu-link">
+              <span class="menu-text">Spesies Hewan</span>
+            </span>
+          </li>
+
+          <router-link
+            to="/spesies/spesies-hewan"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+          >
+            <li
+              aria-haspopup="true"
+              data-menu-toggle="hover"
+              class="menu-item"
+              :class="[
+                isActive && 'menu-item-active',
+                isExactActive && 'menu-item-active'
+              ]"
+            >
+              <a :href="href" class="menu-link" @click="navigate">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Spesies Hewan</span>
+              </a>
+            </li>
+          </router-link>
+
+          <router-link
+            to="/spesies/temporary-spesies"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+          >
+            <li
+              aria-haspopup="true"
+              data-menu-toggle="hover"
+              class="menu-item"
+              :class="[
+                isActive && 'menu-item-active',
+                isExactActive && 'menu-item-active'
+              ]"
+            >
+              <a :href="href" class="menu-link" @click="navigate">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Temporary Spesies</span>
+              </a>
+            </li>
+          </router-link>
+        </ul>
+      </div>
+    </li>
+
     <router-link
       v-if="role === 'Admin'"
       :to="{ name: 'Dashboard-Admin' }"
@@ -195,7 +265,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon flaticon2-expand"></i>
+          <i class="menu-icon fas fa-user-tie"></i>
           <span class="menu-text">Staff Pet Hotel</span>
         </a>
       </li>
@@ -211,7 +281,7 @@
       }"
     >
       <a href="#" class="menu-link menu-toggle">
-        <i class="menu-icon flaticon2-mail-1"></i>
+        <i class="menu-icon fas fa-list-alt"></i>
         <span class="menu-text">Golongan Hewan</span>
         <i class="menu-arrow"></i>
       </a>
@@ -267,6 +337,27 @@
               </a>
             </li>
           </router-link>
+          <!--          <router-link-->
+          <!--            to="/golongan/spesies-baru"-->
+          <!--            v-slot="{ href, navigate, isActive, isExactActive }"-->
+          <!--          >-->
+          <!--            <li-->
+          <!--              aria-haspopup="true"-->
+          <!--              data-menu-toggle="hover"-->
+          <!--              class="menu-item"-->
+          <!--              :class="[-->
+          <!--                isActive && 'menu-item-active',-->
+          <!--                isExactActive && 'menu-item-active'-->
+          <!--              ]"-->
+          <!--            >-->
+          <!--              <a :href="href" class="menu-link" @click="navigate">-->
+          <!--                <i class="menu-bullet menu-bullet-dot">-->
+          <!--                  <span></span>-->
+          <!--                </i>-->
+          <!--                <span class="menu-text">Spesies Baru</span>-->
+          <!--              </a>-->
+          <!--            </li>-->
+          <!--          </router-link>-->
         </ul>
       </div>
     </li>
@@ -279,7 +370,7 @@
       v-bind:class="{ 'menu-item-open': hasActiveChildren('/kandang') }"
     >
       <a href="#" class="menu-link menu-toggle">
-        <i class="menu-icon flaticon2-mail-1"></i>
+        <i class="menu-icon fas fa-list"></i>
         <span class="menu-text">Kandang Hewan</span>
         <i class="menu-arrow"></i>
       </a>
@@ -391,7 +482,7 @@
       }"
     >
       <a href="#" class="menu-link menu-toggle">
-        <i class="menu-icon flaticon2-mail-1"></i>
+        <i class="menu-icon fas fa-file"></i>
         <span class="menu-text">Layanan Hewan</span>
         <i class="menu-arrow"></i>
       </a>
@@ -473,26 +564,6 @@
     <!--    </router-link>-->
     <router-link
       v-if="role === 'Admin'"
-      :to="{ name: 'DetailReservasi' }"
-      v-slot="{ href, navigate, isActive, isExactActive }"
-    >
-      <li
-        aria-haspopup="true"
-        data-menu-toggle="hover"
-        class="menu-item"
-        :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon flaticon2-expand"></i>
-          <span class="menu-text"> Reservasi</span>
-        </a>
-      </li>
-    </router-link>
-    <router-link
-      v-if="role === 'Admin'"
       :to="{ name: 'Produk' }"
       v-slot="{ href, navigate, isActive, isExactActive }"
     >
@@ -506,8 +577,28 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon flaticon2-expand"></i>
+          <i class="menu-icon fas fa-file-alt"></i>
           <span class="menu-text"> Makanan Hewan </span>
+        </a>
+      </li>
+    </router-link>
+    <router-link
+      v-if="role === 'Admin'"
+      :to="{ name: 'DetailReservasi' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <i class="menu-icon fas fa-file-archive"></i>
+          <span class="menu-text"> Reservasi</span>
         </a>
       </li>
     </router-link>
@@ -526,7 +617,7 @@
         ]"
       >
         <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon flaticon2-expand"></i>
+          <i class="menu-icon fas fa-clipboard"></i>
           <span class="menu-text"> Regulasi </span>
         </a>
       </li>
@@ -540,7 +631,7 @@
       v-bind:class="{ 'menu-item-open': hasActiveChildren('/profile/profile') }"
     >
       <a href="#" class="menu-link menu-toggle">
-        <i class="menu-icon flaticon2-mail-1"></i>
+        <i class="menu-icon fas fa-users"></i>
         <span class="menu-text">Profil</span>
         <i class="menu-arrow"></i>
       </a>
