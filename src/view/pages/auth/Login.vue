@@ -283,7 +283,7 @@ export default {
                   icon: "success",
                   showConfirmButton: false,
                   // confirmButtonClass: "btn btn-secondary",
-                  timer: 1500
+                  timer: 10000
                 });
               } else if (res.data.data.role === "Admin") {
                 this.$router.push({ name: "Dashboard-Admin" });
@@ -293,7 +293,7 @@ export default {
                   icon: "success",
                   showConfirmButton: false,
                   // confirmButtonClass: "btn btn-secondary",
-                  timer: 1500
+                  timer: 10000
                 });
               }
               window.location.reload();
@@ -304,15 +304,39 @@ export default {
             }
           })
           .catch(err => {
+            console.log(err.response);
             this.loading = false;
             this.isError = true;
             this.form.password = "";
             this.$v.$reset();
+            // if (
+            //   !err.message === "Request failed with status code 404" ||
+            //   !err.message === "Request failed with status code 400"
+            // )
+            //   Swal.fire({
+            //     icon: "error",
+            //     title: "Oops...",
+            //     text: "Akun Hotel Anda Telah Di Inaktivasi",
+            //     width: "28em",
+            //     confirmButtonText: "Oke",
+            //     confirmButtonColor: "#00ff00",
+            //     focusCancel: true
+            //   });
             if (
-              !err.message === "Request failed with status code 404" ||
-              !err.message === "Request failed with status code 400"
-            )
-              alert(err.message);
+              err.response.data.message ===
+              "Your pet hotel account has been inactivated"
+            ) {
+              this.isError = false;
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Akun Hotel Anda Telah Di Inaktivasi",
+                width: "28em",
+                confirmButtonText: "Oke",
+                confirmButtonColor: "#00ff00",
+                focusCancel: true,
+              });
+            }
           });
 
         submitButton.classList.remove(

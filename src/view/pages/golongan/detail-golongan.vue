@@ -82,7 +82,7 @@
                 <!--                  ></b-form-select>-->
                 <!--                </b-form-group>-->
                 <b-form-group
-                  label="Spesies"
+                  label="Spesies *"
                   label-for="name-input"
                   invalid-feedback="spesies is required"
                   :state="nameState"
@@ -93,10 +93,11 @@
                     value-field="id_species"
                     text-field="name"
                     :options="spesies"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Golongan"
+                  label="Golongan *"
                   label-for="name-input"
                   invalid-feedback="golongan is required"
                   :state="nameState"
@@ -107,6 +108,7 @@
                     value-field="id_group"
                     text-field="name"
                     :options="golongan"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-button class="mt-3" type="submit" variant="primary" block
@@ -469,7 +471,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode detail golongan sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -497,8 +499,17 @@ export default {
               // this.toastAlert("tambah");
             }
           })
-          .catch(err => {
-            console.log(err);
+              .catch(err => {
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode detail golongan sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

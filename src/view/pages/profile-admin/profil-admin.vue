@@ -34,6 +34,18 @@
               Change Password
             </a>
           </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              v-on:click="setActiveTab"
+              data-tab="2"
+              data-toggle="tab"
+              href="#"
+              role="tab"
+            >
+              Permohonan Inaktivasi Pet Hotel
+            </a>
+          </li>
         </ul>
       </div>
       <!--begin::Form-->
@@ -278,6 +290,27 @@
               </div>
             </form>
           </b-tab>
+          <b-tab>
+            <form @submit.prevent="inactivasiHotel">
+              <div class="row mt-2">
+                <div class="col-md-9">
+                  <label class="labels">Permohonan</label
+                  ><input
+                    type="text"
+                    class="form-control"
+                    placeholder="Masukkan Password Lama"
+                    value=""
+                    v-model="permohonan.reason"
+                  />
+                </div>
+              </div>
+              <div class="mt-5 text-right">
+                <button class="btn btn-primary profile-button" type="submit">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </b-tab>
         </b-tabs>
       </div>
       <!--end::Form-->
@@ -304,7 +337,8 @@ import {
   saveHotelSubdistrict,
   saveImage,
   saveName,
-  saveRole
+  saveRole,
+  getHotelId
   // saveToken
 } from "@/service/jwt.service";
 
@@ -355,6 +389,11 @@ export default {
         old_password: "",
         new_password: "",
         confirm_password: ""
+      },
+      permohonan: {
+        reason: "",
+        status: "Proses",
+        hotel_id: ""
       },
       provinces: [],
       citys: [],
@@ -454,6 +493,42 @@ export default {
         .catch(err => {
           console.error(err);
           // alert(err);
+        });
+    },
+    inactivasiHotel() {
+      this.permohonan.hotel_id = this.hotelId;
+      this.$api
+        .post(`hotelActivation/add`, this.permohonan)
+        .then(res => {
+          this.permohonan.reason = "";
+          if (res.status === 201) {
+            Swal.fire({
+              icon: "success",
+              title: "Pengajuan Berhasil di kirim?",
+              text: "Mohon Tunggu Email Konfirmasi, Selambat-lambatnya 3 Hari",
+              width: "28em",
+              confirmButtonText: "Oke",
+              confirmButtonColor: "#00ff00",
+              focusCancel: true
+            });
+            // this.$bvModal.hide("modal-service");
+            // this.toastAlert("update");
+          }
+        })
+        .catch(err => {
+          this.permohonan.reason = "";
+          if (err.message === "Request failed with status code 409") {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text:
+                "Anda Sudah Pernah Melakukan Permohonan Sebelumnya. Mohon Tunggu Konfirmasi Dari Super Admin Yang Dikirim Melalui Email",
+              width: "28em",
+              confirmButtonText: "Oke",
+              confirmButtonColor: "#00ff00",
+              focusCancel: true
+            });
+          }
         });
     },
     handleImage() {
@@ -626,6 +701,7 @@ export default {
     this.featchCity(getHotelprovince());
     this.featchDistrict(getHotelCity());
     this.featchSubdistrict(getHotelDistrict());
+    this.hotelId = getHotelId();
   }
 };
 </script>

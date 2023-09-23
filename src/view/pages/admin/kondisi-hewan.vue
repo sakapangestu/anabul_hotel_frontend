@@ -18,9 +18,9 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name golongan hewan"
+              placeholder="Search name Kondisi hewan"
               v-model="search"
-              @input="fetchGroup()"
+              @input="fetchCondition()"
             />
           </div>
         </div>
@@ -32,12 +32,12 @@
               variant="dark"
               class="float-right"
               ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Golongan Hewan</b-button
+              Kondisi Hewan</b-button
             >
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Golongan Hewan *"
+                  label="Kondisi Hewan *"
                   label-for="name-input"
                   invalid-feedback="group is required"
                   :state="nameState"
@@ -79,13 +79,13 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Golongan Hewan</b-th>
+                  <b-th>Kondisi Hewan</b-th>
                   <!--                  <b-th>Hotel</b-th>-->
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in golongan" :key="item.id">
+                <b-tr v-for="(item, index) in kondisi" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
@@ -117,7 +117,7 @@
                       <img
                         class="pointer"
                         style="width: 20px"
-                        @click="onDelete(item.id_group)"
+                        @click="onDelete(item.id_condition)"
                         src="@/assets/icon/button/delete.png"
                         alt="del"
                       />
@@ -136,7 +136,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchGroup()"
+              @change="fetchCondition()"
             >
             </b-form-select>
           </div>
@@ -157,7 +157,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchGroup(page - 1)"
+                    @click="fetchCondition(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -168,13 +168,13 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchGroup(pg)">{{
+                  <a class="page-link" href="#" @click="fetchCondition(pg)">{{
                     pg
                   }}</a>
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchGroup(page + 1)"
+                  <a class="page-link" href="#" @click="fetchCondition(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -215,7 +215,7 @@ export default {
       modalTitle: "",
       hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      golongan: [],
+      kondisi: [],
       hotel: [],
       addForm: {
         name: "",
@@ -230,7 +230,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Golongan Hewan";
+      this.modalTitle = "Tambah Kondisi Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -262,14 +262,14 @@ export default {
     //       // alert(err);
     //     });
     // },
-    fetchGroup(page = 1) {
+    fetchCondition(page = 1) {
       this.$api
         .get(
-          `group/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `condition/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
-          this.golongan = res.data.data.data ? res.data.data.data : [];
-          console.log(this.golongan);
+          this.kondisi = res.data.data.data ? res.data.data.data : [];
+          console.log(this.kondisi);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -303,10 +303,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`group/delete/${id}`)
+            .delete(`condition/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchGroup();
+                this.fetchCondition();
                 Swal.fire({
                   icon: "warning",
                   title: "Hapus Berhasil",
@@ -353,11 +353,11 @@ export default {
       if (this.isEdit) {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("group/update", this.addForm)
+          .put("condition/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchGroup();
+              this.fetchCondition();
               Swal.fire({
                 icon: "success",
                 title: "Edit Berhasil",
@@ -377,7 +377,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode golongan sudah ada!",
+                text: "Kode kategori sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -387,11 +387,11 @@ export default {
       } else {
         this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("group/add", this.addForm)
+          .post("condition/add", this.addForm)
           .then(res => {
             if (res.status === 201) {
               this.hideModal();
-              this.fetchGroup();
+              this.fetchCondition();
               Swal.fire({
                 icon: "success",
                 title: "Tambah Berhasil",
@@ -406,16 +406,7 @@ export default {
             }
           })
           .catch(err => {
-            if (err.message === "Request failed with status code 409") {
-              Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Kode golongan sudah ada!",
-                showConfirmButton: false,
-                width: "25em",
-                timer: 2500
-              });
-            }
+            console.log(err);
           });
       }
     },
@@ -447,22 +438,22 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.golongan.length === this.perPage) {
+        if (this.kondisi.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage - (this.perPage - this.golongan.length);
-          meta.startSection = meta.endSection - (this.golongan.length - 1);
+            this.page * this.perPage - (this.perPage - this.kondisi.length);
+          meta.startSection = meta.endSection - (this.kondisi.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchGroup();
+    this.fetchCondition();
     this.hotelId = getHotelId();
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Golongan Hewan" }]);
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Kondisi Hewan" }]);
   }
 };
 </script>

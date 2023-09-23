@@ -18,53 +18,91 @@
             <input
               type="text"
               class="form-control search-input"
-              placeholder="Search name golongan hewan"
+              placeholder="Search name temporary hotel"
               v-model="search"
-              @input="fetchGroup()"
+              @input="fetchTemporaryHotel()"
             />
           </div>
         </div>
         <div class="ml-15 col-6 mt-4">
           <div>
-            <b-button
-              id="show-btn"
-              @click="showModal"
-              variant="dark"
-              class="float-right"
-              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create
-              Golongan Hewan</b-button
-            >
+            <!--            <b-button-->
+            <!--              id="show-btn"-->
+            <!--              @click="showModal"-->
+            <!--              variant="dark"-->
+            <!--              class="float-right"-->
+            <!--              ><i class="fa fa-plus-circle" aria-hidden="true"></i> Create-->
+            <!--              Spesies Hewan</b-button-->
+            <!--            >-->
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
-              <b-form ref="form" @submit.prevent="handleOk">
+              <b-form ref="form" @submit.prevent="changeStatusReject">
                 <b-form-group
-                  label="Golongan Hewan *"
+                  label="Status"
                   label-for="name-input"
-                  invalid-feedback="group is required"
+                  invalid-feedback="Status is required"
                   :state="nameState"
                 >
-                  <b-form-input
-                    id="name-input"
-                    v-model="addForm.name"
+                  <b-form-select
                     :state="nameState"
+                    id="name-input"
+                    v-model="addForm.status"
+                    :options="['Proses', 'Aktif', 'Tidak Aktif']"
+                    class="per-page"
                     required
-                  ></b-form-input>
+                  >
+                  </b-form-select>
                 </b-form-group>
-                <!--                {{ ktghewan }}-->
                 <!--                <b-form-group-->
-                <!--                  label="Hotel"-->
+                <!--                  label="Spesies Hewan"-->
                 <!--                  label-for="name-input"-->
-                <!--                  invalid-feedback="Hotel is required"-->
+                <!--                  invalid-feedback="hotelActivation is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-input-->
+                <!--                    id="name-input"-->
+                <!--                    v-model="addForm.name"-->
+                <!--                    :state="nameState"-->
+                <!--                    required-->
+                <!--                  ></b-form-input>-->
+                <!--                </b-form-group>-->
+                <!--                {{ hotel }}-->
+                <!--                <b-form-group-->
+                <!--                  label="Kategori Hewan"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="class is required"-->
                 <!--                  :state="nameState"-->
                 <!--                >-->
                 <!--                  <b-form-select-->
-                <!--                    v-model="addForm.hotel_id"-->
+                <!--                    v-model="addForm.category_id"-->
                 <!--                    :label-field="hotel.name"-->
-                <!--                    value-field="id_hotel"-->
+                <!--                    value-field="id_category"-->
                 <!--                    text-field="name"-->
                 <!--                    :options="hotel"-->
                 <!--                  ></b-form-select>-->
                 <!--                </b-form-group>-->
-                <b-button class="mt-3" type="submit" variant="primary" block
+                <!--                <b-form-group-->
+                <!--                  label="Status"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="Status is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-select-->
+                <!--                    :state="nameState"-->
+                <!--                    id="name-input"-->
+                <!--                    v-model="addForm.status"-->
+                <!--                    :options="['Diproses', 'Diterima', 'Ditolak']"-->
+                <!--                    class="per-page"-->
+                <!--                    @change="changeStatus(addForm)"-->
+                <!--                    required-->
+                <!--                  >-->
+                <!--                  </b-form-select>-->
+                <!--                </b-form-group>-->
+                <b-button
+                  ref="kt_login_signup_submit"
+                  class="mt-3"
+                  type="submit"
+                  variant="primary"
+                  block
                   >Submit</b-button
                 >
               </b-form>
@@ -79,18 +117,32 @@
               <b-thead>
                 <b-tr>
                   <b-th>No</b-th>
-                  <b-th>Golongan Hewan</b-th>
-                  <!--                  <b-th>Hotel</b-th>-->
+                  <b-th>Nama Hotel</b-th>
+                  <b-th>Alasan Inaktivasi</b-th>
+                  <b-th>Status</b-th>
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
               <b-tbody>
-                <b-tr v-for="(item, index) in golongan" :key="item.id">
+                <b-tr v-for="(item, index) in temporaryHotel" :key="item.id">
                   <b-td style="width: 6em;">
                     {{ ++index + (page - 1) * perPage }}
                   </b-td>
-                  <b-td>{{ item.name }}</b-td>
-                  <!--                  <b-td>{{ item.hotel.name }}</b-td>-->
+                  <b-td>{{ item.hotel.name }}</b-td>
+                  <b-td>{{ item.reason }}</b-td>
+                  <b-td>
+                    <b-badge variant="warning" v-if="item.status === 'Proses'"
+                      >Diproses</b-badge
+                    >
+                    <b-badge variant="success" v-if="item.status === 'Aktif'"
+                      >Aktif</b-badge
+                    >
+                    <b-badge
+                      variant="danger"
+                      v-if="item.status === 'Tidak Aktif'"
+                      >Tidak Aktif</b-badge
+                    >
+                  </b-td>
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -117,7 +169,7 @@
                       <img
                         class="pointer"
                         style="width: 20px"
-                        @click="onDelete(item.id_group)"
+                        @click="onDelete(item.id_hotel_activation)"
                         src="@/assets/icon/button/delete.png"
                         alt="del"
                       />
@@ -136,7 +188,7 @@
               v-model="perPage"
               :options="[5, 10, 25]"
               class="per-page"
-              @change="fetchGroup()"
+              @change="fetchTemporaryHotel()"
             >
             </b-form-select>
           </div>
@@ -157,7 +209,7 @@
                     href="#"
                     tabindex="-1"
                     aria-disabled="true"
-                    @click="fetchGroup(page - 1)"
+                    @click="fetchTemporaryHotel(page - 1)"
                     >Previous</a
                   >
                 </li>
@@ -168,13 +220,19 @@
                   v-for="pg in totalPage"
                   :key="pg.id"
                 >
-                  <a class="page-link" href="#" @click="fetchGroup(pg)">{{
-                    pg
-                  }}</a>
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchTemporaryHotel(pg)"
+                    >{{ pg }}</a
+                  >
                 </li>
 
                 <li class="page-item" :class="{ disabled: page === totalPage }">
-                  <a class="page-link" href="#" @click="fetchGroup(page + 1)"
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="fetchTemporaryHotel(page + 1)"
                     >Next</a
                   >
                 </li>
@@ -191,7 +249,6 @@
 import KTCard from "@/view/content/Card.vue";
 // import { required } from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
-import { getHotelId } from "@/service/jwt.service";
 import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
 export default {
   components: {
@@ -208,18 +265,19 @@ export default {
       perPage: 5,
       totalData: 0,
       totalPage: 0,
+      loading: false,
       nameState: null,
       isEdit: null,
       isDetail: null,
       submittedNames: [],
       modalTitle: "",
-      hotelId: "",
       // Note 'isActive' is left out and will not appear in the rendered table
-      golongan: [],
+      temporaryHotel: [],
       hotel: [],
       addForm: {
-        name: "",
-        hotel_id: ""
+        hotel_id: "",
+        status: "",
+        id_hotel_activation: ""
       }
       // validations: {
       //   addForm: {
@@ -230,7 +288,7 @@ export default {
   },
   methods: {
     showModal() {
-      this.modalTitle = "Tambah Golongan Hewan";
+      this.modalTitle = "Tambah Spesies Hewan";
       this.$refs["my-modal"].show();
       this.isEdit = false;
       this.addForm = {};
@@ -238,38 +296,92 @@ export default {
     hideModal() {
       this.$refs["my-modal"].hide();
     },
-    // fetchHotel() {
-    //   this.$api
-    //     .get(`hotel/all`)
-    //     .then(res => {
-    //       this.hotel = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.klshewan);
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //       // alert(err);
-    //     });
-    // },
-    // fetchCategory() {
-    //   this.$api
-    //     .get(`category/all`)
-    //     .then(res => {
-    //       this.ktghewan = res.data.data.data ? res.data.data.data : [];
-    //       // console.log(this.ktghewan);
-    //     })
-    //     .catch(err => {
-    //       console.error(err);
-    //       // alert(err);
-    //     });
-    // },
-    fetchGroup(page = 1) {
+    fetchPetHotel() {
+      this.$api
+        .get(`hotel/all`)
+        .then(res => {
+          this.hotel = res.data.data.data ? res.data.data.data : [];
+          // console.log(this.hotel);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    changeStatusReject() {
+      const submitButton = this.$refs["kt_login_signup_submit"];
+      submitButton.classList.add("spinner", "spinner-light", "spinner-right");
+
+      setTimeout(() => {
+        this.$api
+          .put(`hotelActivation/status`, {
+            id_hotel_activation: this.addForm.id_hotel_activation,
+            status: this.addForm.status,
+            hotel_id: this.addForm.hotel_id
+          })
+          .then(res => {
+            if (res.status === 200) {
+              // console.log(res.status);
+              this.loading = false;
+              this.hideModal();
+              this.fetchTemporaryHotel();
+              Swal.fire({
+                icon: "success",
+                title: "Ubah Status Berhasil",
+                text: "Email Konfirmasi Sudah Dikirim Kepada Pendaftar",
+                width: "28em",
+                showCloseButton: false,
+                showCancelButton: false,
+                timer: 1500,
+                showConfirmButton: false
+              });
+              submitButton.classList.remove(
+                "spinner",
+                "spinner-light",
+                "spinner-right"
+              );
+              // this.$bvModal.hide("modal-category");
+              // this.toastAlert("update");
+            } else {
+              this.loading = false;
+            }
+          });
+      }, 2000);
+    },
+    changeStatus(data) {
+      console.log(data);
+      this.$api
+        .put(`hotelActivation/status`, {
+          id_hotel_activation: data.id_hotel_activation,
+          status: data.status
+        })
+        .then(res => {
+          if (res.status === 200) {
+            this.hideModal();
+            this.fetchTemporaryHotel();
+            Swal.fire({
+              icon: "success",
+              title: "Ubah Status Berhasil",
+              text: "Status Spesies Berhasil Diubah",
+              width: "28em",
+              showCloseButton: false,
+              showCancelButton: false,
+              timer: 1500,
+              showConfirmButton: false
+            });
+            // this.$bvModal.hide("modal-category");
+            // this.toastAlert("update");
+          }
+        });
+    },
+    fetchTemporaryHotel(page = 1) {
       this.$api
         .get(
-          `group/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
+          `hotelActivation/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
         )
         .then(res => {
-          this.golongan = res.data.data.data ? res.data.data.data : [];
-          console.log(this.golongan);
+          this.temporaryHotel = res.data.data.data ? res.data.data.data : [];
+          console.log(this.temporaryHotel);
           this.page = res.data.data.paginate.page;
           this.perPage = res.data.data.paginate.perPage;
           this.totalData = res.data.data.paginate.totalData;
@@ -287,14 +399,15 @@ export default {
     onEdit(data) {
       this.showModal();
       this.isEdit = true;
-      this.modalTitle = `Edit ${data.name}`;
+      this.modalTitle = `Edit ${data.hotel.name}`;
       this.addForm = Object.assign({}, data);
     },
     onDelete(id) {
+      console.log(id);
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text: "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",
@@ -303,10 +416,10 @@ export default {
       }).then(result => {
         if (result.isConfirmed) {
           this.$api
-            .delete(`group/delete/${id}`)
+            .delete(`hotelActivation/delete/${id}`)
             .then(res => {
               if (res.status === 200) {
-                this.fetchGroup();
+                this.fetchTemporaryHotel();
                 Swal.fire({
                   icon: "warning",
                   title: "Hapus Berhasil",
@@ -351,13 +464,12 @@ export default {
       //
       // }
       if (this.isEdit) {
-        this.addForm.hotel_id = this.hotelId;
         this.$api
-          .put("group/update", this.addForm)
+          .put("hotelActivation/update", this.addForm)
           .then(res => {
             if (res.status === 200) {
               this.hideModal();
-              this.fetchGroup();
+              this.fetchTemporaryHotel();
               Swal.fire({
                 icon: "success",
                 title: "Edit Berhasil",
@@ -368,7 +480,7 @@ export default {
                 timer: 1500,
                 showConfirmButton: false
               });
-              // this.$bvModal.hide("modal-group");
+              // this.$bvModal.hide("modal-hotelActivation");
               // this.toastAlert("update");
             }
           })
@@ -377,7 +489,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode golongan sudah ada!",
+                text: "Kode kategori sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -385,13 +497,12 @@ export default {
             }
           });
       } else {
-        this.addForm.hotel_id = this.hotelId;
         this.$api
-          .post("group/add", this.addForm)
+          .post("hotelActivation/add", this.addForm)
           .then(res => {
             if (res.status === 201) {
               this.hideModal();
-              this.fetchGroup();
+              this.fetchTemporaryHotel();
               Swal.fire({
                 icon: "success",
                 title: "Tambah Berhasil",
@@ -410,7 +521,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode golongan sudah ada!",
+                text: "Kode temporary hotel sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -447,22 +558,24 @@ export default {
         meta.startSection = this.page;
         meta.endSection = meta.startSection;
       } else {
-        if (this.golongan.length === this.perPage) {
+        if (this.temporaryHotel.length === this.perPage) {
           meta.endSection = this.page * this.perPage;
           meta.startSection = meta.endSection - (this.perPage - 1);
         } else {
           meta.endSection =
-            this.page * this.perPage - (this.perPage - this.golongan.length);
-          meta.startSection = meta.endSection - (this.golongan.length - 1);
+            this.page * this.perPage -
+            (this.perPage - this.temporaryHotel.length);
+          meta.startSection =
+            meta.endSection - (this.temporaryHotel.length - 1);
         }
       }
       return meta;
     }
   },
   mounted() {
-    this.fetchGroup();
-    this.hotelId = getHotelId();
-    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Golongan Hewan" }]);
+    this.fetchTemporaryHotel();
+    this.fetchPetHotel();
+    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Permintaan Aktivasi Pet Hotel" }]);
   }
 };
 </script>

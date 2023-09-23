@@ -71,6 +71,11 @@ export default new Router({
               path: "staff",
               name: "Staff",
               component: () => import("@/view/pages/admin/staff.vue")
+            },
+            {
+              path: "kondisihewan",
+              name: "kondisihewan",
+              component: () => import("@/view/pages/admin/kondisi-hewan.vue")
             }
           ]
         },
@@ -79,11 +84,17 @@ export default new Router({
           name: "Anabuls",
           component: () => import("@/view/pages/anabuls/anabul.vue"),
           children: [
-            {
-              path: "pet-hotel",
-              name: "Pethotel",
-              component: () => import("@/view/pages/anabuls/pet-hotel.vue")
-            },
+            // {
+            //   path: "pet-hotel",
+            //   name: "Pethotel",
+            //   component: () => import("@/view/pages/anabuls/pet-hotel.vue")
+            // },
+            // {
+            //   path: "temporary-hotel",
+            //   name: "temporary-hotel",
+            //   component: () =>
+            //     import("@/view/pages/anabuls/temporary-hotel.vue")
+            // },
             {
               path: "permintaan",
               name: "Permintaan",
@@ -130,6 +141,25 @@ export default new Router({
           ]
         },
         {
+          path: "/pethotel",
+          name: "pethotel",
+          component: () => import("@/view/pages/pethotel/pethotel.vue"),
+          children: [
+            {
+              path: "pet-hotel",
+              name: "pet-hotel",
+              component: () => import("@/view/pages/pethotel/pet-hotel.vue")
+            },
+            {
+              path: "temporary-hotel",
+              name: "temporary-hotel",
+              component: () =>
+                import("@/view/pages/pethotel/temporary-hotel.vue")
+            }
+          ]
+        },
+
+        {
           path: "/golongan",
           name: "golongan",
           component: () => import("@/view/pages/golongan/golongan.vue"),
@@ -145,7 +175,7 @@ export default new Router({
               name: "golongan-hewan",
               component: () =>
                 import("@/view/pages/golongan/golongan-hewan.vue")
-            },
+            }
             // {
             //   path: "spesies-baru",
             //   name: "spesies-baru",
@@ -282,6 +312,11 @@ export default new Router({
       name: "verifySuccess",
       path: "/verifySuccess",
       component: () => import("@/view/pages/auth/verifySucces")
+    },
+    {
+      name: "emailPengajuan",
+      path: "/emailPengajuan",
+      component: () => import("@/view/pages/auth/emailPengajuan")
     }
   ]
 });

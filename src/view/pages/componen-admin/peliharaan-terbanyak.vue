@@ -4,12 +4,12 @@
       <b-thead>
         <b-tr>
           <b-th class="text-center">No</b-th>
-          <b-th class="text-center">Nama Peliharaan</b-th>
-          <b-th class="text-center">Total Peliharaan Masuk</b-th>
+          <b-th class="text-center">Nama Layanan</b-th>
+          <b-th class="text-center">Total Layanan Yang Masuk</b-th>
         </b-tr>
       </b-thead>
       <b-tbody>
-        <b-tr v-for="(total, index) in toppeliharaan" :key="total.id">
+        <b-tr v-for="(total, index) in topLayanan" :key="total.id">
           <b-td style="width: 6em" class="text-center">
             {{ ++index }}
           </b-td>
@@ -18,28 +18,28 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-<!--    <b-list-group>-->
-<!--      <b-list-group-item-->
-<!--        class="d-flex justify-content-between align-items-center"-->
-<!--      >-->
-<!--        <div>-->
-<!--          <h6>NAMA PELIHARAAN</h6>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <h6>TOTAL</h6>-->
-<!--        </div>-->
-<!--      </b-list-group-item>-->
-<!--      <b-list-group-item-->
-<!--        class="d-flex justify-content-between align-items-center"-->
-<!--        v-for="total in toppeliharaan"-->
-<!--        :key="total.id"-->
-<!--      >-->
-<!--        <div>-->
-<!--          {{ total.name }}-->
-<!--        </div>-->
-<!--        <b-badge variant="primary" pill>{{ total.total }}</b-badge>-->
-<!--      </b-list-group-item>-->
-<!--    </b-list-group>-->
+    <!--    <b-list-group>-->
+    <!--      <b-list-group-item-->
+    <!--        class="d-flex justify-content-between align-items-center"-->
+    <!--      >-->
+    <!--        <div>-->
+    <!--          <h6>NAMA PELIHARAAN</h6>-->
+    <!--        </div>-->
+    <!--        <div>-->
+    <!--          <h6>TOTAL</h6>-->
+    <!--        </div>-->
+    <!--      </b-list-group-item>-->
+    <!--      <b-list-group-item-->
+    <!--        class="d-flex justify-content-between align-items-center"-->
+    <!--        v-for="total in topLayanan"-->
+    <!--        :key="total.id"-->
+    <!--      >-->
+    <!--        <div>-->
+    <!--          {{ total.name }}-->
+    <!--        </div>-->
+    <!--        <b-badge variant="primary" pill>{{ total.total }}</b-badge>-->
+    <!--      </b-list-group-item>-->
+    <!--    </b-list-group>-->
   </div>
   <!--  <div id="chart">-->
   <!--    <apexchart-->
@@ -89,18 +89,18 @@ export default {
       //     categories: []
       //   }
       // },
-      toppeliharaan: [],
+      topLayanan: [],
       hotelId: ""
     };
   },
   methods: {
     fetchTopPeliharaan() {
       this.$api
-        .get(`dashboard/topJoinPet?hotel_id=${getHotelId()}`)
+        .get(`dashboard/topService?hotel_id=${getHotelId()}`)
         .then(res => {
-          this.toppeliharaan = res.data.data ? res.data.data : {};
-          // console.log(this.toppeliharaan);
-          // this.toppeliharaan.map(e => {
+          this.topLayanan = res.data.data ? res.data.data : {};
+          // console.log(this.topLayanan);
+          // this.topLayanan.map(e => {
           //   // console.log(e);
           //   this.series[0].data.push(e.total);
           //   this.chartOptions.xaxis.categories.push(e.name);

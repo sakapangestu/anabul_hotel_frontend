@@ -40,26 +40,95 @@
         </a>
       </li>
     </router-link>
-    <router-link
+    <!--    <router-link-->
+    <!--      v-if="role === 'Super Admin'"-->
+    <!--      :to="{ name: 'Pethotel' }"-->
+    <!--      v-slot="{ href, navigate, isActive, isExactActive }"-->
+    <!--    >-->
+    <!--      <li-->
+    <!--        aria-haspopup="true"-->
+    <!--        data-menu-toggle="hover"-->
+    <!--        class="menu-item"-->
+    <!--        :class="[-->
+    <!--          isActive && 'menu-item-active',-->
+    <!--          isExactActive && 'menu-item-active'-->
+    <!--        ]"-->
+    <!--      >-->
+    <!--        <a :href="href" class="menu-link" @click="navigate">-->
+    <!--          <i class="menu-icon fa fa-paw"></i>-->
+    <!--          <span class="menu-text">Pet Hotel</span>-->
+    <!--        </a>-->
+    <!--      </li>-->
+    <!--    </router-link>-->
+    <li
       v-if="role === 'Super Admin'"
-      :to="{ name: 'Pethotel' }"
-      v-slot="{ href, navigate, isActive, isExactActive }"
+      aria-haspopup="true"
+      data-menu-toggle="hover"
+      class="menu-item menu-item-submenu"
+      v-bind:class="{
+        'menu-item-open': hasActiveChildren('/pethotel')
+      }"
     >
-      <li
-        aria-haspopup="true"
-        data-menu-toggle="hover"
-        class="menu-item"
-        :class="[
-          isActive && 'menu-item-active',
-          isExactActive && 'menu-item-active'
-        ]"
-      >
-        <a :href="href" class="menu-link" @click="navigate">
-          <i class="menu-icon fa fa-paw"></i>
-          <span class="menu-text">Pet Hotel</span>
-        </a>
-      </li>
-    </router-link>
+      <a href="#" class="menu-link menu-toggle">
+        <i class="menu-icon fa fa-paw"></i>
+        <span class="menu-text">Pet Hotel</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="menu-submenu">
+        <span class="menu-arrow"></span>
+        <ul class="menu-subnav">
+          <li aria-haspopup="true" class="menu-item menu-item-parent">
+            <span class="menu-link">
+              <span class="menu-text">Pet Hotel</span>
+            </span>
+          </li>
+
+          <router-link
+            to="/pethotel/pet-hotel"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+          >
+            <li
+              aria-haspopup="true"
+              data-menu-toggle="hover"
+              class="menu-item"
+              :class="[
+                isActive && 'menu-item-active',
+                isExactActive && 'menu-item-active'
+              ]"
+            >
+              <a :href="href" class="menu-link" @click="navigate">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Pet Hotel</span>
+              </a>
+            </li>
+          </router-link>
+
+          <router-link
+            to="/pethotel/temporary-hotel"
+            v-slot="{ href, navigate, isActive, isExactActive }"
+          >
+            <li
+              aria-haspopup="true"
+              data-menu-toggle="hover"
+              class="menu-item"
+              :class="[
+                isActive && 'menu-item-active',
+                isExactActive && 'menu-item-active'
+              ]"
+            >
+              <a :href="href" class="menu-link" @click="navigate">
+                <i class="menu-bullet menu-bullet-dot">
+                  <span></span>
+                </i>
+                <span class="menu-text">Permintaan Aktifasi Hotel</span>
+              </a>
+            </li>
+          </router-link>
+        </ul>
+      </div>
+    </li>
     <router-link
       v-if="role === 'Super Admin'"
       :to="{ name: 'AdminPet' }"
@@ -619,6 +688,26 @@
         <a :href="href" class="menu-link" @click="navigate">
           <i class="menu-icon fas fa-clipboard"></i>
           <span class="menu-text"> Regulasi </span>
+        </a>
+      </li>
+    </router-link>
+    <router-link
+      v-if="role === 'Admin'"
+      :to="{ name: 'kondisihewan' }"
+      v-slot="{ href, navigate, isActive, isExactActive }"
+    >
+      <li
+        aria-haspopup="true"
+        data-menu-toggle="hover"
+        class="menu-item"
+        :class="[
+          isActive && 'menu-item-active',
+          isExactActive && 'menu-item-active'
+        ]"
+      >
+        <a :href="href" class="menu-link" @click="navigate">
+          <i class="menu-icon fas fa-file-invoice"></i>
+          <span class="menu-text"> Kondisi Hewan </span>
         </a>
       </li>
     </router-link>

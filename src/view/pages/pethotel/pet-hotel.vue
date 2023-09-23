@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Name Hotel"
+                  label="Name Hotel *"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                   :state="nameState"
@@ -51,13 +51,13 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Email Hotel"
+                  label="Email Hotel *"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                   :state="nameState"
                 >
                   <b-form-input
-                    type="email"
+                    type="email *"
                     id="name-input"
                     v-model="addForm.email"
                     :state="nameState"
@@ -81,7 +81,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Provinsi Hotel"
+                  label="Provinsi Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -94,10 +94,11 @@
                     value-field="id_province"
                     text-field="name"
                     :options="provinces"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kota Hotel"
+                  label="Kota Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -110,10 +111,11 @@
                     value-field="id_city"
                     text-field="name"
                     :options="cities"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kecematan Hotel"
+                  label="Kecematan Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -126,10 +128,11 @@
                     value-field="id_district"
                     text-field="name"
                     :options="districts"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kelurahan Hotel"
+                  label="Kelurahan Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -141,6 +144,7 @@
                     value-field="id_subdistrict"
                     text-field="name"
                     :options="subdistricts"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
@@ -157,7 +161,6 @@
                     rows="3"
                     max-rows="6"
                     :disabled="isDetail"
-                    required
                   ></b-form-textarea>
                 </b-form-group>
                 <b-form-group
@@ -206,7 +209,6 @@
                     rows="3"
                     max-rows="6"
                     :disabled="isDetail"
-                    required
                   ></b-form-textarea>
                 </b-form-group>
                 <!--                <b-form-group-->
@@ -284,7 +286,6 @@
                     v-model="addForm.npwp"
                     :state="nameState"
                     :disabled="isDetail"
-                    required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
@@ -419,7 +420,7 @@
                     <b-badge variant="success" v-if="item.status === 'Aktif'">
                       Aktif</b-badge
                     >
-                    <b-badge variant="success" v-if="item.status === 'Tidak Aktif'">
+                    <b-badge variant="danger" v-if="item.status === 'Tidak Aktif'">
                       Tidak Aktif</b-badge
                     >
                   </b-td>
@@ -854,7 +855,7 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text: "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",

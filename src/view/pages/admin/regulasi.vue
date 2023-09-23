@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Diskripsi"
+                  label="Diskripsi *"
                   label-for="name-input"
                   invalid-feedback="Harga is required"
                   :state="nameState"
@@ -80,7 +80,7 @@
                 <!--                  >-->
                 <!--                  </b-form-select>-->
                 <!--                </b-form-group>-->
-                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+                <b-form-group label="Status *" v-slot="{ ariaDescribedby }">
                   <b-form-radio-group
                     v-model="addForm.status"
                     :options="options"
@@ -88,6 +88,7 @@
                     :aria-describedby="ariaDescribedby"
                     name="radios-stacked"
                     stacked
+                    required
                   ></b-form-radio-group>
                 </b-form-group>
                 <!--                {{ spesies }}-->
@@ -388,7 +389,7 @@ export default {
               if (res.status === 200) {
                 this.fetchRegulation();
                 Swal.fire({
-                  icon: "warning",
+                  icon: "success",
                   title: "Hapus Berhasil",
                   text: "Data berhasil dihapus",
                   width: "28em",

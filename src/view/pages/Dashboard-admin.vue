@@ -14,7 +14,7 @@
               </div>
             </div>
             <div class="col-auto">
-             <i class="fas fa-hotel fa-2x text-primary"></i>
+              <i class="fas fa-hotel fa-2x text-primary"></i>
             </div>
           </div>
         </div>
@@ -94,6 +94,22 @@
             <div class="card col">
               <div id="chart">
                 <div class="mt-5">
+                  <a> GRAFIK PENGHASILAN PERBULAN</a>
+                </div>
+                <div class="mt-3">
+                  <grafikPenghasilan></grafikPenghasilan>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </b-row>
+      <b-row>
+        <div class="col">
+          <div class="row">
+            <div class="card col">
+              <div id="chart">
+                <div class="mt-5">
                   <a> JUMLAH TRANSAKSI SETIAP HARINYA</a>
                 </div>
                 <div class="mt-3">
@@ -126,7 +142,7 @@
             <div class="card col-6">
               <div id="chart">
                 <div class="mt-5">
-                  <a>10 JUMLAH PELIHARAAN TERBANYAK MASUK </a>
+                  <a>10 JUMLAH LAYANAN TERBANYAK MASUK </a>
                 </div>
                 <div class="mt-3">
                   <PeliharaanTerbanyak></PeliharaanTerbanyak>
@@ -185,6 +201,7 @@ import PeliharaanTerbanyak from "@/view/pages/componen-admin/peliharaan-terbanya
 import daftarStaff from "@/view/pages/componen-admin/daftar-staff";
 import produkTerbanyak from "@/view/pages/componen-admin/produk-terbanyak";
 import jmlhkandangStatus from "@/view/pages/componen-admin/jmlhkandang-status";
+import grafikPenghasilan from "@/view/pages/componen-admin/grafik-penghasilan";
 export default {
   name: "dashboard",
   components: {
@@ -195,7 +212,8 @@ export default {
     PeliharaanTerbanyak,
     daftarStaff,
     produkTerbanyak,
-    jmlhkandangStatus
+    jmlhkandangStatus,
+    grafikPenghasilan
   },
 
   data() {

@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Spesies Hewan"
+                  label="Spesies Hewan *"
                   label-for="name-input"
                   invalid-feedback="tempSpecies is required"
                   :state="nameState"
@@ -51,7 +51,7 @@
                 </b-form-group>
                 <!--                {{ ktghewan }}-->
                 <b-form-group
-                  label="Kategori Hewan"
+                  label="Kategori Hewan *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -62,10 +62,11 @@
                     value-field="id_category"
                     text-field="name"
                     :options="ktghewan"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Status"
+                  label="Status *"
                   label-for="name-input"
                   invalid-feedback="Status is required"
                   :state="nameState"
@@ -342,7 +343,7 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text: "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",

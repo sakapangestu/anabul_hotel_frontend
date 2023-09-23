@@ -38,7 +38,7 @@
               <!--              <v-select :options="['Canada', 'United States']"></v-select>-->
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Kandang"
+                  label="Nama Kandang *"
                   label-for="name-input"
                   invalid-feedback="Harga is required"
                   :state="nameState"
@@ -51,7 +51,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Detail Kandang"
+                  label="Detail Kandang *"
                   label-for="name-input"
                   invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
@@ -65,7 +65,7 @@
                     "
                   />
                 </b-form-group>
-                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+                <b-form-group label="Status *" v-slot="{ ariaDescribedby }">
                   <b-form-radio-group
                     v-model="addForm.status"
                     :options="options"
@@ -73,6 +73,7 @@
                     :aria-describedby="ariaDescribedby"
                     name="radios-stacked"
                     stacked
+                    required
                   ></b-form-radio-group>
                 </b-form-group>
                 <b-button class="mt-3" type="submit" variant="primary" block

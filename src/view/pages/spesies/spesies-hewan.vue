@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Spesies Hewan"
+                  label="Spesies Hewan *"
                   label-for="name-input"
                   invalid-feedback="species is required"
                   :state="nameState"
@@ -51,7 +51,7 @@
                 </b-form-group>
                 <!--                {{ ktghewan }}-->
                 <b-form-group
-                  label="Kategori Hewan"
+                  label="Kategori Hewan *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -62,6 +62,7 @@
                     value-field="id_category"
                     text-field="name"
                     :options="ktghewan"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-button class="mt-3" type="submit" variant="primary" block
@@ -280,7 +281,8 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text:
+          "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",
@@ -362,7 +364,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode Spesies sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -390,7 +392,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode Spesies sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

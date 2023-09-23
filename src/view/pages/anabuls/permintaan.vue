@@ -353,7 +353,7 @@
                   <b-th>No</b-th>
                   <b-th
                     >Hotel Nama
-<!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                    <!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
                   </b-th>
                   <b-th>Hotel Email</b-th>
                   <b-th>NPWP</b-th>
@@ -758,7 +758,8 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text:
+          "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",

@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Kategori Kandang"
+                  label="Kategori Kandang *"
                   label-for="name-input"
                   invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
@@ -48,10 +48,11 @@
                     value-field="id_cage_category"
                     text-field="name"
                     :options="kategori"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Ukuran Kandang"
+                  label="Ukuran Kandang *"
                   label-for="name-input"
                   invalid-feedback="Ukuran Kandang is required"
                   :state="nameState"
@@ -62,24 +63,25 @@
                     value-field="id_cage_type"
                     text-field="name"
                     :options="ukuran"
+                    required
                   ></b-form-select>
                 </b-form-group>
-<!--                <b-form-group-->
-<!--                  label="Jumlah Kandang"-->
-<!--                  label-for="name-input"-->
-<!--                  invalid-feedback="Jumlah Kandang is required"-->
-<!--                  :state="nameState"-->
-<!--                >-->
-<!--                  <b-form-input-->
-<!--                    type="number"-->
-<!--                    id="name-input"-->
-<!--                    v-model="addForm.quantity"-->
-<!--                    :state="nameState"-->
-<!--                    required-->
-<!--                  ></b-form-input>-->
-<!--                </b-form-group>-->
+                <!--                <b-form-group-->
+                <!--                  label="Jumlah Kandang"-->
+                <!--                  label-for="name-input"-->
+                <!--                  invalid-feedback="Jumlah Kandang is required"-->
+                <!--                  :state="nameState"-->
+                <!--                >-->
+                <!--                  <b-form-input-->
+                <!--                    type="number"-->
+                <!--                    id="name-input"-->
+                <!--                    v-model="addForm.quantity"-->
+                <!--                    :state="nameState"-->
+                <!--                    required-->
+                <!--                  ></b-form-input>-->
+                <!--                </b-form-group>-->
                 <b-form-group
-                  label="Harga"
+                  label="Harga *"
                   label-for="name-input"
                   invalid-feedback="Harga is required"
                   :state="nameState"
@@ -110,16 +112,16 @@
                 <!--                  >-->
                 <!--                  </b-form-select>-->
                 <!--                </b-form-group>-->
-<!--                <b-form-group label="Status" v-slot="{ ariaDescribedby }">-->
-<!--                  <b-form-radio-group-->
-<!--                    v-model="addForm.status"-->
-<!--                    :options="options"-->
-<!--                    :disabled="isDetail"-->
-<!--                    :aria-describedby="ariaDescribedby"-->
-<!--                    name="radios-stacked"-->
-<!--                    stacked-->
-<!--                  ></b-form-radio-group>-->
-<!--                </b-form-group>-->
+                <!--                <b-form-group label="Status" v-slot="{ ariaDescribedby }">-->
+                <!--                  <b-form-radio-group-->
+                <!--                    v-model="addForm.status"-->
+                <!--                    :options="options"-->
+                <!--                    :disabled="isDetail"-->
+                <!--                    :aria-describedby="ariaDescribedby"-->
+                <!--                    name="radios-stacked"-->
+                <!--                    stacked-->
+                <!--                  ></b-form-radio-group>-->
+                <!--                </b-form-group>-->
                 <!--                {{ spesies }}-->
                 <!--                <b-form-group-->
                 <!--                  label="Hotel"-->
@@ -152,9 +154,9 @@
                   <b-th>No</b-th>
                   <b-th>Kategori Kandang</b-th>
                   <b-th>Ukuran Kandang</b-th>
-<!--                  <b-th>Jumlah Kandang</b-th>-->
+                  <!--                  <b-th>Jumlah Kandang</b-th>-->
                   <b-th>Harga</b-th>
-<!--                  <b-th>Status</b-th>-->
+                  <!--                  <b-th>Status</b-th>-->
                   <b-th>Action</b-th>
                 </b-tr>
               </b-thead>
@@ -167,16 +169,16 @@
                     item.cage_category ? item.cage_category.name : "-"
                   }}</b-td>
                   <b-td>{{ item.cage_type ? item.cage_type.name : "-" }}</b-td>
-<!--                  <b-td>{{ item.quantity }}</b-td>-->
+                  <!--                  <b-td>{{ item.quantity }}</b-td>-->
                   <b-td>{{ Rp(item.price) }}</b-td>
-<!--                  <b-td>-->
-<!--                    <b-badge variant="success" v-if="item.status === 'Tersedia'"-->
-<!--                      >Tersedia</b-badge-->
-<!--                    >-->
-<!--                    <b-badge variant="danger" v-if="item.status === 'Penuh'"-->
-<!--                      >Penuh</b-badge-->
-<!--                    >-->
-<!--                  </b-td>-->
+                  <!--                  <b-td>-->
+                  <!--                    <b-badge variant="success" v-if="item.status === 'Tersedia'"-->
+                  <!--                      >Tersedia</b-badge-->
+                  <!--                    >-->
+                  <!--                    <b-badge variant="danger" v-if="item.status === 'Penuh'"-->
+                  <!--                      >Penuh</b-badge-->
+                  <!--                    >-->
+                  <!--                  </b-td>-->
                   <b-td class="action-cols">
                     <!--                    <span class="action-button">-->
                     <!--                      <img-->
@@ -317,7 +319,7 @@ export default {
         hotel_id: "",
         cage_type_id: "",
         // quantity: "",
-        price: "",
+        price: ""
         // status: ""
       }
       // validations: {
@@ -388,7 +390,7 @@ export default {
         });
     },
     fetchDetailCage(page = 1) {
-      this.detailKandang = []
+      this.detailKandang = [];
       this.$api
         .get(
           `cageDetail/all?perPage=${this.perPage}&page=${page}&search=${this.search}&sortBy=${this.sortBy}&orderBy=${this.orderBy}`
@@ -507,7 +509,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode detail kandang sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -536,7 +538,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode detail kandang sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

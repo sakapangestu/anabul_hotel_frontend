@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Name"
+                  label="Name *"
                   label-for="name-input"
                   invalid-feedback="Name is required"
                   :state="nameState"
@@ -90,7 +90,7 @@
                   <b-th>No</b-th>
                   <b-th
                     >Kelas Hewan
-<!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                    <!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
                   </b-th>
                   <b-th>Action</b-th>
                 </b-tr>
@@ -290,7 +290,8 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text:
+          "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",
@@ -372,7 +373,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode kelas sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -400,7 +401,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode kelas sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

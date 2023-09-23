@@ -2,10 +2,7 @@
   <div id="chart">
     <div class="row">
       <div class="col">
-        <select id="inputState" class="form-control" v-model="year">
-          <option selected disabled>
-            Choose DO
-          </option>
+        <select id="inputState" class="form-control" v-model="year" @change="fetchPermintaan">
           <option v-for="y in years" :key="y.id" :value="y.name">
             {{ y.name }}
           </option>
@@ -14,20 +11,9 @@
       <div class="col">
         <button
           type="button"
-          class="btn btn-sm btn-primary ml-5"
-          @click="fetchPermintaan"
-        >
-          <i class="fa fa-eye mr-1" aria-hidden="true"></i>
-          View
-        </button>
-      </div>
-      <div class="col">
-        <button
-          type="button"
           class="btn btn-sm btn-secondary ml-5"
           @click="resetPermintaan"
         >
-          <!--      <i class="fa fa-refresh mr-1" aria-hidden="true"></i>-->
           <i class="fas fa-redo"></i>
           Reset
         </button>
@@ -78,7 +64,7 @@ export default {
       permintaan: {
         request_accept: 0,
         request_process: 0,
-        request_reject: 0,
+        request_reject: 0
       }
     };
   },

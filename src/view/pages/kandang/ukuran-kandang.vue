@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Ukuran Kandang"
+                  label="Ukuran Kandang *"
                   label-for="name-input"
                   invalid-feedback="Ukuran Kandang is required"
                   :state="nameState"
@@ -50,7 +50,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Lebar Kadang"
+                  label="Lebar Kadang *"
                   label-for="name-input"
                   invalid-feedback="group is required"
                   :state="nameState"
@@ -65,7 +65,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Panjang Kandang"
+                  label="Panjang Kandang *"
                   label-for="name-input"
                   invalid-feedback="group is required"
                   :state="nameState"
@@ -80,7 +80,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Tinggi Kandang"
+                  label="Tinggi Kandang *"
                   label-for="name-input"
                   invalid-feedback="group is required"
                   :state="nameState"
@@ -95,7 +95,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Diskripsi"
+                  label="Diskripsi *"
                   label-for="name-input"
                   invalid-feedback="Diskripsi is required"
                   :state="nameState"
@@ -473,7 +473,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode ukuran sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -502,7 +502,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode ukuran sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

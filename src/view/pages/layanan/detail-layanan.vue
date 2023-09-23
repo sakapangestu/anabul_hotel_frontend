@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Layanan"
+                  label="Nama Layanan *"
                   label-for="name-input"
                   invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
@@ -48,10 +48,11 @@
                     value-field="id_service"
                     text-field="name"
                     :options="layanan"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kandang"
+                  label="Golongan *"
                   label-for="name-input"
                   invalid-feedback="Kategori Kandang is required"
                   :state="nameState"
@@ -62,10 +63,11 @@
                     value-field="id_group"
                     text-field="name"
                     :options="kandang"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Harga"
+                  label="Harga *"
                   label-for="name-input"
                   invalid-feedback="Harga is required"
                   :state="nameState"
@@ -434,7 +436,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode detail layanan sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -463,7 +465,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode detail layanan sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

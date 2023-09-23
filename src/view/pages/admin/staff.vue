@@ -36,7 +36,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Staff"
+                  label="Nama Staff *"
                   label-for="name-input"
                   invalid-feedback="species is required"
                   :state="nameState"
@@ -50,7 +50,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Email Staff"
+                  label="Email Staff *"
                   label-for="name-input"
                   invalid-feedback="species is required"
                   :state="nameState"
@@ -65,7 +65,22 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="No Hp Staff"
+                  label="Password Staff *"
+                  label-for="name-input"
+                  invalid-feedback="Password is required"
+                  :state="nameState"
+                >
+                  <b-form-input
+                    type="password"
+                    id="name-input"
+                    v-model="addForm.password"
+                    :state="nameState"
+                    :disabled="isPassword"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="No Hp Staff *"
                   label-for="name-input"
                   invalid-feedback="species is required"
                   :state="nameState"
@@ -80,7 +95,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Provinsi Hotel"
+                  label="Provinsi Tempat Tinggal"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -96,7 +111,7 @@
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kota Hotel"
+                  label="Kota Tempat Tinggal"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -112,7 +127,7 @@
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kecematan Hotel"
+                  label="Kecematan Tempat Tinggal"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -128,7 +143,7 @@
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kelurahan Hotel"
+                  label="Kelurahan Tempat Tinggal"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -156,7 +171,6 @@
                     rows="3"
                     max-rows="6"
                     :disabled="isDetail"
-                    required
                   ></b-form-textarea>
                 </b-form-group>
                 <b-form-group
@@ -172,7 +186,6 @@
                     value-type="format"
                     :disabled="isDetail"
                     class="w-100"
-                    required
                   ></date-picker>
                 </b-form-group>
                 <b-form-group label="Gender" v-slot="{ ariaDescribedby }">
@@ -186,7 +199,7 @@
                   ></b-form-radio-group>
                 </b-form-group>
                 <b-form-group
-                  label="NIK"
+                  label="NIK *"
                   label-for="name-input"
                   invalid-feedback="NIK harus di isi"
                   :state="nameState"
@@ -304,8 +317,7 @@
                 <b-tr>
                   <b-th>No</b-th>
                   <b-th>Image</b-th>
-                  <b-th
-                    >Nama</b-th>
+                  <b-th>Nama</b-th>
                   <b-th>Email</b-th>
                   <b-th>Alamat</b-th>
                   <b-th>Action</b-th>
@@ -460,6 +472,7 @@ export default {
       nameState: null,
       isEdit: null,
       isDetail: null,
+      isPassword: null,
       modalTitle: "",
       submittedNames: [],
       hotel: [],
@@ -491,7 +504,8 @@ export default {
         phone: "",
         hotel_id: "",
         image: "",
-        gender: ""
+        gender: "",
+        password: ""
       }
       // validations: {
       //   addForm: {
@@ -636,6 +650,7 @@ export default {
       await this.fetchCity(data.province_id);
       await this.fetchDistrict(data.city_id);
       await this.fetchSubdistrict(data.district_id);
+      this.isPassword = true;
       this.isDetail = true;
       this.modalTitle = `${data.name} Details`;
       this.isEdit = false;
@@ -647,6 +662,7 @@ export default {
       await this.fetchCity(data.province_id);
       await this.fetchDistrict(data.city_id);
       await this.fetchSubdistrict(data.district_id);
+      this.isPassword = true;
       this.isEdit = true;
       this.isDetail = false;
       this.addForm = Object.assign({}, data);
@@ -700,12 +716,13 @@ export default {
     },
     handleOk(bvModalEvent) {
       // Prevent modal from closing
+      this.isPassword = false;
       bvModalEvent.preventDefault();
       // Trigger submit handler
       this.handleSubmit();
     },
     handleSubmit() {
-      this.addForm.phone = parseInt(this.addForm.phone);
+      // this.addForm.phone = parseInt(this.addForm.phone);
       this.addForm.nik = parseInt(this.addForm.nik);
       this.addForm.province_id = parseInt(this.addForm.province_id);
       this.addForm.city_id = parseInt(this.addForm.city_id);
@@ -720,6 +737,8 @@ export default {
       formData.append("id", this.addForm.id);
       formData.append("name", this.addForm.name);
       formData.append("email", this.addForm.email);
+      // formData.append("phone", this.addForm.phone);
+      formData.append("password", this.addForm.password);
       formData.append("phone", this.addForm.phone);
       formData.append("nik", this.addForm.nik);
       formData.append("province_id", this.addForm.province_id);

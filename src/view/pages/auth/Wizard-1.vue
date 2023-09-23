@@ -24,6 +24,13 @@
         <!--begin: Wizard Nav-->
         <div class="wizard-nav border-bottom">
           <div class="wizard-steps p-8 p-lg-10">
+            <div class="wizard-step" data-wizard-type="step">
+              <div class="wizard-label">
+                <i class="wizard-icon flaticon-clipboard"></i>
+                <h3 class="wizard-title">1. Persyaratan</h3>
+              </div>
+              <i class="wizard-arrow flaticon2-next"></i>
+            </div>
             <div
               class="wizard-step"
               data-wizard-type="step"
@@ -31,31 +38,24 @@
             >
               <div class="wizard-label">
                 <i class="wizard-icon flaticon-map-location"></i>
-                <h3 class="wizard-title">1. Profil Hotel</h3>
+                <h3 class="wizard-title">2. Profil Hotel</h3>
               </div>
               <i class="wizard-arrow flaticon2-next"></i>
             </div>
             <div class="wizard-step" data-wizard-type="step">
               <div class="wizard-label">
                 <i class="wizard-icon flaticon-user"></i>
-                <h3 class="wizard-title">2. Profil Admin</h3>
+                <h3 class="wizard-title">3. Profil Admin</h3>
               </div>
               <i class="wizard-arrow flaticon2-next"></i>
             </div>
             <div class="wizard-step" data-wizard-type="step">
               <div class="wizard-label">
                 <i class="wizard-icon flaticon-list"></i>
-                <h3 class="wizard-title">3. Unggah Dokumen</h3>
+                <h3 class="wizard-title">4. Unggah Dokumen</h3>
               </div>
               <!--              <i class="wizard-arrow flaticon2-next"></i>-->
             </div>
-            <!--            <div class="wizard-step" data-wizard-type="step">-->
-            <!--              <div class="wizard-label">-->
-            <!--                <i class="wizard-icon flaticon-truck"></i>-->
-            <!--                <h3 class="wizard-title">4. Delivery Address</h3>-->
-            <!--              </div>-->
-            <!--              <i class="wizard-arrow flaticon2-next"></i>-->
-            <!--            </div>-->
             <!--            <div class="wizard-step" data-wizard-type="step">-->
             <!--              <div class="wizard-label">-->
             <!--                <i class="wizard-icon flaticon-globe"></i>-->
@@ -69,10 +69,35 @@
 
         <!--begin: Wizard Body-->
         <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
-          <div class="col-xl-12 col-xxl-7">
+          <div class="col-xl-12 col-xxl-8">
             <!--begin: Wizard Form-->
             <form class="form" id="kt_form">
               <!--begin: Wizard Step 1-->
+              <div class="pb-5" data-wizard-type="step-content">
+                <!--                <h4 class="mb-10 font-weight-bold text-dark">-->
+                <!--                  Siapkan Syarat Kebutuhan Registrasi-->
+                <!--                </h4>-->
+                <div id="app" class="container">
+                  <h1 class="text-center my-4">Persyaratan Registrasi</h1>
+                  <b-badge variant="danger"
+                    >Mohon dipersiapkan syarat dibawah ini untuk melakukan pendaftaran!</b-badge
+                  >
+                  <ul class="list-group">
+                    <li
+                      v-for="requirement in requirements"
+                      :key="requirement.id"
+                      class="form-control form-control-solid form-control-lg"
+                    >
+                      {{ requirement.id }}<a class="mr-3">.</a>
+                      {{ requirement.text }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!--end: Wizard Step 1-->
+
+              <!--begin: Wizard Step 2-->
               <div
                 class="pb-5"
                 data-wizard-type="step-content"
@@ -391,10 +416,9 @@
                 <!--                  </div>-->
                 <!--                </div>-->
               </div>
+              <!--end: Wizard Step 2-->
 
-              <!--end: Wizard Step 1-->
-
-              <!--begin: Wizard Step 2-->
+              <!--begin: Wizard Step 3-->
               <div class="pb-5" data-wizard-type="step-content">
                 <h4 class="mb-10 font-weight-bold text-dark">
                   Masukkan Profil Admin Anda!
@@ -430,9 +454,7 @@
                   <span class="form-text text-muted">Masukkan NIK Admin</span>
                 </div>
               </div>
-              <!--end: Wizard Step 2-->
-
-              <!--begin: Wizard Step 3-->
+              <!--begin: Wizard Step 4-->
               <div class="pb-5" data-wizard-type="step-content">
                 <h4 class="mb-10 font-weight-bold text-dark">
                   Masukkan Dokumen Anda!
@@ -490,6 +512,7 @@
                   </div>
                 </div>
               </div>
+              <!--end: Wizard Step 4-->
 
               <!--begin: Wizard Actions -->
               <div class="d-flex justify-content-between border-top pt-10">
@@ -572,7 +595,29 @@ export default {
       provinces: [],
       cities: [],
       districts: [],
-      subdistricts: []
+      subdistricts: [],
+      requirements: [
+        {
+          id: 1,
+          text:
+            "Mengisi form registrasi selengka-lengkapnya dan sedetail-detailnya. "
+        },
+        { id: 2, text: "Menyiapkan scan surat izin usaha dalam bentuk pdf." },
+        { id: 3, text: "Menyiapkan foto KTP dengan jelas." },
+        {
+          id: 4,
+          text: "Menyiapkan foto diri selfie dengan memegang ktp dengan jelas."
+        },
+        {
+          id: 5,
+          text: "Menyiapkan foto profil hotel dengan jelas."
+        },
+        {
+          id: 6,
+          text:
+            "Selesai melakukan registrasi harap menunggu konfirmasi dari pihak Anabul Hotel 3x24 Jam di jam kerja "
+        }
+      ]
       // petLayanan: [{}],
       // petKategori: [{}],
       // petUkuran: [{}]
@@ -582,21 +627,21 @@ export default {
     // deleteLayanan() {
     //   this.petLayanan.pop();
     // },
-    deleteKategori() {
-      this.petKategori.pop();
-    },
-    deleteUkuran() {
-      this.petUkuran.pop();
-    },
+    // deleteKategori() {
+    //   this.petKategori.pop();
+    // },
+    // deleteUkuran() {
+    //   this.petUkuran.pop();
+    // },
     // addLayanan() {
     //   this.petLayanan.push({});
     // },
-    addKategori() {
-      this.petKategori.push({});
-    },
-    addUkuran() {
-      this.petUkuran.push({});
-    },
+    // addKategori() {
+    //   this.petKategori.push({});
+    // },
+    // addUkuran() {
+    //   this.petUkuran.push({});
+    // },
     resetProvince() {
       this.form.hotel_city = "";
       this.form.hotel_subdistrict = "";

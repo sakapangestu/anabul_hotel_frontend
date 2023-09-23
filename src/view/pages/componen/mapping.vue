@@ -1,10 +1,6 @@
 <template>
   <div>
-    <l-map
-      style="height: 500px"
-      :zoom="zoom"
-      :center="center"
-    >
+    <l-map style="height: 500px" :zoom="zoom" :center="center">
       <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
       <l-marker
         v-for="marker in petHotel"
@@ -13,14 +9,15 @@
       >
         <l-tooltip>
           <div>
-            <b>{{ marker.name }}</b>
-            <div>{{ marker.address }}</div>
+            {{ marker.name }} <br />
+            {{ marker.province }} <a>,</a> {{ marker.city }} <a>,</a>
+            {{ marker.district }}<a>,</a> {{ marker.subdistrict }}<br />
+            {{ marker.address }}
           </div>
         </l-tooltip>
       </l-marker>
     </l-map>
   </div>
-
 </template>
 <script>
 // import L from "leaflet";
@@ -49,14 +46,18 @@ export default {
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 5,
-      center: [-1.9403, 113.5759 ],
+      center: [-1.9403, 113.5759],
       // Menyesuaikan Bentuk Object dari Backend
       dataOlahanAPI: [],
       dataMaps: {
         id: "",
         latitude: 0,
         longitude: 0,
-        address: ""
+        address: "",
+        province: "",
+        city: "",
+        district: "",
+        subdistrict: ""
       },
       petHotel: []
     };
@@ -73,10 +74,14 @@ export default {
               name: a.name,
               longitude: a.longitude,
               latitude: a.latitude,
-              address: `${a.province.name}, ${a.city.name}, ${a.district.name}, ${a.subdistrict.name}, ${a.address}`
+              address: a.address,
+              province: a.province.name,
+              city: a.city.name,
+              district: a.district.name,
+              subdistrict: a.subdistrict.name
             };
           });
-          console.log(this.petHotel)
+          console.log(this.petHotel);
           // this.petHotel.map(m => {
           //   this.dataOlahanAPI.push(
           //     {
@@ -109,3 +114,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.cardmap {
+  width: 150px;
+  height: 50px;
+}
+</style>

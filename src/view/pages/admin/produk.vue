@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Produk"
+                  label="Nama Produk *"
                   label-for="name-input"
                   invalid-feedback="Nama Produk is required"
                   :state="nameState"
@@ -50,13 +50,13 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Stok"
+                  label="Stok *"
                   label-for="name-input"
                   invalid-feedback="Stok is required"
                   :state="nameState"
                 >
                   <b-form-input
-                      type="number"
+                    type="number"
                     id="name-input"
                     v-model="addForm.stock"
                     :state="nameState"
@@ -64,7 +64,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Kategori Hewan"
+                  label="Kategori Hewan *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -75,10 +75,11 @@
                     value-field="id_category"
                     text-field="name"
                     :options="ktghewan"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Harga"
+                  label="Harga *"
                   label-for="name-input"
                   invalid-feedback="Harga is required"
                   :state="nameState"
@@ -92,7 +93,7 @@
                     required
                   ></b-form-input>
                 </b-form-group>
-                <b-form-group label="Status" v-slot="{ ariaDescribedby }">
+                <b-form-group label="Status *" v-slot="{ ariaDescribedby }">
                   <b-form-radio-group
                     v-model="addForm.status"
                     :options="options"
@@ -100,6 +101,7 @@
                     :aria-describedby="ariaDescribedby"
                     name="radios-stacked"
                     stacked
+                    required
                   ></b-form-radio-group>
                 </b-form-group>
                 <b-button class="mt-3" type="submit" variant="primary" block
@@ -461,7 +463,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode Produk sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },

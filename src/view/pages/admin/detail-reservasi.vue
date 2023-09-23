@@ -46,18 +46,19 @@
                 <div class="row">
                   <div class="col">
                     <b-form-group
-                      label="Nama"
+                      label="Nama *"
                       label-for="name-input"
                       invalid-feedback="Nama is required"
                     >
                       <b-form-input
                         id="name-input"
                         v-model="addForm.user.name"
+                        required
                         disabled
                       ></b-form-input>
                     </b-form-group>
                     <b-form-group
-                      label="Waktu Reservasi"
+                      label="Waktu Reservasi *"
                       label-for="name-input"
                       invalid-feedback="Waktu Reservasi is required"
                     >
@@ -69,10 +70,11 @@
                         type="datetime"
                         :disabled="isDetail"
                         class="w-100"
+                        required
                       ></date-picker>
                     </b-form-group>
                     <b-form-group
-                      label="Waktu Masuk Hotel"
+                      label="Waktu Masuk Hotel *"
                       label-for="name-input"
                       invalid-feedback="Waktu Masuk Hotel is required"
                     >
@@ -84,10 +86,11 @@
                         value-type="format"
                         :disabled="isDetail"
                         class="w-100"
+                        required
                       ></date-picker>
                     </b-form-group>
                     <b-form-group
-                      label="Waktu Keluar Hotel"
+                      label="Waktu Keluar Hotel *"
                       label-for="name-input"
                       invalid-feedback="Waktu Keluar Hotel is required"
                     >
@@ -99,6 +102,7 @@
                         value-type="format"
                         :disabled="isDetail"
                         class="w-100"
+                        required
                       ></date-picker>
                     </b-form-group>
                     <b-form-group
@@ -239,7 +243,7 @@
                       <b-collapse :id="'collapse-' + index">
                         <b-card>
                           <b-form-group
-                            label="Nama Hewan"
+                            label="Nama Hewan *"
                             label-for="name-input"
                             invalid-feedback="Nama Hewan is required"
                           >
@@ -250,10 +254,11 @@
                               text-field="name"
                               :disabled="isDetail"
                               :options="pets"
+                              required
                             ></b-form-select>
                           </b-form-group>
                           <b-form-group
-                            label="Berat Hewan"
+                            label="Berat Hewan *"
                             label-for="name-input"
                             invalid-feedback="Berat hewan is required"
                           >
@@ -262,6 +267,7 @@
                               id="name-input"
                               :disabled="isDetail"
                               v-model="pet.weight"
+                              required
                             ></b-form-input>
                           </b-form-group>
                           <b-form-group
@@ -279,13 +285,14 @@
                             ></b-form-select>
                           </b-form-group>
                           <b-form-group
-                            label="Detail Kandang"
+                            label="Detail Kandang *"
                             label-for="name-input"
                             invalid-feedback="Detail Kandang is required"
                           >
                             <b-form-select
                               v-model="pet.cage_detail_id"
                               :disabled="isDetail"
+                              required
                             >
                               <!--                              <option :value="null" disabled>-->
                               <!--                                &#45;&#45; Please select an option &#45;&#45;-->
@@ -316,7 +323,7 @@
                             ></b-form-select>
                           </b-form-group>
                           <b-form-group
-                            label="Status Vaksin"
+                            label="Status Vaksin *"
                             label-for="name-input"
                             invalid-feedback="Status Vaksin is required"
                           >
@@ -325,6 +332,7 @@
                               id="name-input"
                               :disabled="isDetail"
                               v-model="pet.vaccination"
+                              required
                             ></b-form-input>
                           </b-form-group>
                           <b-form-group
@@ -336,11 +344,11 @@
                               type="text"
                               id="name-input"
                               :disabled="isDetail"
-                              v-model="pet.food_allergy"
+                              v-model="pet.allergy"
                             ></b-form-input>
                           </b-form-group>
                           <b-form-group
-                            label="Penyakit Kutu"
+                            label="Penyakit Kutu *"
                             label-for="name-input"
                             invalid-feedback="Penyakit Kutu required"
                           >
@@ -349,6 +357,7 @@
                               id="name-input"
                               :disabled="isDetail"
                               v-model="pet.flea_disease"
+                              required
                             ></b-form-input>
                           </b-form-group>
                           <b-form-group
@@ -377,30 +386,30 @@
                               :options="staff"
                             ></b-form-select>
                           </b-form-group>
-                          <b-form-group
-                            label="Biaya Kandang"
-                            label-for="name-input"
-                            invalid-feedback="Harga is required"
-                          >
-                            <b-form-input
-                              type="number"
-                              id="name-input"
-                              :disabled="isDetail"
-                              v-model="pet.cage_cost"
-                            ></b-form-input>
-                          </b-form-group>
-                          <b-form-group
-                            label="Total Biaya Perhewan"
-                            label-for="name-input"
-                            invalid-feedback="Harga is required"
-                          >
-                            <b-form-input
-                              type="number"
-                              :disabled="isDetail"
-                              id="name-input"
-                              v-model="pet.subtotal_cost"
-                            ></b-form-input>
-                          </b-form-group>
+                          <!--                          <b-form-group-->
+                          <!--                            label="Biaya Kandang"-->
+                          <!--                            label-for="name-input"-->
+                          <!--                            invalid-feedback="Harga is required"-->
+                          <!--                          >-->
+                          <!--                            <b-form-input-->
+                          <!--                              type="number"-->
+                          <!--                              id="name-input"-->
+                          <!--                              :disabled="isDetail"-->
+                          <!--                              v-model="pet.cage_cost"-->
+                          <!--                            ></b-form-input>-->
+                          <!--                          </b-form-group>-->
+                          <!--                          <b-form-group-->
+                          <!--                            label="Total Biaya Perhewan"-->
+                          <!--                            label-for="name-input"-->
+                          <!--                            invalid-feedback="Harga is required"-->
+                          <!--                          >-->
+                          <!--                            <b-form-input-->
+                          <!--                              type="number"-->
+                          <!--                              :disabled="isDetail"-->
+                          <!--                              id="name-input"-->
+                          <!--                              v-model="pet.subtotal_cost"-->
+                          <!--                            ></b-form-input>-->
+                          <!--                          </b-form-group>-->
                           <div
                             v-for="(ly,
                             indexLayanan) in pet.reservation_services"
@@ -425,7 +434,7 @@
                               :id="'collapseL-' + index + indexLayanan"
                             >
                               <b-form-group
-                                label="Nama Layanan"
+                                label="Nama Layanan *"
                                 label-for="name-input"
                                 invalid-feedback="Nama Layanan is required"
                               >
@@ -436,10 +445,11 @@
                                   text-field="name"
                                   :disabled="isDetail"
                                   :options="layanan"
+                                  required
                                 ></b-form-select>
                               </b-form-group>
                               <b-form-group
-                                label="Kuantitas Layanan"
+                                label="Kuantitas Layanan *"
                                 label-for="name-input"
                                 invalid-feedback="Harga is required"
                               >
@@ -448,6 +458,7 @@
                                   id="name-input"
                                   :disabled="isDetail"
                                   v-model="ly.quantity"
+                                  required
                                 ></b-form-input>
                               </b-form-group>
                               <b-form-group
@@ -462,18 +473,18 @@
                                   v-model="ly.note"
                                 ></b-form-input>
                               </b-form-group>
-                              <b-form-group
-                                label="Biaya Layanan"
-                                label-for="name-input"
-                                invalid-feedback="Harga is required"
-                              >
-                                <b-form-input
-                                  type="number"
-                                  id="name-input"
-                                  :disabled="isDetail"
-                                  v-model="ly.service_cost"
-                                ></b-form-input>
-                              </b-form-group>
+                              <!--                              <b-form-group-->
+                              <!--                                label="Biaya Layanan"-->
+                              <!--                                label-for="name-input"-->
+                              <!--                                invalid-feedback="Harga is required"-->
+                              <!--                              >-->
+                              <!--                                <b-form-input-->
+                              <!--                                  type="number"-->
+                              <!--                                  id="name-input"-->
+                              <!--                                  disabled-->
+                              <!--                                  v-model="ly.service_cost"-->
+                              <!--                                ></b-form-input>-->
+                              <!--                              </b-form-group>-->
                               Detail Layanan
                             </b-collapse>
                           </div>
@@ -504,7 +515,7 @@
                             >
                             <b-collapse :id="'collapseM-' + index + indexMkn">
                               <b-form-group
-                                label="Nama Makanan"
+                                label="Nama Makanan *"
                                 label-for="name-input"
                                 invalid-feedback="Nama Layanan is required"
                               >
@@ -515,10 +526,11 @@
                                   text-field="name"
                                   :disabled="isDetail"
                                   :options="produk"
+                                  required
                                 ></b-form-select>
                               </b-form-group>
                               <b-form-group
-                                label="Kuantitas Makanan"
+                                label="Kuantitas Makanan *"
                                 label-for="name-input"
                                 invalid-feedback="Harga is required"
                               >
@@ -527,6 +539,7 @@
                                   id="name-input"
                                   :disabled="isDetail"
                                   v-model="mk.quantity"
+                                  required
                                 ></b-form-input>
                               </b-form-group>
                               <b-form-group
@@ -541,18 +554,18 @@
                                   v-model="mk.note"
                                 ></b-form-input>
                               </b-form-group>
-                              <b-form-group
-                                label="Biaya Makanan"
-                                label-for="name-input"
-                                invalid-feedback="Harga is required"
-                              >
-                                <b-form-input
-                                  type="number"
-                                  id="name-input"
-                                  :disabled="isDetail"
-                                  v-model="mk.product_cost"
-                                ></b-form-input>
-                              </b-form-group>
+                              <!--                              <b-form-group-->
+                              <!--                                label="Biaya Makanan"-->
+                              <!--                                label-for="name-input"-->
+                              <!--                                invalid-feedback="Harga is required"-->
+                              <!--                              >-->
+                              <!--                                <b-form-input-->
+                              <!--                                  type="number"-->
+                              <!--                                  id="name-input"-->
+                              <!--                                  disabled-->
+                              <!--                                  v-model="mk.product_cost"-->
+                              <!--                                ></b-form-input>-->
+                              <!--                              </b-form-group>-->
                               Detail Makanan
                             </b-collapse>
                           </div>
@@ -630,6 +643,129 @@
                 >
               </b-form>
             </b-modal>
+            <b-modal
+              ref="my-modalinvoice"
+              size="lg"
+              hide-footer
+              :title="modalTitleInvoice"
+            >
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="text-muted">
+                              <h5 class="font-size-16 mb-3">Nama Customor:</h5>
+                              <h5 class="font-size-15 mb-2">
+                                {{ invoice.name }}
+                              </h5>
+                            </div>
+                            <div class="text-muted">
+                              <h5 class="font-size-16 mb-3">ID Reservasi:</h5>
+                              <h5 class="font-size-15 mb-2">
+                                {{ invoice.id_reservation }}
+                              </h5>
+                            </div>
+                          </div>
+                          <!-- end col -->
+                          <div class="col-sm-6">
+                            <div class="text-muted text-sm-end">
+                              <div>
+                                <h5 class="font-size-15 mb-1">
+                                  Waktu Mulai Reservasi:
+                                </h5>
+                                <p>
+                                  {{ convertDateInvoice(this.form.start_date) }}
+                                </p>
+                              </div>
+                              <div class="mt-4">
+                                <h5 class="font-size-15 mb-1">
+                                  Waktu Selesai Reservasi:
+                                </h5>
+                                <p>
+                                  {{ convertDateInvoice(this.form.end_date) }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- end col -->
+                        </div>
+                        <!-- end row -->
+
+                        <div class="py-2">
+                          <h5 class="font-size-15">Order Summary</h5>
+
+                          <div class="table-responsive">
+                            <table
+                              class="table align-middle table-nowrap table-centered mb-0"
+                            >
+                              <thead>
+                                <tr>
+                                  <th style="width: 70px;">No.</th>
+                                  <th>Nama Hewan</th>
+                                  <th>Harga Kandang</th>
+                                  <th>Harga Layanan</th>
+                                  <th>Harga Produk</th>
+                                  <th class="text-end" style="width: 120px;">
+                                    Sub Total
+                                  </th>
+                                </tr>
+                              </thead>
+                              <!-- end thead -->
+                              <tbody>
+                                <!-- end tr -->
+                                <tr
+                                  v-for="(item, index) in invoice.detail"
+                                  :key="item.id"
+                                >
+                                  <td>{{ ++index }}</td>
+                                  <td>{{ item.pet }}</td>
+                                  <td>{{ Rp(item.cage_cost) }}</td>
+                                  <td>{{ Rp(item.total_service_cost) }}</td>
+                                  <td>{{ Rp(item.total_product_cost) }}</td>
+                                  <td>{{ Rp(item.subtotal_cost) }}</td>
+                                </tr>
+
+                                <tr>
+                                  <th
+                                    scope="row"
+                                    colspan="4"
+                                    class="border-0 text-end"
+                                  >
+                                    Total :
+                                  </th>
+                                  <td class="border-0 text-end">
+                                    <h6 class="m-0 fw-semibold">
+                                      {{ Rp(this.form.total_cost) }}
+                                    </h6>
+                                  </td>
+                                </tr>
+                                <!-- end tr -->
+                              </tbody>
+                              <!-- end tbody -->
+                            </table>
+                            <!-- end table -->
+                          </div>
+                          <!-- end table responsive -->
+                          <div class="d-print-none mt-4">
+                            <div class="float-end">
+                              <a
+                                href="javascript:window.print()"
+                                class="btn btn-success me-1"
+                                ><i class="fa fa-print"></i
+                              ></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end col -->
+                </div>
+              </div>
+            </b-modal>
           </div>
         </div>
         <div class="col mt-4 ">
@@ -693,6 +829,11 @@
                       v-else-if="item.reservation_status === 'Selesai'"
                       >Selesai</b-badge
                     >
+                    <b-badge
+                      variant="danger"
+                      v-else-if="item.reservation_status === 'Dibatalkan'"
+                      >Dibatalkan</b-badge
+                    >
                     <div v-else>-</div>
                   </b-td>
                   <b-td>
@@ -742,7 +883,6 @@
                       >
                         <div class="action-wrapper font-12">
                           <table>
-                            <div></div>
                             <tr class="pointer" @click="onDetail(item)">
                               <td>Detail</td>
                             </tr>
@@ -760,6 +900,21 @@
                       </b-popover>
                     </div></b-td
                   >
+                  <b-td class="action-cols">
+                    <!--                    <span class="action-button">-->
+                    <!--                      <img-->
+                    <!--                        class="pointer"-->
+                    <!--                        style="width: 20px"-->
+                    <!--                        @click="onDetail(item)"-->
+                    <!--                        src="@/assets/icon/button/view.png"-->
+                    <!--                        alt="detail"-->
+                    <!--                      />-->
+                    <!--                    </span>-->
+                    <!--                    <i class="fas fa-receipt"></i>-->
+                    <b-button variant="primary" @click="onDetailInvoice(item)"
+                      >Invoice</b-button
+                    >
+                  </b-td>
                 </b-tr>
               </b-tbody>
             </b-table-simple>
@@ -863,6 +1018,7 @@ export default {
       isDetail: null,
       submittedNames: [],
       modalTitle: "",
+      modalTitleInvoice: "",
       hotelId: "",
       // optionsPembayaran: [
       //   { text: " Dibayar ", value: "Dibayar " },
@@ -880,8 +1036,10 @@ export default {
       ],
       // Note 'isActive' is left out and will not appear in the rendered table
       reservasi: [],
+      invoice: {},
       hotel: [],
       date_reservation: [],
+      reservationId: "",
       addForm: {
         user: {},
         user_id: "",
@@ -893,13 +1051,20 @@ export default {
         CreatedAt: "",
         start_date: "",
         end_date: "",
-        total_cost: "",
+        // total_cost: "",
         // dp_cost: "",
         payment_status: "",
         check_in_status: "",
         reservation_status: "",
         agreement: "",
         reject_reason: ""
+      },
+      form: {
+        name: "",
+        start_date: "",
+        end_date: "",
+        total_cost: "",
+        id_reservation: ""
       },
       pets: [],
       layanan: [],
@@ -982,6 +1147,11 @@ export default {
         .locale("id")
         .format("YYYY-MM-DD HH:mm:ss");
     },
+    convertDateInvoice(date_moment) {
+      return moment(String(date_moment))
+        .locale("id")
+        .format("YYYY-MM-DD HH:mm");
+    },
     Rp(rp) {
       return `Rp. ${rp.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
@@ -990,8 +1160,15 @@ export default {
       this.isEdit = false;
       this.addForm = {};
     },
+    showModalInvoice() {
+      this.$refs["my-modalinvoice"].show();
+      this.form = {};
+    },
     hideModal() {
       this.$refs["my-modal"].hide();
+    },
+    hideModalInvoice() {
+      this.$refs["my-modalinvoice"].hide();
     },
     fetchPet(id) {
       // console.log(this.addForm.user_id);
@@ -1093,6 +1270,16 @@ export default {
         })
         .then(() => {
           this.fetchReservasi();
+          Swal.fire({
+            icon: "success",
+            title: "Ubah Status Berhasil",
+            text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
+            width: "28em",
+            showCloseButton: false,
+            showCancelButton: false,
+            timer: 1500,
+            showConfirmButton: false
+          });
         });
     },
     changeStatusMasuk(data) {
@@ -1104,6 +1291,16 @@ export default {
         })
         .then(() => {
           this.fetchReservasi();
+          Swal.fire({
+            icon: "success",
+            title: "Ubah Status Berhasil",
+            text: "Notifikasi Konfirmasi Sudah Dikirim Kepada Pendaftar",
+            width: "28em",
+            showCloseButton: false,
+            showCancelButton: false,
+            timer: 1500,
+            showConfirmButton: false
+          });
         });
     },
     changeStatusReservasi(data) {
@@ -1185,6 +1382,34 @@ export default {
           console.error(err);
           // alert(err);
         });
+    },
+    fetchReservasiInvoice(reservasiId) {
+      console.log(reservasiId);
+      this.reservationId = reservasiId;
+      // const startDate = moment(String(this.date_reservation[0]))
+      //   .locale("id")
+      //   .format("YYYY-MM-DD");
+      // const endDate = moment(String(this.date_reservation[1]))
+      //   .locale("id")
+      //   .format("YYYY-MM-DD");
+      this.$api
+        .get(`reservation/bill?reservationId=${this.reservationId}`)
+        .then(res => {
+          this.invoice = res.data.data ? res.data.data : {};
+          console.log(res);
+          console.log(this.invoice);
+        })
+        .catch(err => {
+          console.error(err);
+          // alert(err);
+        });
+    },
+    onDetailInvoice(data) {
+      this.showModalInvoice();
+      this.modalTitleInvoice = `${data.user.name} Details Invoice`;
+      this.fetchReservasiInvoice(data.id_reservation);
+      this.form = Object.assign({}, data);
+      console.log(this.invoice);
     },
     onDetail(data) {
       this.showModal();

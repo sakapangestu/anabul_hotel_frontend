@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Admin"
+                  label="Nama Admin *"
                   label-for="name-input"
                   invalid-feedback="species is required"
                   :state="nameState"
@@ -51,7 +51,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Email Admin"
+                  label="Email Admin *"
                   label-for="name-input"
                   invalid-feedback="species is required"
                   :state="nameState"
@@ -77,7 +77,6 @@
                     v-model="addForm.phone"
                     :state="nameState"
                     :disabled="isDetail"
-                    required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
@@ -91,11 +90,10 @@
                     v-model="addForm.role"
                     :state="nameState"
                     :disabled="isDetail"
-                    required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Provinsi Hotel"
+                  label="Provinsi Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -108,10 +106,11 @@
                     value-field="id_province"
                     text-field="name"
                     :options="provinces"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kota Hotel"
+                  label="Kota Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -124,10 +123,11 @@
                     value-field="id_city"
                     text-field="name"
                     :options="cities"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kecematan Hotel"
+                  label="Kecematan Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -140,10 +140,11 @@
                     value-field="id_district"
                     text-field="name"
                     :options="districts"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
-                  label="Kelurahan Hotel"
+                  label="Kelurahan Hotel *"
                   label-for="name-input"
                   invalid-feedback="class is required"
                   :state="nameState"
@@ -155,6 +156,7 @@
                     value-field="id_subdistrict"
                     text-field="name"
                     :options="subdistricts"
+                    required
                   ></b-form-select>
                 </b-form-group>
                 <b-form-group
@@ -171,7 +173,6 @@
                     rows="3"
                     max-rows="6"
                     :disabled="isDetail"
-                    required
                   ></b-form-textarea>
                 </b-form-group>
                 <b-form-group
@@ -187,7 +188,6 @@
                     value-type="format"
                     :disabled="isDetail"
                     class="w-100"
-                    required
                   ></date-picker>
                 </b-form-group>
                 <b-form-group label="Gender" v-slot="{ ariaDescribedby }">
@@ -212,7 +212,6 @@
                     v-model="addForm.nik"
                     :state="nameState"
                     :disabled="isDetail"
-                    required
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
@@ -335,7 +334,7 @@
                   <b-th>Image</b-th>
                   <b-th
                     >Nama
-<!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
+                    <!--                    <i class="fas fa-sort ml-3" @click="fetchSort"></i-->
                   </b-th>
                   <b-th>Email</b-th>
                   <b-th>Nama Hotel</b-th>
@@ -368,7 +367,7 @@
                     {{ item.phone }}</b-td
                   >
                   <b-td>{{ item.email }} </b-td>
-                  <b-td>{{item.hotel.name}}</b-td>
+                  <b-td>{{ item.hotel.name }}</b-td>
                   <b-td>{{ item.address }}</b-td>
                   <!--                  <b-td>{{ item.role }} </b-td>-->
                   <b-td class="action-cols">
@@ -696,7 +695,8 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "Hapus data ?",
-        text: "Data yang dihapus tidak dapat dikembalikan",
+        text:
+          "Perhatian: Menghapus master data ini akan mempengaruhi data di bawahnya. Apakah Anda yakin ingin melanjutkan?",
         width: "28em",
         showCancelButton: true,
         confirmButtonText: "Hapus",
@@ -892,7 +892,7 @@ export default {
 .table-img img {
   width: 90px; /* Set the width of the image */
   height: auto; /* Maintain the aspect ratio */
-  border: 2px solid lightgrey;/* Add a border */
+  border: 2px solid lightgrey; /* Add a border */
   border-radius: 5px; /* Add rounded corners */
   margin: 10px; /* Add some margin around the image */
   padding: 5px; /* Add padding inside the border */

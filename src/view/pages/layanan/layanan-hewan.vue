@@ -37,7 +37,7 @@
             <b-modal ref="my-modal" hide-footer :title="modalTitle">
               <b-form ref="form" @submit.prevent="handleOk">
                 <b-form-group
-                  label="Nama Layanan"
+                  label="Nama Layanan *"
                   label-for="name-input"
                   invalid-feedback="Nama Layanan is required"
                   :state="nameState"
@@ -50,7 +50,7 @@
                   ></b-form-input>
                 </b-form-group>
                 <b-form-group
-                  label="Diskripsi"
+                  label="Diskripsi *"
                   label-for="name-input"
                   invalid-feedback="Diskripsi is required"
                   :state="nameState"
@@ -67,7 +67,7 @@
                   ></b-form-textarea>
                 </b-form-group>
                 <b-form-group
-                  label="Satuan"
+                  label="Satuan *"
                   label-for="name-input"
                   invalid-feedback="Satuan Hari atau Jam is required"
                   :state="nameState"
@@ -411,7 +411,7 @@ export default {
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: "Kode kategori sudah ada!",
+                text: "Kode layanan sudah ada!",
                 showConfirmButton: false,
                 width: "25em",
                 timer: 2500
@@ -440,7 +440,16 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            if (err.message === "Request failed with status code 409") {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Kode layanan sudah ada!",
+                showConfirmButton: false,
+                width: "25em",
+                timer: 2500
+              });
+            }
           });
       }
     },
